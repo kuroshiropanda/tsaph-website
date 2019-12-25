@@ -25,4 +25,24 @@ class HomeController extends Controller
     {
         return view('admin');
     }
+
+    public function dashboard()
+    {
+        $data = \App\Application::all();
+        // $questions = \App\Application::all()->get();
+        // $ans
+
+        return dd($data);
+
+        // return view('dashboard', $data);
+    }
+
+    public function applications()
+    {
+        $data = \App\Applications::all()->get();
+
+        return dd($data);
+
+        // return view('applications', )
+    }
 }

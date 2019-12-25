@@ -14,13 +14,10 @@ class CreateMembersTable extends Migration
     public function up()
     {
         Schema::create('members', function (Blueprint $table) {
-            $table->bigIncrements('id');
             $table->string('twitch_id')->unique();
             $table->string('username');
             $table->string('logo');
-            $table->boolean('partner');
             $table->string('email');
-            $table->dateTime('created_at');
         });
     }
 

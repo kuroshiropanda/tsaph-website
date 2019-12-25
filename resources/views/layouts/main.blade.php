@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{ config('app.name') }}</title>
+    <link href="{{ asset('tsaph.ico') }}" rel="icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -41,12 +42,12 @@
         .top-right {
             position: absolute;
             right: 15%;
-            top: 5%;
+            top: 5vh;
         }
 
         .top-left {
             position: absolute;
-            top: 5px;
+            top: 1vh;
             left: 15%;
         }
 
@@ -76,23 +77,25 @@
 </head>
 
 <body>
-    <div class="flex-center position-ref full-height">
-        <div class="fixed">
-            <div class="top-left">
-                <a href="https://twitch.tv/team/tsaph" class="navbar-brand">
-                    <img src="img/TSAPH logo.png" width="72" height="72" />
-                </a>
-            </div>
-            <div class="top-right links">
-                <a href="{{ url('/rules') }}">Rules</a>
-                <a href="{{ url('/apply')}}">Apply</a>
-            </div>
+    <nav class="fixed-top">
+        <div class="top-left links">
+            <!-- <a href="{{ url('/') }}"> -->
+                <!-- <img src="img/TSAPH logo.png" width="72" height="72" /> -->
+                <!-- {{ config('app.name') }} -->
+            <!-- </a> -->
         </div>
-
+        <div class="top-right links">
+            <a href="{{ url('/about') }}">About Us</a>
+            <a href="{{ url('/rules') }}">Rules</a>
+            <a href="{{ url('/contact') }}">Contact Us</a>
+            <a href="{{ url('/twitch/login')}}">Apply</a>
+        </div>
+    </nav>
+    <main role="main" class="flex-center position-ref full-height">
         <div class="content">
             @yield('content')
         </div>
-    </div>
+    </main>
 </body>
 
 </html>

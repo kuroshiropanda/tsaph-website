@@ -15,17 +15,14 @@ class CreateApplicationsTable extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->longText('q1');
-            $table->longText('q2');
-            $table->longText('q3');
-            $table->longText('q4');
-            $table->longText('q5');
-            $table->longText('q6');
-            $table->longText('q7');
-            $table->longText('q8');
-            $table->longText('q9');
+            $table->string('applicant_id');
+            $table->unsignedBigInteger('answer_id');
+            $table->unsignedBigInteger('question_id');
             $table->timestamps();
-            $table->engine = 'InnoDB';
+
+            $table->foreign('applicant_id')->references('twitch_id')->on('applicants')->onDelete('cascade');
+            $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
+            // $table->foreign('question_id')->references('id')->on('questions');
         });
     }
 

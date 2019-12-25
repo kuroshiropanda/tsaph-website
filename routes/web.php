@@ -18,11 +18,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/admin', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'HomeController@dashboard');
+Route::get('/applications', 'HomeController@applications');
+Route::get('/teaminvite', 'HomeController@invite');
 
 Route::get('/rules', function () {
     return view('rules');
 });
 
-Route::get('/apply', function () {
-    return view('apply');
-});
+Route::get('twitch/login', 'Auth\TwitchApplicationController@redirectToProvider');
+Route::get('apply/callback', 'Auth\TwitchApplicationController@handleProviderCallback');
+
+// Route::get('apply', 'ApplyController@index');
+
+Route::post('apply/create', 'ApplyController@apply');
