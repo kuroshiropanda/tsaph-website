@@ -16,6 +16,7 @@ class Applicant extends Model
 
     protected $attributes = [
         'approved' => false,
+        'invited' => false,
     ];
 
     protected $fillable = [
@@ -25,5 +26,10 @@ class Applicant extends Model
     public function application()
     {
         return $this->hasMany('App\Application', 'applicant_id', 'twitch_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
     }
 }
