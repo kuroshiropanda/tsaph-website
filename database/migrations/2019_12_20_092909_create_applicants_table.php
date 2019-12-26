@@ -19,8 +19,11 @@ class CreateApplicantsTable extends Migration
             $table->string('email');
             $table->string('name');
             $table->boolean('approved');
+            $table->unsignedBigInteger('user_id');
+            $table->boolean('invited');
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users');
             // $table->foreign('twitch_id')->references('applicant_id')->on('applications')->onDelete('cascade');
         });
     }

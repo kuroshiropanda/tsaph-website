@@ -22,7 +22,7 @@ class CreateApplicationsTable extends Migration
 
             $table->foreign('applicant_id')->references('twitch_id')->on('applicants')->onDelete('cascade');
             $table->foreign('answer_id')->references('id')->on('answers')->onDelete('cascade');
-            // $table->foreign('question_id')->references('id')->on('questions');
+            $table->foreign('question_id')->references('id')->on('questions');
         });
     }
 
