@@ -16,7 +16,14 @@ class ApplicantTableSeeder extends Seeder
         factory(App\Applicant::class, 10)
            ->create()
            ->each(function (App\Applicant $applicant) {
-                $applicant->application()->save(factory(App\Application::class, 8)->make());
+                $applicant->answers()->save(factory(App\Answer::class)->make(['question_id' => 1]));
+                $applicant->answers()->save(factory(App\Answer::class)->make(['question_id' => 2]));
+                $applicant->answers()->save(factory(App\Answer::class)->make(['question_id' => 3]));
+                $applicant->answers()->save(factory(App\Answer::class)->make(['question_id' => 4]));
+                $applicant->answers()->save(factory(App\Answer::class)->make(['question_id' => 5]));
+                $applicant->answers()->save(factory(App\Answer::class)->make(['question_id' => 6]));
+                $applicant->answers()->save(factory(App\Answer::class)->make(['question_id' => 7]));
+                $applicant->answers()->save(factory(App\Answer::class)->make(['question_id' => 8]));
             });
     }
 }

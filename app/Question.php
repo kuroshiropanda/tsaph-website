@@ -8,8 +8,8 @@ class Question extends Model
 {
     protected $table = 'questions';
 
-    public function application()
+    public function answer()
     {
-        return $this->belongsTo('App\Application', 'question_id');
+        return $this->belongsTo('App\Answer');
     }
 }

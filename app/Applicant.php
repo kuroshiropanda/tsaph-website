@@ -3,33 +3,40 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Applicant extends Model
 {
+    use LogsActivity;
+
     protected $table = 'applicants';
-
-    protected $primaryKey = 'twitch_id';
-
-    public $incrementing = false;
-
-    protected $keyType = 'string';
 
     protected $attributes = [
         'approved' => false,
+        'denied' => false,
         'invited' => false,
     ];
 
     protected $fillable = [
-        'twitch_id', 'username', 'email', 'name'
+        'twitch_id', 'username', 'email', 'name', 'avatar'
     ];
 
-    public function application()
+    protected static $logAttributes = [
+        'twitch_id', 'username', 'name'
+    ];
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return $this->hasMany('App\Application', 'applicant_id', 'twitch_id');
+        return "An Applicant has been {$eventName}";
+    }
+
+    public function answers()
+    {
+        return $this->hasMany('App\Answer');
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\User');
     }
 }

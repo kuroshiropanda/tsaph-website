@@ -9,11 +9,16 @@ class Answer extends Model
     protected $table = 'answers';
 
     protected $fillable = [
-        'answer'
+        'answer', 'question_id'
     ];
 
-    public function application()
+    public function applicant()
     {
-        return $this->belongsTo('App\Application', 'answer_id');
+        return $this->belongsTo('App\Applicant');
+    }
+
+    public function question()
+    {
+        return $this->hasOne('App\Question');
     }
 }
