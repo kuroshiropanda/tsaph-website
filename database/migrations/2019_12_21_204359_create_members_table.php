@@ -15,9 +15,8 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->string('twitch_id')->unique();
-            $table->string('username');
-            $table->string('logo');
-            $table->string('email');
+            $table->string('username')->unique();
+            $table->string('avatar');
         });
     }
 

@@ -14,12 +14,15 @@ class CreateApplicantsTable extends Migration
     public function up()
     {
         Schema::create('applicants', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('twitch_id')->unique();
+            $table->string('avatar')->nullable();
             $table->string('username');
             $table->string('email');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->boolean('approved');
-            $table->unsignedBigInteger('user_id');
+            $table->boolean('denied');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->boolean('invited');
             $table->timestamps();
 
