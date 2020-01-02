@@ -17313,16 +17313,3 @@ readers do not read off random characters that represent icons */
   background-color: #eee;
 }
 
-nav {
-  position: fixed;
-  top: 0px;
-  height: 10vh;
-}
-
-main {
-  position: fixed;
-  top: 10vh;
-  height: 89vh;
-  overflow: hidden;
-}
-

@@ -19,7 +19,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/sb-admin.css') }}" rel="stylesheet">
 </head>
 
 <body class="bg-dark">

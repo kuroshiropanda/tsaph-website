@@ -25,22 +25,30 @@ Route::redirect('/twitch', 'https://twitch.tv/team/tsaph');
 Auth::routes();
 
 // dashboard routes
-Route::get('/admin', 'HomeController@index')->name('home');
-Route::get('/profile', 'HomeController@profile')->name('edit.profile');
+Route::get('/admin', 'HomeController@index')->name('admin');
+Route::get('/admin/profile', 'HomeController@profile')->name('edit.profile');
 
 Route::group(['middleware' => ['role:super admin']], function () {
-    Route::get('/users', 'HomeController@users')->name('users');
+    Route::get('/admin/users', 'HomeController@users')->name('users');
+    Route::post('/admin/user/{user}/update', 'UserController@updateRole')->name('user.role');
 });
 
-Route::group(['middleware' => ['role:super admin|leader']], function () {
-    Route::get('/approved', 'HomeController@approved')->name('approved');
+Route::group(['middleware' => ['role:super admin|admin']], function () {
+    Route::get('/admin/approved', 'HomeController@approved')->name('approved');
+    // Route::post('/applicants/all/invite', 'ApplicantController@inviteAll')->name('invite.all');
+
+    // Route::post('applicant/invite', 'ApplicantController@invite');
 });
 
-Route::group(['middleware' => ['role:super admin|leader|admin']], function () {
-    Route::get('/applicants', 'HomeController@applicants')->name('applicants');
-    Route::get('/denied', 'HomeController@denied')->name('denied');
-    Route::get('/members', 'HomeController@members')->name('members');
-    Route::get('/applicant/{id}', 'HomeController@applicant')->where('id', '[0-9]+');
+Route::group(['middleware' => ['role:super admin|admin|moderator']], function () {
+    Route::get('/admin/applicants', 'HomeController@applicants')->name('applicants');
+    Route::get('/admin/denied', 'HomeController@denied')->name('denied');
+    Route::get('/admin/members', 'MembersController@show')->name('members');
+    Route::get('/admin/applicant/{id}', 'HomeController@applicant')->where('id', '[0-9]+')->name('applicant');
+
+    // Route::post('applicant/{id}/approve', 'ApplicantController@approve')->name('applicant.approve');
+    // Route::post('applicant/{id}/deny', 'ApplicantController@deny')->name('applicant.deny');
+    Route::post('/admin/applicant/{id}/update', 'ApplicantController@update')->where('id', '[0-9]+')->name('applicant.update');
 });
 
 // twitch oauth routes
@@ -50,6 +58,3 @@ Route::get('apply/callback', 'Auth\TwitchApplicationController@handleProviderCal
 // application routes
 // Route::get('apply/{id}', 'ApplyController@index')->where('id', '[0-9]+')->name('apply');
 Route::post('apply', 'ApplicantController@apply')->name('apply');
-Route::get('applicant/{id}/approve', 'ApplicantController@approve');
-Route::get('applicant/{id}/deny', 'ApplicantController@deny');
-Route::post('applicant/invite', 'ApplicantController@invite');

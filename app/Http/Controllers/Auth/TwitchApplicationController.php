@@ -29,31 +29,62 @@ class TwitchApplicationController extends Controller
         $user = Socialite::driver('twitch')->user();
 
         $id = $user->getId();
-        $name = $user->getName();
+        $username = $user->user['login'];
+        $avatar = $user->avatar;
         $email = $user->getEmail();
 
-        // return dd($user);
-        $questions = DB::table('questions')->select('id','question','type')->get();
+        $questions = \App\Question::all();
 
-        $check = \App\Member::find($id);
-        $applicant = \App\Applicant::find($id);
+        $member = \App\Member::find($id);
+        $applicant = \App\Applicant::where('twitch_id', $id)->first();
 
-        if($check)
+        if($member)
         {
-            return 'already a member';
+            return 'member ka na tanga';
         }
         else if($applicant)
         {
-            return 'already applied';
+            return 'nag apply ka na. chill ka lang. wak bobo';
         }
         else
         {
             return view('apply', [
                 'id' => $id,
-                'name' => $name,
+                'avatar' => $avatar,
+                'username' => $username,
                 'email' => $email,
                 'questions' => $questions
             ]);
+
+            // $applicant = \App\Applicant::where('twitch_id', $id)->doesntHave('answer')->count();
+            // $hasAnswer = \App\Applicant::where('twitch_id', $id)->has('answer')->count();
+
+            // if($hasAnswer == 1)
+            // {
+            //     return 'nag apply ka na. chill ka lang. wak bobo';
+            // }
+            // else if($applicant == 1)
+            // {
+            //     $appid = \App\Applicant::where('twitch_id', $id)->first()->id;
+            //     return redirect('/apply/'.$appid);
+            // }
+            // else
+            // {
+                // $app = \App\Applicant::create([
+                //     'twitch_id' => $id,
+                //     'username' => $username,
+                //     'avatar' => $avatar,
+                //     'email' => $email
+                // ]);
+
+                // return redirect('/apply/'.$app->id);
+                // return view('apply', [
+                //     'id' => $id,
+                //     'username' => $username,
+                //     'email' => $email,
+                //     'questions' => $questions
+                // ]);
+            // }
         }
     }
 }

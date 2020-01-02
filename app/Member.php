@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Member extends Model
 {
+
     protected $table = 'members';
 
     protected $primaryKey = 'twitch_id';
@@ -13,4 +14,8 @@ class Member extends Model
     public $incrementing = false;
 
     protected $keyType = 'string';
+
+    protected $fillable = [
+        'twitch_id', 'username', 'avatar'
+    ];
 }

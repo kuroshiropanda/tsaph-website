@@ -11,40 +11,45 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/app.js') }}"></script>
 </head>
 
 <body>
-    <main role="main" class="flex-center position-ref full-height">
+    <main role="main" class="flex-center">
         <div class="container">
-            <form action="{{ url('apply/create') }}" method="POST">
+            <form action="{{ route('apply') }}" method="POST">
                 <div class="form-group">
                     @csrf
                     <input name="id" type="hidden" value="{{ $id }}" />
                     <input name="email" type="hidden" value="{{ $email }}" />
-                    <input name="username" type="hidden" value="{{ $name }}" />
+                    <input name="username" type="hidden" value="{{ $username }}" />
+                    <input name="avatar" type="hidden" value="{{ $avatar }}" />
+                    <img class="img-thumnail rounded mx-auto d-block m-3" src="{{ $avatar }}" width="72" height="72" />
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input id="username" class="form-control" type="text" value="{{ $name }}" disabled />
+                        <input id="username" class="form-control" type="text" value="{{ $username }}" disabled />
                     </div>
                     <div class="form-group">
                         <label for="name">What is your full name?</label>
-                        <input type="text" id="name" name="name" class="form-control" />
+                        <input type="text" id="name" name="name" class="form-control" required />
                     </div>
                     @foreach ($questions as $q)
                     @if ($q->type === 'text')
                     <div class="form-group">
                         <label for="{{ $q->id }}">{{ $q->question }}</label>
-                        <input id="{{ $q->id }}" class="form-control" name="answer[]" type="{{ $q->type }}" />
+                        <input name="question_id[]" type="hidden" value="{{ $q->id }}" />
+                        <input id="{{ $q->id }}" class="form-control" name="answer[]" type="{{ $q->type }}" required />
                     </div>
                     @elseif ($q->type === 'textarea')
                     <div class="form-group">
                         <label for="{{ $q->id }}">{{ $q->question }}</label>
-                        <textarea id="{{ $q->id }}" class="form-control" name="answer[]"></textarea>
+                        <input name="question_id[]" type="hidden" value="{{ $q->id }}" />
+                        <textarea id="{{ $q->id }}" class="form-control" name="answer[]" required></textarea>
                     </div>
                     @endif
                     @endforeach
                 </div>
-                <div class="form-group">
+                <div class="form-group text-center">
                     <button type="submit" class="btn btn-primary">SUBMIT</button>
                 </div>
             </form>

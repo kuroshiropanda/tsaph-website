@@ -13,7 +13,7 @@ class ApplicantTableSeeder extends Seeder
     {
         DB::table('applicants')->delete();
 
-        factory(App\Applicant::class, 10)
+        factory(App\Applicant::class, 25)
            ->create()
            ->each(function (App\Applicant $applicant) {
                 $applicant->answers()->save(factory(App\Answer::class)->make(['question_id' => 1]));

@@ -14,9 +14,11 @@ class CreateMembersTable extends Migration
     public function up()
     {
         Schema::create('members', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('twitch_id')->unique();
             $table->string('username')->unique();
             $table->string('avatar');
+            $table->timestamps();
         });
     }
 

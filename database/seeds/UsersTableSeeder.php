@@ -19,7 +19,8 @@ class UsersTableSeeder extends Seeder
             'username' => 'kuro',
             'name' => 'AJ',
             'email' => 'kuroshiropanda@outlook.com',
-            'password' => '$2y$10$Oj1R.gbBVQ8/DU3/BLuP5.WSASlf7sC3zSI/PhAGGFz1oN.zjz9g2'
+            'password' => '$2y$10$Oj1R.gbBVQ8/DU3/BLuP5.WSASlf7sC3zSI/PhAGGFz1oN.zjz9g2',
+            'api_token' => Str::random(80)
         ]);
 
         $user->assignRole('super admin');

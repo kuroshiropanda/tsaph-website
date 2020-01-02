@@ -22,13 +22,8 @@ class Applicant extends Model
     ];
 
     protected static $logAttributes = [
-        'twitch_id', 'username', 'name'
+        'twitch_id', 'username', 'name', 'approved', 'denied', 'invited'
     ];
-
-    public function getDescriptionForEvent(string $eventName): string
-    {
-        return "An Applicant has been {$eventName}";
-    }
 
     public function answers()
     {

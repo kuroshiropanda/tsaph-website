@@ -26,10 +26,10 @@ class RolesAndPermissionsSeeder extends Seeder
         $role = Role::create(['name' => 'super admin'])
             ->givePermissionTo(Permission::all());
 
-        $role = Role::create(['name' => 'leader'])
+        $role = Role::create(['name' => 'admin'])
             ->givePermissionTo(['invite applicants', 'approve applicants', 'deny applicants']);
 
-        $role = Role::create(['name' => 'admin'])
+        $role = Role::create(['name' => 'moderator'])
             ->givePermissionTo(['approve applicants', 'deny applicants']);
     }
 }

@@ -7,11 +7,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Activitylog\Traits\CausesActivity;
 
 class User extends Authenticatable
 {
-    use Notifiable;
-    use HasRoles;
+    use Notifiable, HasRoles, CausesActivity;
 
     /**
      * The attributes that are mass assignable.

@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{ config('app.name') }}</title>
-    <link href="{{ asset('tsaph.ico') }}" rel="icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Styles -->
     <style>
@@ -59,6 +59,16 @@
             font-size: 84px;
         }
 
+        a {
+            color: #999;
+            padding: 0 25px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: .1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
         .links>a {
             color: #999;
             padding: 0 25px;
@@ -69,30 +79,41 @@
             text-transform: uppercase;
         }
 
-        .m-b-md {
-            margin-bottom: 30px;
-        }
-
     </style>
 </head>
 
 <body>
-    <nav class="fixed-top">
-        <div class="top-left links">
-            <!-- <a href="{{ url('/') }}"> -->
-                <!-- <img src="img/TSAPH logo.png" width="72" height="72" /> -->
-                <!-- {{ config('app.name') }} -->
-            <!-- </a> -->
-        </div>
-        <div class="top-right links">
-            <a href="{{ url('/about') }}">About Us</a>
-            <a href="{{ url('/rules') }}">Rules</a>
-            <a href="{{ url('/contact') }}">Contact Us</a>
-            <a href="{{ url('/twitch/login')}}">Apply</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{ url('/') }}">
+            @if(Request::path() === '/')
+                {{ config('app.name') }}
+            @else
+                <img src="{{ asset('img/tsaph logo.png') }}" style="width:auto; height:5vh;" >
+            @endif
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/about') }}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/rules') }}">Rules</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/contact') }}">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/twitch/login')}}">Apply</a>
+                </li>
+            </ul>
         </div>
     </nav>
-    <main role="main" class="flex-center position-ref full-height">
-        <div class="content">
+    <main role="main" class="flex-center">
+        <div class="content container">
             @yield('content')
         </div>
     </main>
