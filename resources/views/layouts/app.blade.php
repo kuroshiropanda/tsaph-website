@@ -65,7 +65,7 @@
                             <a href="{{ route('approved') }}" class="nav-link">Approved</a>
                         </li>
                         @endcan
-                        @can('approve applicants')
+                        @can('update applicants')
                         <li class="nav-item">
                             <a href="{{ route('applicants') }}" class="nav-link">Applicants</a>
                         </li>
@@ -79,11 +79,7 @@
 
                     </ul>
 
-                    @if(Request::path() === 'admin/members')
-                    <ul class="navbar-nav mx-auto">
-                        <input type="text" class="form-control" id="adminSearch" placeholder="Search..">
-                    </ul>
-                    @elseif(Request::path() === 'admin/applicants')
+                    @if(Request::path() === 'admin/members' || Request::path() === 'admin/applicants')
                     <ul class="navbar-nav mx-auto">
                         <input type="text" class="form-control" id="adminSearch" placeholder="Search..">
                     </ul>
