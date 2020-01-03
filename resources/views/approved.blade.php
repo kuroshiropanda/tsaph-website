@@ -34,6 +34,7 @@
                             <td>
                                 <form action="{{ route('applicant.update', ['id' => $a->id]) }}" method="POST">
                                     @csrf
+                                    <input type="hidden" name="api_token" value="{{ Auth::user()->api_token }}">
                                     <input type="hidden" value="invite">
                                     <button class="btn btn-success">Invited</button>
                                 </form>

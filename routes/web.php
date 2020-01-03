@@ -12,7 +12,7 @@
 */
 
 // normal view routes
-Route::view('/', 'welcome')->name('homepage');
+Route::view('/', 'welcome')->name('home');
 // Route::view('/about', 'about')->name('about');
 // Route::view('/contact', 'contact')->name('contact');
 // Route::view('/rules', 'rules')->name('rules');
@@ -20,6 +20,7 @@ Route::view('/', 'welcome')->name('homepage');
 // redirect routes
 Route::redirect('/discord', 'https://discord.gg/pkuRuKe');
 Route::redirect('/facebook', 'https://facebook.com/tsaphofficial');
+Route::redirect('/fbgroup', 'https://www.facebook.com/groups/twitchsaph/');
 Route::redirect('/twitch', 'https://twitch.tv/team/tsaph');
 
 Auth::routes();
@@ -30,25 +31,22 @@ Route::get('/admin/profile', 'HomeController@profile')->name('edit.profile');
 
 Route::group(['middleware' => ['role:super admin']], function () {
     Route::get('/admin/users', 'HomeController@users')->name('users');
-    Route::post('/admin/user/{user}/update', 'UserController@updateRole')->name('user.role');
 });
 
-Route::group(['middleware' => ['role:super admin|admin']], function () {
+Route::group(['middleware' => ['role:super admin|admin|ads']], function () {
     Route::get('/admin/approved', 'HomeController@approved')->name('approved');
     // Route::post('/applicants/all/invite', 'ApplicantController@inviteAll')->name('invite.all');
 
     // Route::post('applicant/invite', 'ApplicantController@invite');
 });
 
-Route::group(['middleware' => ['role:super admin|admin|moderator']], function () {
+Route::group(['middleware' => ['role:super admin|admin|moderator|ads']], function () {
     Route::get('/admin/applicants', 'HomeController@applicants')->name('applicants');
     Route::get('/admin/denied', 'HomeController@denied')->name('denied');
     Route::get('/admin/members', 'MembersController@show')->name('members');
-    Route::get('/admin/applicant/{id}', 'HomeController@applicant')->where('id', '[0-9]+')->name('applicant');
 
     // Route::post('applicant/{id}/approve', 'ApplicantController@approve')->name('applicant.approve');
     // Route::post('applicant/{id}/deny', 'ApplicantController@deny')->name('applicant.deny');
-    Route::post('/admin/applicant/{id}/update', 'ApplicantController@update')->where('id', '[0-9]+')->name('applicant.update');
 });
 
 // twitch oauth routes

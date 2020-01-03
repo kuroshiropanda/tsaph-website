@@ -22,6 +22,7 @@
                     @if(Auth::id() !== $u->id)
                     <form action="{{ route('user.role', ['user' => $u->id]) }}" method="POST">
                         @csrf
+                        <input type="hidden" name="api_token" value="{{ Auth::user()->api_token }}">
                         <select name="role">
                             <option value="super admin">Super Admin</option>
                             <option value="admin">Admin</option>

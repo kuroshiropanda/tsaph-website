@@ -7,7 +7,7 @@
             <i class="fas fa-table"></i>
             Member List
             @can('edit roles')
-                <button type="button" id="updateMembers" class="btn btn-primary">UPDATE</button>
+            <button type="button" id="updateMembers" class="btn btn-primary">UPDATE</button>
             @endcan
         </div>
         <div class="card-body" style="height: 100%; overflow-y: auto;">
@@ -21,6 +21,14 @@
                         </a>
                     </li>
                     @endforeach
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
+                        data-ad-layout-key="-h2+d+5c-9-3e" data-ad-client="ca-pub-7308274596514016"
+                        data-ad-slot="3012804204"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+
+                    </script>
                 </ul>
             </div>
         </div>
