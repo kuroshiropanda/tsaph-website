@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="card text-white bg-dark" style="height: 83vh;">
+    <div class="card text-white bg-dark" style="height: 88vh;">
         <div class="card-header">
             <i class="fas fa-table"></i>
             Member List
@@ -11,16 +11,8 @@
             @endcan
         </div>
         <div class="card-body" style="height: 100%; overflow-y: auto;">
-            <div class="col-12">
-                <ul id="members">
-                    @foreach($members as $m)
-                    <li>
-                        <a href="https://twitch.tv/{{ $m->username }}">
-                            <img src="{{ $m->avatar }}">
-                            {{ $m->username }}
-                        </a>
-                    </li>
-                    @endforeach
+            <div class="row">
+                <div class="col">
                     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                     <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
                         data-ad-layout-key="-h2+d+5c-9-3e" data-ad-client="ca-pub-7308274596514016"
@@ -29,7 +21,21 @@
                         (adsbygoogle = window.adsbygoogle || []).push({});
 
                     </script>
-                </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <ul id="members">
+                        @foreach($members as $m)
+                        <li>
+                            <a href="https://twitch.tv/{{ $m->username }}">
+                                <img src="{{ $m->avatar }}">
+                                {{ $m->username }}
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -85,6 +91,9 @@
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                complete: function () {
+                    window.location.reload(true);
                 }
             });
         }
