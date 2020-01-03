@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call('QuestionsTableSeeder');
         $this->call('ApplicantTableSeeder');
 
-        $this->command->info('Questions table seeded');
-        $this->command->info('Applicant table seeded');
+        $this->command->info('Database table seeded');
     }
 }
