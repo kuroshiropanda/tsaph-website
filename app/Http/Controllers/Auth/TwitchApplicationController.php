@@ -40,11 +40,11 @@ class TwitchApplicationController extends Controller
 
         if($member)
         {
-            return 'member ka na tanga';
+            return view('application', ['alert' => 'member ka na tanga']);
         }
         else if($applicant)
         {
-            return 'nag apply ka na. chill ka lang. wak bobo';
+            return view('application', ['alert' => 'nag apply ka na. chill ka lang. wak bobo']);
         }
         else
         {

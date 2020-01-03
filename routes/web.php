@@ -43,7 +43,8 @@ Route::group(['middleware' => ['role:super admin|admin|ads']], function () {
 Route::group(['middleware' => ['role:super admin|admin|moderator|ads']], function () {
     Route::get('/admin/applicants', 'HomeController@applicants')->name('applicants');
     Route::get('/admin/denied', 'HomeController@denied')->name('denied');
-    Route::get('/admin/members', 'MembersController@show')->name('members');
+    Route::get('/admin/members', 'MembersController@index')->name('members');
+    Route::get('/admin/applicant/{id}', 'ApplicantController@show')->middleware('auth')->where('id', '[0-9]+')->name('applicant');
 
     // Route::post('applicant/{id}/approve', 'ApplicantController@approve')->name('applicant.approve');
     // Route::post('applicant/{id}/deny', 'ApplicantController@deny')->name('applicant.deny');

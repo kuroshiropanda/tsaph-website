@@ -24,7 +24,11 @@ class MembersController extends Controller
      */
     public function index()
     {
-        //
+        $members = Member::all();
+
+        return view('admin.members', [
+            'members' => $members
+        ]);
     }
 
     /**
@@ -55,11 +59,6 @@ class MembersController extends Controller
      */
     public function show(Member $member)
     {
-        $members = Member::all();
-
-        return view('members', [
-            'members' => $members
-        ]);
     }
 
     /**

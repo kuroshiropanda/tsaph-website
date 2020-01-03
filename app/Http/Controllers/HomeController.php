@@ -26,14 +26,14 @@ class HomeController extends Controller
     public function index()
     {
         $activity = Activity::orderBy('id', 'desc')->paginate(10);
-        return view('home', ['activities' => $activity]);
+        return view('admin.index', ['activities' => $activity]);
     }
 
     public function users()
     {
         $users = User::paginate(10);
 
-        return view('users', ['users' => $users]);
+        return view('admin.users', ['users' => $users]);
     }
 
     public function approved()
@@ -46,7 +46,7 @@ class HomeController extends Controller
 
         // return dd($approved);
 
-        return view('approved', [
+        return view('admin.approved', [
             'approved' => $approved
         ]);
     }
@@ -59,7 +59,7 @@ class HomeController extends Controller
             ->with('user')
             ->paginate(10);
 
-        return view('denied', [
+        return view('admin.denied', [
             'denied' => $denied
         ]);
     }
@@ -71,26 +71,8 @@ class HomeController extends Controller
             ->where('invited', false)
             ->get();
 
-        return view('applicants', [
+        return view('admin.applicants', [
             'applicants' => $applicants
-        ]);
-    }
-
-    public function applicant($id)
-    {
-        $applicant = \App\Applicant::find($id);
-
-        $answers = $applicant->answers()
-            ->join('questions', 'answers.question_id', '=', 'questions.id')
-            ->get();
-        // $applicant = \App\Answer::where('applicant_id', $id)
-        //     ->with('applicant')
-        //     ->join('questions', 'answers.question_id', '=', 'questions.id')
-        //     ->get();
-
-        return view('applicant', [
-            'applicant' => $applicant,
-            'answers' => $answers
         ]);
     }
 }

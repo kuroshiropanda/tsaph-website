@@ -9,26 +9,73 @@ class ApplicantController extends Controller
 {
     public function apply(Request $request)
     {
-        $app = new \App\Applicant;
-        $app->twitch_id = $request['id'];
-        $app->avatar = $request['avatar'];
-        $app->username = $request['username'];
-        $app->email = $request['email'];
-        $app->name = $request['name'];
+        // $app = new \App\Applicant;
+        // $app->twitch_id = $request['id'];
+        // $app->avatar = $request['avatar'];
+        // $app->username = $request['username'];
+        // $app->email = $request['email'];
+        // $app->name = $request['name'];
 
-        $app->save();
+        // $app->save();
 
-        for($i = 0; $i < count($request['question_id']); $i++)
-        {
-            $a = $request['answer'][$i];
-            $q = \App\Question::find($request['question_id'][$i])->id;
-            $app->answers()->create([
-                'answer' => $a,
-                'question_id' => $q
-            ]);
-        }
+        // for($i = 0; $i < count($request['question_id']); $i++)
+        // {
+        //     $a = $request['answer'][$i];
+        //     $q = \App\Question::find($request['question_id'][$i])->id;
+        //     $app->answers()->create([
+        //         'answer' => $a,
+        //         'question_id' => $q
+        //     ]);
+        // }
+
+        \DB::transaction(function() use ($request) {
+            $app = new \App\Applicant;
+            $app->twitch_id = $request['id'];
+            $app->avatar = $request['avatar'];
+            $app->username = $request['username'];
+            $app->email = $request['email'];
+            $app->name = $request['name'];
+
+            $app->save();
+
+            for($i = 0; $i < count($request['question_id']); $i++)
+            {
+                $a = $request['answer'][$i];
+                $q = \App\Question::find($request['question_id'][$i])->id;
+                $app->answers()->create([
+                    'answer' => $a,
+                    'question_id' => $q
+                ]);
+            }
+        });
+
+        // if($db) {
+        //     return redirect('/discord');
+        // } else {
+        //     return view('application', ['alert' => 'there was an error processing your application. please contact kuroshiropanda']);
+        // }
 
         return redirect('/discord');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $applicant = \App\Applicant::find($id);
+
+        $answers = $applicant->answers()
+            ->join('questions', 'answers.question_id', '=', 'questions.id')
+            ->get();
+
+        return view('admin.applicant', [
+            'applicant' => $applicant,
+            'answers' => $answers
+        ]);
     }
 
     public function update($id, Request $request)
