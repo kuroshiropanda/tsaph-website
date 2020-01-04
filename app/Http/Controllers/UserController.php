@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Hash;
+use Auth;
 
 class UserController extends Controller
 {
@@ -57,7 +60,13 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        if(Auth::id() !== $user->id)
+        {
+            return redirect()->route('user.edit', ['user' => Auth::id()]);
+        }
+        else {
+            return view('admin.profile', compact('user'));
+        }
     }
 
     /**
@@ -69,7 +78,20 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+            'username' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:8'
+        ]);
+
+        $user->name = $request['name'];
+        $user->username = $request['username'];
+        $user->email = $request['email'];
+        $user->password = Hash::make($request['password']);
+        $user->save();
+
+        return redirect()->route('admin');
     }
 
     /**

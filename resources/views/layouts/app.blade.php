@@ -4,8 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script data-ad-client="ca-pub-7308274596514016" async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script data-ad-client="ca-pub-7308274596514016" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154118791-2"></script>
     <script>
@@ -114,7 +113,7 @@
                                     {{ __('Update Members') }}
                                 </a> -->
                                 @endcan
-                                <a class="dropdown-item" href="{{ route('edit.profile') }}">
+                                <a class="dropdown-item" href="{{ route('user.edit', ['user' => Auth::id()]) }}">
                                     {{ __('Edit Profile') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

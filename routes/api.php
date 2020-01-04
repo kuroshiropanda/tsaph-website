@@ -15,9 +15,9 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', 'UserController@userapi');
 
-Route::middleware('auth:api')->post('/members/update', 'MembersController@store');
 
 Route::group(['middleware' => ['auth:api']], function() {
+    Route::post('/members/update', 'MembersController@store');
     Route::post('/admin/user/{user}/update', 'UserController@updateRole')->name('user.role');
     Route::post('/admin/applicant/{id}/update', 'ApplicantController@update')->where('id', '[0-9]+')->name('applicant.update');
 });
