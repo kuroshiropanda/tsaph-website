@@ -90,4 +90,9 @@ class UserController extends Controller
 
         return redirect()->route('users');
     }
+
+    public function userapi(Request $request)
+    {
+        return $request->user();
+    }
 }
