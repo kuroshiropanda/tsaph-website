@@ -58,7 +58,7 @@
 
 @push('scripts')
 <script>
-    $(document).ready(function () {
+    document.addEventListener('DOMContentLoaded', function () {
         $("#adminSearch").on("keyup", function () {
             var value = $(this).val().toLowerCase();
             $("#applicants tbody tr").filter(function () {

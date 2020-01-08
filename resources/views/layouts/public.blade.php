@@ -29,7 +29,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Styles -->
     <style>
@@ -119,10 +119,10 @@
                     <a class="nav-link" href="{{ url('/about') }}">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/rules') }}">Rules</a>
+                    <a class="nav-link" href="{{ url('/contact') }}">Contact Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/contact') }}">Contact Us</a>
+                    <a class="nav-link" href="{{ url('/rules') }}">Rules</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/twitch/login')}}">Apply</a>
@@ -130,9 +130,16 @@
             </ul>
         </div>
     </nav>
-    <main role="main" class="flex-center">
+    <main role="main" class="flex-center" style="height:80vh;">
         @yield('content')
     </main>
+    <footer class="mt-auto py-3">
+        <div class="text-center">
+            <a href="https://twitch.tv/kuroshiropanda" class="text-decoration-none"><span style="color: #9146FF;">
+                    <i class="fab fa-twitch"></i>
+                </span>kuroshiropanda</a>
+        </div>
+    </footer>
 </body>
 
 </html>

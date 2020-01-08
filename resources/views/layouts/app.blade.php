@@ -26,7 +26,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -40,10 +40,10 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="height:8vh;">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('admin') }}">
-                    <img src="{{ asset('img/TSAPH logo.png') }}" style="width: auto; height: 5vh;" />
+                <a class="navbar-brand" href="{{ route('admin') }}" style="height:8vh;">
+                    <img class="img-fluid" src="{{ asset('img/tsaph@0,1x.png') }}" style="height:100%;" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
