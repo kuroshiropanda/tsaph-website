@@ -25,6 +25,17 @@
                 <input name="question_id[]" type="hidden" value="{{ $q->id }}" />
                 <input id="{{ $q->id }}" class="form-control" name="answer[]" type="{{ $q->type }}" required />
             </div>
+            @elseif ($q->type === 'checkbox')
+            <div class="form-group">
+                <label for="checkbox">{{ $q->question }}</label>
+                <input id="checkbox" name="question_id[]" type="hidden" value="{{ $q->id }}" />
+                @foreach ($checkbox as $cb)
+                <div class="form-check">
+                    <input id="{{ $loop->iteration }}" class="form-control" name="checkbox[]" type="checkbox" value="{{ $cb->type }}" />
+                    <label for="{{ $loop->iteration }}">Streamer</label>
+                </div>
+                @endforeach
+            </div>
             @elseif ($q->type === 'textarea')
             <div class="form-group">
                 <label for="{{ $q->id }}">{{ $q->question }}</label>
