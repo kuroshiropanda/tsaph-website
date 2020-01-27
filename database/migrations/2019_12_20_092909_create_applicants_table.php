@@ -19,6 +19,7 @@ class CreateApplicantsTable extends Migration
             $table->string('avatar')->nullable();
             $table->string('username');
             $table->string('email');
+            $table->string('discord');
             $table->string('name')->nullable();
             $table->boolean('approved');
             $table->boolean('denied');
