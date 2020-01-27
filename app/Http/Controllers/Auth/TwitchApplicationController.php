@@ -34,6 +34,7 @@ class TwitchApplicationController extends Controller
         $email = $user->getEmail();
 
         $questions = \App\Question::all();
+        $types = \App\Type::all();
 
         $member = \App\Member::find($id);
         $applicant = \App\Applicant::where('twitch_id', $id)->first();
@@ -59,7 +60,8 @@ class TwitchApplicationController extends Controller
                 'avatar' => $avatar,
                 'username' => $username,
                 'email' => $email,
-                'questions' => $questions
+                'questions' => $questions,
+                'types' => $types
             ]);
 
             // $applicant = \App\Applicant::where('twitch_id', $id)->doesntHave('answer')->count();

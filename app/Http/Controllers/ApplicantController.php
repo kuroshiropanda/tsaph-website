@@ -42,20 +42,17 @@ class ApplicantController extends Controller
             {
                 $a = $request['answer'][$i];
                 $q = \App\Question::find($request['question_id'][$i])->id;
-                $app->answers()->create([
-                    'answer' => $a,
-                    'question_id' => $q
+                $aid = \App\Answer::create([
+                    'answer' => $a
                 ]);
+
+                $app->answers()->attach($aid, ['question_id' => $q]);
             }
+
+            $app->types()->attach($request['checkbox']);
         });
 
-        // if($db) {
-        //     return redirect('/discord');
-        // } else {
-        //     return view('application', ['alert' => 'there was an error processing your application. please contact kuroshiropanda']);
-        // }
-
-        return redirect('/discord');
+        return redirect()->route('discord');
     }
 
     /**
@@ -69,12 +66,16 @@ class ApplicantController extends Controller
         $applicant = \App\Applicant::find($id);
 
         $answers = $applicant->answers()
-            ->join('questions', 'answers.question_id', '=', 'questions.id')
             ->get();
+
+        $types = $applicant->types()->get();
+
+        // return dd($answers);
 
         return view('admin.applicant', [
             'applicant' => $applicant,
-            'answers' => $answers
+            'answers' => $answers,
+            'types' => $types
         ]);
     }
 
