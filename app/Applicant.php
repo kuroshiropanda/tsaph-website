@@ -27,7 +27,12 @@ class Applicant extends Model
 
     public function answers()
     {
-        return $this->hasMany('App\Answer');
+        return $this->belongsToMany('App\Answer')->using('App\ApplicantAnswer')->withPivot(['question_id']);
+    }
+
+    public function types()
+    {
+        return $this->belongsToMany('App\Type')->using('App\ApplicantType');
     }
 
     public function user()

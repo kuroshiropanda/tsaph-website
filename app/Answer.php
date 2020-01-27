@@ -9,16 +9,16 @@ class Answer extends Model
     protected $table = 'answers';
 
     protected $fillable = [
-        'answer', 'question_id'
+        'answer'
     ];
 
     public function applicant()
     {
-        return $this->belongsTo('App\Applicant');
+        return $this->belongsToMany('App\Applicant')->using('App\ApplicantAnswer')->withPivot(['question_id']);
     }
 
     public function question()
     {
-        return $this->hasOne('App\Question');
+        return $this->belongsTo('App\Question', 'answer_applicant', 'question_id');
     }
 }
