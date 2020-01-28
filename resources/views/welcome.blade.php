@@ -1,5 +1,25 @@
 @extends('layouts.public')
 
+@push('style')
+<style>
+    .fa-facebook-f {
+        color: #4267B2;
+    }
+
+    .fa-facebook-square {
+        color: #4267B2;
+    }
+
+    .fa-reddit {
+        color: #FF4500;
+    }
+
+    .fa-twitch {
+        color: #9146FF;
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="content container py-5" style="height:80vh;">
     <div class="col">
@@ -14,9 +34,14 @@
         </div>
 
         <div class="links">
-            <a href="{{ url('https://facebook.com/tsaphofficial') }}"><i class="fab fa-facebook-f fa-2x"></i></a>
-            <a href="{{ url('https://facebook.com/group/twitchsaph') }}"><i
-                    class="fab fa-facebook-square fa-2x"></i></a>
+            <a href="{{ url('https://facebook.com/tsaphofficial') }}">
+                <i class="fab fa-facebook-square fa-2x"></i>
+            </a>
+            <!-- <a href="{{ url('https://facebook.com/group/twitchsaph') }}"><i
+                    class="fab fa-facebook-square fa-2x"></i></a> -->
+            <a href="{{ url('https://reddit.com/r/tsaph') }}">
+                <i class="fab fa-reddit fa-2x"></i>
+            </a>
             <!-- <a href="{{ url('https://instagram.com/tsaphofficial') }}">Instagram</a> -->
             <!-- <a href="{{ url('https://twitter.com/tsaphofficial') }}">Twitter</a> -->
             <a href="{{ url('https://twitch.tv/team/tsaph') }}"><i class="fab fa-twitch fa-2x"></i></a>

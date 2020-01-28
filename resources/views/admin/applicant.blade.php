@@ -8,8 +8,14 @@
                 <img src="{{ $applicant->avatar ?? '' }}" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title text-dark">Info</h5>
-                    <p class="card-text text-dark">Real Name: {{ $applicant->name }}</p>
-                    <p class="card-text text-dark">Twitch Name: {{ $applicant->username }}</p>
+                    <p class="card-text text-dark">Name: {{ $applicant->name }}</p>
+                    <p class="card-text text-dark">Twitch: {{ $applicant->username }}</p>
+                    <p class="card-text text-dark">Discord: {{ $applicant->discord }}</p>
+                    <p class="card-text text-dark font-weight-bold">
+                        @foreach($types as $t)
+                            {{ $t->type }}
+                        @endforeach
+                    </p>
                     <div class="row">
                         <div class="col d-flex justify-content-start">
                             <form action="{{ route('applicant.update', ['id' => $applicant->id]) }}" method="POST">
@@ -41,14 +47,14 @@
                         <button class="btn btn-dark collapsed" type="button" data-toggle="collapse"
                             data-target="#collapse{{ $loop->iteration }}" aria-expanded="false"
                             aria-controls="collapse{{ $loop->iteration }}">
-                            {{ $a->question }}
+                            {{ \App\Question::find($a->pivot->question_id)->question }}
                         </button>
                     </h2>
                 </div>
                 <div id="collapse{{ $loop->iteration }}" class="collapse"
                     aria-labelledby="heading{{ $loop->iteration }}" data-parent="#qna">
                     <div class="card-body bg-secondary">
-                        {{ $a->answer}}
+                        {{ $a->answer }}
                     </div>
                 </div>
             </div>

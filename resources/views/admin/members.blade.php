@@ -59,56 +59,56 @@
 
         var clientId = 'c9kjxs4tawdkqnnpg2lpzkraceam6g';
 
-        // var xhttp = new XMLHttpRequest();
-
-        // function initialize() {
-        //     xhttp.addEventListener('load', initializeMembers);
-        //     xhttp.open('GET', 'https://api.twitch.tv/kraken/teams/tsaph');
-        //     xhttp.setRequestHeader('Client-ID', clientId);
-        //     xhttp.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json');
-        //     xhttp.send();
-        // }
+        var xhttp = new XMLHttpRequest();
 
         function initialize() {
-            axios.get('https://api.twitch.tv/kraken/teams/tsaph', {
-                    headers: {
-                        'Client-ID': clientId,
-                        'Accept': 'application/vnd.twitchtv.v5+json'
-                    },
-                })
-                .then(function (res) {
-                    console.log(res);
-                });
+            xhttp.addEventListener('load', initializeMembers);
+            xhttp.open('GET', 'https://api.twitch.tv/kraken/teams/tsaph');
+            xhttp.setRequestHeader('Client-ID', clientId);
+            xhttp.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json');
+            xhttp.send();
         }
 
-        // function initializeMembers() {
-        //     memList = JSON.parse(xhttp.responseText);
-        //     memLength = memList.users.length;
-
-        //     var data = [];
-        //     for (i = 0; i < memLength; i++) {
-        //         data.push({
-        //             'twitch_id': memList.users[i]._id,
-        //             'username': memList.users[i].name,
-        //             'avatar': memList.users[i].logo
+        // function initialize() {
+        //     axios.get('https://api.twitch.tv/kraken/teams/tsaph', {
+        //             headers: {
+        //                 'Client-ID': clientId,
+        //                 'Accept': 'application/vnd.twitchtv.v5+json'
+        //             },
+        //         })
+        //         .then(function (res) {
+        //             console.log(res);
         //         });
-        //     }
-
-        //     $.ajax({
-        //         url: '/api/members/update',
-        //         data: {
-        //             data: data,
-        //             'api_token': '{{ Auth::user()->api_token }}'
-        //         },
-        //         method: 'POST',
-        //         headers: {
-        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //         },
-        //         complete: function () {
-        //             window.location.reload(true);
-        //         }
-        //     });
         // }
+
+        function initializeMembers() {
+            memList = JSON.parse(xhttp.responseText);
+            memLength = memList.users.length;
+
+            var data = [];
+            for (i = 0; i < memLength; i++) {
+                data.push({
+                    'twitch_id': memList.users[i]._id,
+                    'username': memList.users[i].name,
+                    'avatar': memList.users[i].logo
+                });
+            }
+
+            $.ajax({
+                url: '/api/members/update',
+                data: {
+                    data: data,
+                    'api_token': '{{ Auth::user()->api_token }}'
+                },
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                complete: function () {
+                    window.location.reload(true);
+                }
+            });
+        }
     });
 
 </script>

@@ -15,8 +15,12 @@
                 <input id="username" class="form-control" type="text" value="{{ $username }}" disabled />
             </div>
             <div class="form-group">
-                <label for="name">What is your full name?</label>
+                <label for="name">What is your full/fb name?</label>
                 <input type="text" id="name" name="name" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="discord">What is your discord id?</label>
+                <input type="text" id="discord" name="discord" class="form-control" required />
             </div>
             @foreach ($questions as $q)
             @if ($q->type === 'text')
@@ -28,11 +32,11 @@
             @elseif ($q->type === 'checkbox')
             <div class="form-group">
                 <label for="checkbox">{{ $q->question }}</label>
-                <input id="checkbox" name="question_id[]" type="hidden" value="{{ $q->id }}" />
-                @foreach ($checkbox as $cb)
+                <!-- <input id="checkbox" type="hidden" value="{{ $q->id }}" /> -->
+                @foreach ($types as $cb)
                 <div class="form-check">
-                    <input id="{{ $loop->iteration }}" class="form-control" name="checkbox[]" type="checkbox" value="{{ $cb->type }}" />
-                    <label for="{{ $loop->iteration }}">Streamer</label>
+                    <input id="{{ $loop->iteration }}" class="form-check-input" name="checkbox[]" type="checkbox" value="{{ $cb->id }}" />
+                    <label for="{{ $loop->iteration }}" class="form-check-label">{{ $cb->type }}</label>
                 </div>
                 @endforeach
             </div>

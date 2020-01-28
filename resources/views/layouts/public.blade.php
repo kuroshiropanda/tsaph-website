@@ -7,15 +7,11 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154118791-2"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'UA-154118791-2');
-
+    gtag('config', 'UA-154118791-2');
     </script>
 
 
@@ -98,6 +94,14 @@
         }
 
     </style>
+    @stack('style')
+    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
+    new Crate({
+        server: '504692743524843521',
+        channel: '504692743524843523',
+        shard: 'https://disweb.dashflo.net'
+    })
+    </script>
 </head>
 
 <body>
@@ -116,16 +120,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/about') }}">About Us</a>
+                    <a class="nav-link" href="{{ route('about') }}">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/contact') }}">Contact Us</a>
+                    <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/rules') }}">Rules</a>
+                    <a class="nav-link" href="{{ route('rules') }}">Rules</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/twitch/login')}}">Apply</a>
+                    <a class="nav-link" href="{{ route('twitch')}}">Apply</a>
                 </li>
             </ul>
         </div>

@@ -46,7 +46,11 @@
                                     Applied
                                     @endif
                                 </td>
-                                <td>{{ $a->causer['username'] }}</td>
+                                <td>
+                                @if($a->causer != NULL)
+                                {{ $a->causer['username'] }}
+                                @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
