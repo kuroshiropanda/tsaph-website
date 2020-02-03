@@ -20,8 +20,9 @@ Route::view('/rules', 'home.rules')->name('rules');
 // redirect routes
 Route::redirect('/discord', 'https://discord.gg/bQd7cSm');
 Route::redirect('/facebook', 'https://facebook.com/tsaphofficial');
-Route::redirect('/fbgroup', 'https://www.facebook.com/groups/twitchsaph/');
+Route::redirect('/fbgroup', 'https://facebook.com/groups/twitchsaph');
 Route::redirect('/twitch', 'https://twitch.tv/team/tsaph');
+Route::redirect('/reddit', 'https://reddit.com/r/tsaph');
 
 Auth::routes();
 
@@ -52,9 +53,13 @@ Route::group(['middleware' => ['role:super admin|admin|moderator|ads']], functio
 });
 
 // twitch oauth routes
-Route::get('twitch/login', 'Auth\TwitchApplicationController@redirectToProvider')->name('twitch');
+Route::get('apply', 'Auth\TwitchApplicationController@redirectToProvider')->name('apply');
 Route::get('apply/callback', 'Auth\TwitchApplicationController@handleProviderCallback');
+
+// discord oauth routes
+Route::get('discord/login', 'Auth\DiscordController@redirectToProvider')->name('discord.login');
+Route::get('discord/callback', 'Auth\DiscordController@handleProviderCallback');
 
 // application routes
 // Route::get('apply/{id}', 'ApplyController@index')->where('id', '[0-9]+')->name('apply');
-Route::post('apply', 'ApplicantController@apply')->name('apply');
+Route::post('applicant/create', 'ApplicantController@create')->name('applicant.create');

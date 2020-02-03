@@ -59,27 +59,14 @@
 
         var clientId = 'c9kjxs4tawdkqnnpg2lpzkraceam6g';
 
-        var xhttp = new XMLHttpRequest();
-
         function initialize() {
+            var xhttp = new XMLHttpRequest();
             xhttp.addEventListener('load', initializeMembers);
             xhttp.open('GET', 'https://api.twitch.tv/kraken/teams/tsaph');
             xhttp.setRequestHeader('Client-ID', clientId);
             xhttp.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json');
             xhttp.send();
         }
-
-        // function initialize() {
-        //     axios.get('https://api.twitch.tv/kraken/teams/tsaph', {
-        //             headers: {
-        //                 'Client-ID': clientId,
-        //                 'Accept': 'application/vnd.twitchtv.v5+json'
-        //             },
-        //         })
-        //         .then(function (res) {
-        //             console.log(res);
-        //         });
-        // }
 
         function initializeMembers() {
             memList = JSON.parse(xhttp.responseText);
@@ -112,5 +99,4 @@
     });
 
 </script>
-<!-- <script src="{{ asset('js/members.js') }}"></script> -->
 @endpush

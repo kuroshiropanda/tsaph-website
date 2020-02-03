@@ -39,6 +39,10 @@
             margin: 0;
         }
 
+        footer {
+            font-size: 8px;
+        }
+
         .full-height {
             height: 100vh;
         }
@@ -106,11 +110,11 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand mr-5" href="{{ url('/') }}" style="width:5vw; height:5v;">
             @if(Request::path() === '/')
             {{ config('app.name') }}
             @else
-            <img src="{{ asset('img/tsaph logo.png') }}" style="width:auto; height:5vh;">
+            <img src="{{ asset('img/tsaph@0,1x.png') }}" style="width:auto; height:5vh;">
             @endif
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -129,7 +133,7 @@
                     <a class="nav-link" href="{{ route('rules') }}">Rules</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('twitch')}}">Apply</a>
+                    <a class="nav-link" href="{{ route('apply')}}">Apply</a>
                 </li>
             </ul>
         </div>

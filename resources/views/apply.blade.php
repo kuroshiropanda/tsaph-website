@@ -2,24 +2,23 @@
 
 @section('content')
 <div class="container">
-    <form action="{{ route('apply') }}" method="POST">
+    <form action="{{ route('applicant.create') }}" method="POST">
         <div class="form-group">
             @csrf
             <input name="id" type="hidden" value="{{ $id }}" />
             <input name="email" type="hidden" value="{{ $email }}" />
-            <input name="username" type="hidden" value="{{ $username }}" />
             <input name="avatar" type="hidden" value="{{ $avatar }}" />
             <img class="img-thumnail rounded mx-auto d-block m-3" src="{{ $avatar }}" width="72" height="72" />
             <div class="form-group">
                 <label for="username">Username</label>
-                <input id="username" class="form-control" type="text" value="{{ $username }}" disabled />
+                <input id="username" name="username" class="form-control" type="text" value="{{ $username }}" readonly />
             </div>
             <div class="form-group">
                 <label for="name">What is your full/fb name?</label>
                 <input type="text" id="name" name="name" class="form-control" required />
             </div>
             <div class="form-group">
-                <label for="discord">What is your discord id?</label>
+                <label for="discord">What is your discord id? (click on your name on discord [bottom left])</label>
                 <input type="text" id="discord" name="discord" class="form-control" required />
             </div>
             @foreach ($questions as $q)
@@ -49,6 +48,11 @@
             @endif
             @endforeach
         </div>
+        <p class="lead font-weight-bold text-uppercase text-center">
+            once you click submit you'll be redirected to tsaph's discord for the interview<br>
+            once you're there wait for an admin to conduct an interview<br>
+            they'll be announcing it on the #interview channel on discord
+        </p>
         <div class="form-group text-center">
             <button type="submit" class="btn btn-primary">SUBMIT</button>
         </div>

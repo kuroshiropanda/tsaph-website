@@ -21,7 +21,7 @@
 @endpush
 
 @section('content')
-<div class="content container py-5" style="height:80vh;">
+<div class="text-center container py-5">
     <div class="col">
         <div class="mb-5">
             <picture>
