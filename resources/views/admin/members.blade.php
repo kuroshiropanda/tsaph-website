@@ -1,5 +1,37 @@
 @extends('layouts.app')
 
+@push('styles')
+<style>
+    #members {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    #members > li > a {
+        border: 1px solid #ddd;
+        margin-top: -1px;
+        background-color: #f6f6f6;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 32px;
+        color: black;
+        display: block;
+    }
+
+    #members > li > a > img {
+        width: auto;
+        height: 32px;
+        margin-right: 10px;
+    }
+
+    #members > li > a:hover:not(.header) {
+        background-color: #eee;
+    }
+
+</style>
+@endpush
+
 @section('content')
 <div class="container">
     <div class="card text-white bg-dark" style="height: 88vh;">
