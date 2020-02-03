@@ -27,13 +27,14 @@
                             </form>
                         </div>
                         <div class="col d-flex justify-content-end">
-                            <form action="{{ route('applicant.update', ['id' => $applicant->id]) }}" method="POST">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#denyModal">Deny</button>
+                            <!-- <form action="{{ route('applicant.update', ['id' => $applicant->id]) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="api_token" value="{{ Auth::user()->api_token }}">
                                 <input type="hidden" name="id" value="{{ $applicant->id }}">
                                 <input type="hidden" name="update" value="deny">
                                 <button type="submit" class="btn btn-danger">Deny</button>
-                            </form>
+                            </form> -->
                         </div>
                     </div>
                 </div>
@@ -73,4 +74,42 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="denyModal" tabindex="-1" role="dialog" aria-labelledby="denyModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-dark" id="denyModalLabel">Deny Application</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="denyForm" action="{{ route('applicant.update', ['id' => $applicant->id]) }}" method="POST">
+        @csrf
+        <input type="hidden" name="api_token" value="{{ Auth::user()->api_token }}">
+        <input type="hidden" name="id" value="{{ $applicant->id }}">
+        <input type="hidden" name="update" value="deny">
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="reason" class="text-dark">Reason?</label>
+            <textarea id="reason" class="form-control" name="reason" required></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="formReset()" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-danger">Deny</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 @endsection
+
+@push('scripts')
+<script>
+    function formReset() {
+        document.getElementById("denyForm").reset();
+    }
+</script>
+@endpush

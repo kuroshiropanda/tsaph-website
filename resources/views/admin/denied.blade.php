@@ -16,7 +16,8 @@
                                 <th scope="col" style="width:10%;">#</th>
                                 <th scope="col" style="width:20%;"></th>
                                 <th scope="col" style="width:40%;">Username</th>
-                                <th scope="col" style="width:30%;">by</th>
+                                <th scope="col" style="width:20%;">by</th>
+                                <th scope="col" style="width:10%;">reason</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -25,7 +26,26 @@
                                 <td scope="row">{{ $d->id }}</td>
                                 <td><img src="{{ $d->avatar }}" style="width:auto; height:8vh;" /></td>
                                 <td>{{ $d->username }}</td>
-                                <td>{{ $d->user['username'] }}</td>
+                                <td>{{ $d->user->username }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ $d->username }}">Reason</button>
+
+                                    <div class="modal fade" id="{{ $d->username }}" tabindex="-1" role="dialog" aria-labelledby="{{ $d->username }}Label" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-dark" id="{{ $d->username }}Label">Reason</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body text-dark">
+                                                    {{ $d->reason->reason }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

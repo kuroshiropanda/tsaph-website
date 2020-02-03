@@ -57,6 +57,7 @@ class HomeController extends Controller
             ->where('denied', true)
             ->where('invited', false)
             ->with('user')
+            ->with('reason')
             ->paginate(10);
 
         return view('admin.denied', [

@@ -39,4 +39,9 @@ class Applicant extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function reason()
+    {
+        return $this->hasOne('App\Reason');
+    }
 }
