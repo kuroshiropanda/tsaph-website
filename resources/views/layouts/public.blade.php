@@ -99,14 +99,19 @@
 
     </style>
     @stack('style')
-    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
-    new Crate({
-        server: '504692743524843521',
-        channel: '504692743524843523',
-        shard: 'https://disweb.dashflo.net'
-    })
-    </script>
     <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="kuroshiropanda" data-description="Support me on Buy me a coffee!" data-message="created by kuroshiropanda. support me by buying me a ☕" data-color="#0AF" data-position="left" data-x_margin="18" data-y_margin="18"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
+        var crate = new Crate({
+            server: '504692743524843521',
+            channel: '504692743524843523',
+            shard: 'https://disweb.dashflo.net',
+            location: ['bottom', 'right'],
+            notifications: false,
+            indicator: true,
+            defer: true
+        });
+        crate.notify('chat with us on discord! 😉');
+    </script>
 </head>
 
 <body>
