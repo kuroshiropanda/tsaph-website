@@ -90,9 +90,9 @@
         });
 
         var clientId = 'c9kjxs4tawdkqnnpg2lpzkraceam6g';
+        var xhttp = new XMLHttpRequest();
 
         function initialize() {
-            var xhttp = new XMLHttpRequest();
             xhttp.addEventListener('load', initializeMembers);
             xhttp.open('GET', 'https://api.twitch.tv/kraken/teams/tsaph');
             xhttp.setRequestHeader('Client-ID', clientId);
@@ -117,7 +117,7 @@
                 url: '/api/members/update',
                 data: {
                     data: data,
-                    'api_token': '{{ Auth::user()->api_token }}'
+                    api_token: '{{ Auth::user()->api_token }}'
                 },
                 method: 'POST',
                 headers: {

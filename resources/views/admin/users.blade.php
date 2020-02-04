@@ -18,22 +18,31 @@
                 <td>{{ $u->username }}</td>
                 <td>{{ $u->name }}</td>
                 <td>{{ $u->getRoleNames() }}</td>
-                <td>
                     @if(Auth::id() !== $u->id)
-                    <form action="{{ route('user.role', ['user' => $u->id]) }}" method="POST">
+                    <form action="{{ route('update.role', ['user' => $u->id]) }}" method="POST">
                         @csrf
                         <input type="hidden" name="api_token" value="{{ Auth::user()->api_token }}">
-                        <select name="role">
+                        <!-- <select name="role">
                             <option value="super admin">Super Admin</option>
                             <option value="admin">Admin</option>
                             <option value="moderator">Moderator</option>
-                        </select>
+                        </select> -->
+                        <td>
+                        @foreach($roles as $r)
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="{{ $r->name }}" id="sadmin" name="roles[]">
+                            <label class="form-check-label" for="sadmin">
+                                {{ $r->name }}
+                            </label>
+                        </div>
+                        @endforeach
+                        </td>
+                        <td>
                         <button type="submit" class="btn btn-primary">Apply</button>
+                        </td>
                     </form>
                     @endif
-                </td>
             </tr>
-
             @endforeach
         </tbody>
     </table>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 use App\User;
+use Spatie\Permission\Models\Role;
 
 class HomeController extends Controller
 {
@@ -32,8 +33,12 @@ class HomeController extends Controller
     public function users()
     {
         $users = User::paginate(10);
+        $roles = Role::all();
 
-        return view('admin.users', ['users' => $users]);
+        return view('admin.users', [
+            'users' => $users,
+            'roles' => $roles
+        ]);
     }
 
     public function approved()
