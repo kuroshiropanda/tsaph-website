@@ -79,16 +79,15 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'name' => 'required|string',
-            'username' => 'required|string',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:8'
+            'name' => 'string',
+            'username' => 'string',
+            'email' => 'email',
+            'password' => 'required|password:web'
         ]);
 
         $user->name = $request['name'];
         $user->username = $request['username'];
         $user->email = $request['email'];
-        $user->password = Hash::make($request['password']);
         $user->save();
 
         return redirect()->route('admin');
@@ -105,10 +104,34 @@ class UserController extends Controller
         //
     }
 
+    public function password(User $user)
+    {
+        if(Auth::id() !== $user->id)
+        {
+            return redirect()->route('user.password', ['user' => Auth::id()]);
+        }
+        else
+        {
+            return view('admin.change_password');
+        }
+    }
+
+    public function updatePassword(User $user, Request $request)
+    {
+        $request->validate([
+            'password' => 'confirmed',
+            'old_password' => 'password:web'
+        ]);
+
+        $user->password = Hash::make($request['password']);
+        $user->save();
+
+        return redirect()->route('admin');
+    }
+
     public function updateRole(User $user, Request $request)
     {
-        // $user = User::find($id);
-        $user->assignRole($request['role']);
+        $user->syncRoles($request->roles);
 
         return redirect()->route('users');
     }

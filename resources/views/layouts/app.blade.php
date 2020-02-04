@@ -39,7 +39,7 @@
 
     @stack('styles')
 
-    <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="kuroshiropanda" data-description="Support me on Buy me a coffee!" data-message="Thank you for visiting. You can now buy me a kōhī!" data-color="#FF813F" data-position="right" data-x_margin="18" data-y_margin="18"></script>
+    <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="kuroshiropanda" data-description="Support me on Buy me a coffee!" data-message="Thank you for visiting. You can support me by buying me a coffee!" data-color="#FF813F" data-position="right" data-x_margin="18" data-y_margin="18"></script>
 </head>
 
 <body>
@@ -113,12 +113,12 @@
                                 <a class="dropdown-item" href="{{ route('users') }}">
                                     {{ __('Manage Users') }}
                                 </a>
-                                <!-- <a class="dropdown-item" href="#">
-                                    {{ __('Update Members') }}
-                                </a> -->
                                 @endcan
                                 <a class="dropdown-item" href="{{ route('user.edit', ['user' => Auth::id()]) }}">
                                     {{ __('Edit Profile') }}
+                                </a>
+                                <a class="dropdown-item" href="{{ route('user.password', ['user' => Auth::id()]) }}">
+                                    {{ __('Change Password') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

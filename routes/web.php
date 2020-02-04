@@ -29,7 +29,9 @@ Auth::routes();
 // dashboard routes
 Route::get('/admin', 'HomeController@index')->name('admin');
 Route::get('/admin/profile/{user}/edit', 'UserController@edit')->middleware(['auth', 'password.confirm'])->name('user.edit');
+Route::get('/admin/profile/{user}/change_password', 'UserController@password')->middleware(['auth', 'password.confirm'])->name('user.password');
 Route::post('/admin/profile/{user}/update', 'UserController@update')->middleware('auth')->name('user.update');
+Route::post('/admin/profile/{user}/update/password', 'UserController@updatePassword')->middleware(['auth', 'password.confirm'])->name('user.update.password');
 
 Route::group(['middleware' => ['role:super admin']], function () {
     Route::get('/admin/users', 'HomeController@users')->name('users');

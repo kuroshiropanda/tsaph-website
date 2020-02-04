@@ -10,7 +10,6 @@
         <div class="card-body" style="height: 100%; overflow-y: auto;">
             <form action="{{ route('user.update', ['user' => Auth::id()]) }}" method="POST">
                 @csrf
-                <input type="hidden" name="api_token" value="{{ Auth::user()->api_token }}">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" name="name" class="form-control" id="name" value="{{ $user->name }}">
@@ -28,20 +27,15 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label for="password">New Password</label>
-                        <input type="password" name="password"
-                            class="form-control @error('password') is-invalid @enderror" id="password">
+                        <label for="password">Password Confirmation</label>
+                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password">
                     </div>
-                    <div class="form-group col-md-6">
-                        <label for="cpassword">Confirm Password</label>
-                        <input type="password" name="password_confirmation" class="form-control" id="cpassword">
-                    </div>
-                    @error('password')
+                </div>
+                @error('password')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
-                    @enderror
-                </div>
+                @enderror
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
         </div>
