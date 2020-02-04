@@ -106,17 +106,13 @@
         shard: 'https://disweb.dashflo.net'
     })
     </script>
-    <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="kuroshiropanda" data-description="Support me on Buy me a coffee!" data-message="created by kuroshiropanda. buy me a ☕" data-color="#79D6B5" data-position="left" data-x_margin="18" data-y_margin="18"></script>
+    <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="kuroshiropanda" data-description="Support me on Buy me a coffee!" data-message="created by kuroshiropanda. support me by buying me a ☕" data-color="#0AF" data-position="left" data-x_margin="18" data-y_margin="18"></script>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand mr-5" href="{{ url('/') }}" style="width:5vw; height:5v;">
-            @if(Request::path() === '/')
-            {{ config('app.name') }}
-            @else
+        <a class="navbar-brand mx-5 px-5" href="{{ url('/') }}">
             <img src="{{ asset('img/tsaph@0,1x.png') }}" style="width:auto; height:5vh;">
-            @endif
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -142,13 +138,13 @@
     <main role="main" class="flex-center" style="height:80vh;">
         @yield('content')
     </main>
-    <footer class="mt-auto py-3">
+    <!-- <footer class="mt-auto py-3">
         <div class="text-center">
             <a href="https://twitch.tv/kuroshiropanda" class="text-decoration-none"><span style="color: #9146FF;">
                     <i class="fab fa-twitch"></i>
                 </span>kuroshiropanda</a>
         </div>
-    </footer>
+    </footer> -->
 </body>
 
 </html>
