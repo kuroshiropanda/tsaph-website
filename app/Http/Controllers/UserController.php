@@ -101,7 +101,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return redirect()->route('users');
     }
 
     public function password(User $user)
@@ -132,6 +134,8 @@ class UserController extends Controller
     public function updateRole(User $user, Request $request)
     {
         $user->syncRoles($request->roles);
+        $user->api_token = \Str::random(80);
+        $user->save();
 
         return redirect()->route('users');
     }

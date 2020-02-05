@@ -35,6 +35,7 @@ Route::post('/admin/profile/{user}/update/password', 'UserController@updatePassw
 
 Route::group(['middleware' => ['role:super admin']], function () {
     Route::get('/admin/users', 'HomeController@users')->name('users');
+    Route::post('/admin/user/{user}/delete', 'UserController@destroy')->name('user.delete');
 });
 
 Route::group(['middleware' => ['role:super admin|admin|ads']], function () {
@@ -49,6 +50,7 @@ Route::group(['middleware' => ['role:super admin|admin|moderator|ads']], functio
     Route::get('/admin/denied', 'HomeController@denied')->name('denied');
     Route::get('/admin/members', 'MembersController@index')->name('members');
     Route::get('/admin/applicant/{id}', 'ApplicantController@show')->middleware('auth')->where('id', '[0-9]+')->name('applicant');
+    Route::get('/admin/user/{user}/api_token', 'UserController@apiToken')->name('api.token');
 
     // Route::post('applicant/{id}/approve', 'ApplicantController@approve')->name('applicant.approve');
     // Route::post('applicant/{id}/deny', 'ApplicantController@deny')->name('applicant.deny');

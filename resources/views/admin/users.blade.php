@@ -22,11 +22,6 @@
                     <form action="{{ route('update.role', ['user' => $u->id]) }}" method="POST">
                         @csrf
                         <input type="hidden" name="api_token" value="{{ Auth::user()->api_token }}">
-                        <!-- <select name="role">
-                            <option value="super admin">Super Admin</option>
-                            <option value="admin">Admin</option>
-                            <option value="moderator">Moderator</option>
-                        </select> -->
                         <td>
                         @foreach($roles as $r)
                         <div class="form-check">
@@ -41,7 +36,14 @@
                         <button type="submit" class="btn btn-primary">Apply</button>
                         </td>
                     </form>
+                    <td>
+                        <form action="{{ route('user.delete', ['user' => $u->id]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-user-minus"></i></button>
+                        </form>
+                    </td>
                     @endif
+                </td>
             </tr>
             @endforeach
         </tbody>
