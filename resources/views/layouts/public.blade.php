@@ -99,24 +99,11 @@
 
     </style>
     @stack('style')
-    <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="kuroshiropanda" data-description="Support me on Buy me a coffee!" data-message="created by kuroshiropanda. support me by buying me a ☕" data-color="#0AF" data-position="left" data-x_margin="18" data-y_margin="18"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/crate@3" async defer>
-        var crate = new Crate({
-            server: '504692743524843521',
-            channel: '504692743524843523',
-            shard: 'https://disweb.dashflo.net',
-            location: ['bottom', 'right'],
-            notifications: false,
-            indicator: true,
-            defer: true
-        });
-        crate.notify('chat with us on discord! 😉');
-    </script>
+    <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="kuroshiropanda" data-description="Support me on Buy me a coffee!" data-message="created by kuroshiropanda. support him by buying him a ☕" data-color="#0AF" data-position="left" data-x_margin="18" data-y_margin="18"></script>
 </head>
-
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand mx-5 px-5" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('img/tsaph@0,1x.png') }}" style="width:auto; height:5vh;">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -135,21 +122,33 @@
                     <a class="nav-link" href="{{ route('rules') }}">Rules</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('apply')}}">Apply</a>
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#apply">Apply</a>
                 </li>
             </ul>
         </div>
     </nav>
-    <main role="main" class="flex-center" style="height:80vh;">
+    <main role="main" class="d-flex justify-content-center align-items-center">
         @yield('content')
     </main>
-    <!-- <footer class="mt-auto py-3">
-        <div class="text-center">
-            <a href="https://twitch.tv/kuroshiropanda" class="text-decoration-none"><span style="color: #9146FF;">
-                    <i class="fab fa-twitch"></i>
-                </span>kuroshiropanda</a>
+    <!-- modal -->
+    <div class="modal fade" id="apply" tabindex="-1" role="dialog" aria-labelledby="applyLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title text-dark" id="applyLabel">Application Prompt</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-    </footer> -->
+        <div class="modal-body text-dark lead font-weight-bold">
+            by clicking apply. you must have a valid twitch and discord account
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <a href="{{ route('apply') }}" class="btn btn-primary">Proceed</a>
+        </div>
+        </div>
+    </div>
+    </div>
 </body>
-
 </html>
