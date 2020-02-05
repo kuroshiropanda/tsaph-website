@@ -4,14 +4,13 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-3">
-            <div class="card" style="width: auto;">
+            <div class="card">
                 <img src="{{ $applicant->avatar ?? '' }}" class="card-img-top">
-                <div class="card-body">
-                    <h5 class="card-title text-dark">Info</h5>
-                    <p class="card-text text-dark">Name: {{ $applicant->name }}</p>
-                    <p class="card-text text-dark">Twitch: {{ $applicant->username }}</p>
-                    <p class="card-text text-dark">Discord: {{ $applicant->discord }}</p>
-                    <p class="card-text text-dark font-weight-bold">
+                <div class="card-body text-dark">
+                    <h5 class="card-title">Name: {{ $applicant->name }}</h5>
+                    <p class="card-text">Twitch: {{ $applicant->username }}</p>
+                    <p class="card-text">Discord: {{ $applicant->discord }}</p>
+                    <p class="card-text font-weight-bold">
                         @foreach($types as $t)
                             {{ $t->type }}
                         @endforeach

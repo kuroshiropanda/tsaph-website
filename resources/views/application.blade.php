@@ -21,19 +21,19 @@
             <p class="lead">
                 you're already a member. go check our facebook page or join our facebook group and/or discord
             </p>
-            @else
-            <p class="lead">
-                go wait on discord for an interview. click <a href="{{ url('/discord') }}"
-                    class="text-decoration-none">here</a>.
-                <br/>or if you're already approved
-                <br/>check your team invites on twitch. click <a href="{{ url('https://dashboard.twitch.tv/settings/channel') }}" class="text-decoration-none">here</a>.
-            </p>
-            @endif
             <div class="links pt-2">
                 <a href="{{ url('/facebook') }}">Facebook page</a>
                 <a href="{{ url('/fbgroup') }}">Facebook group</a>
                 <a href="{{ url('/discord') }}">Discord</a>
             </div>
+            @else
+            <p class="lead">
+                go wait on discord for an interview. click <a href="{{ url('https://discord.gg/wrwgGH4') }}"
+                    class="text-decoration-none font-weight-bold">HERE</a>.
+                <br/>or if you're already approved
+                <br/>check your team invites on twitch. click <a href="{{ url('https://dashboard.twitch.tv/settings/channel') }}" class="text-decoration-none">here</a>.
+            </p>
+            @endif
         </div>
     </div>
 </div>
