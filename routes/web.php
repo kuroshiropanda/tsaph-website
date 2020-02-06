@@ -36,6 +36,7 @@ Route::post('/admin/profile/{user}/update/password', 'UserController@updatePassw
 Route::group(['middleware' => ['role:super admin']], function () {
     Route::get('/admin/users', 'HomeController@users')->name('users');
     Route::post('/admin/user/{user}/delete', 'UserController@destroy')->name('user.delete');
+    Route::post('/admin/applicant/{id}/delete', 'ApplicantController@destroy')->where('id', '[0-9]+')->name('applicant.delete');
 });
 
 Route::group(['middleware' => ['role:super admin|admin|ads']], function () {

@@ -100,6 +100,13 @@ class ApplicantController extends Controller
         }
     }
 
+    public function destroy($id)
+    {
+        \App\Applicant::destroy($id);
+
+        return redirect()->route('applicants');
+    }
+
     public function inviteAll()
     {
         \App\Applicant::where('approved', true)

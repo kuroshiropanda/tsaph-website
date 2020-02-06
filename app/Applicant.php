@@ -25,6 +25,10 @@ class Applicant extends Model
         'twitch_id', 'username', 'name', 'approved', 'denied', 'invited'
     ];
 
+    protected static $recordEvents = [
+        'created', 'updated'
+    ];
+
     public function answers()
     {
         return $this->belongsToMany('App\Answer')->using('App\ApplicantAnswer')->withPivot(['question_id']);
