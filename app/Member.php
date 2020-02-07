@@ -15,6 +15,8 @@ class Member extends Model
 
     protected $keyType = 'string';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'twitch_id', 'username', 'avatar'
     ];

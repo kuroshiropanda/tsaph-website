@@ -15,7 +15,8 @@
                             <tr>
                                 <th scope="col" style="width:10%;">#</th>
                                 <th scope="col" style="width:20%;"></th>
-                                <th scope="col" style="width:40%;">Username</th>
+                                <th scope="col" style="width:20%;">Username</th>
+                                <th scope="col" style="width:20%;">Discord</th>
                                 <th scope="col" style="width:15%;">go to their</th>
                                 <th scope="col" style="width:15%;">open their</th>
                             </tr>
@@ -27,6 +28,7 @@
                                 <td><img src="{{ $a->avatar }}" style="width:auto; height:8vh;" />
                                 </td>
                                 <td>{{ $a->username }}</td>
+                                <td>{{ $a->discord }}</td>
                                 <td>
                                     <a href="{{ url('https://twitch.tv/'.$a->username) }}"
                                         class="btn btn-secondary">Channel</a>

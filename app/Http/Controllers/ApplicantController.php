@@ -102,7 +102,15 @@ class ApplicantController extends Controller
 
     public function destroy($id)
     {
-        \App\Applicant::destroy($id);
+        \DB::transaction(function() use ($id) {
+            $app = \App\Applicant::find($id);
+
+            foreach($app->answers as $ans) {
+                $ans->delete();
+            }
+
+            $app->delete();
+        });
 
         return redirect()->route('applicants');
     }

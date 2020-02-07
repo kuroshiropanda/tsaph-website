@@ -8,6 +8,8 @@ class Answer extends Model
 {
     protected $table = 'answers';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'answer'
     ];
