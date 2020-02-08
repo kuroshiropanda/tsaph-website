@@ -35,7 +35,7 @@ class ApplicantController extends Controller
             $app->types()->attach($request['checkbox']);
         });
 
-        return redirect('https://discord.gg/wrwgGH4');
+        return redirect('https://discord.gg/vbP8yTh');
     }
 
     /**
@@ -73,28 +73,28 @@ class ApplicantController extends Controller
         }
         else if($request['update'] == 'deny')
         {
-            \DB::transaction(function() use ($applicant, $request) {
-                $applicant->denied = true;
-                $applicant->user_id = Auth::id();
-                $applicant->save();
+            if($applicant->approved === 0)
+            {
+                \DB::transaction(function() use ($applicant, $request) {
+                    $applicant->denied = true;
+                    $applicant->user_id = Auth::id();
+                    $applicant->save();
 
-                $applicant->reason()->create([
-                    'reason' => $request['reason']
-                ]);
-            });
+                    $applicant->reason()->create([
+                        'reason' => $request['reason']
+                    ]);
+                });
+            }
 
             return redirect()->route('applicants');
         }
         else
         {
-            $applicant->invited = true;
-            $applicant->save();
-
-            // \App\Member::create([
-            //     'twitch_id' => $applicant->twitch_id,
-            //     'username' => $applicant->username,
-            //     'avatar' => $applicant->avatar
-            // ]);
+            if($applicant->approved === 1)
+            {
+                $applicant->invited = true;
+                $applicant->save();
+            }
 
             return redirect()->route('approved');
         }
@@ -121,6 +121,6 @@ class ApplicantController extends Controller
             ->where('invited', false)
             ->update(['invited', true]);
 
-        return redirect('/approved');
+        return redirect()->route('approved');
     }
 }

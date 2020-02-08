@@ -15,8 +15,10 @@
                             <tr>
                                 <th scope="col" style="width:10%;">#</th>
                                 <th scope="col" style="width:20%;"></th>
-                                <th scope="col" style="width:40%;">Username</th>
-                                <th scope="col" style="width:20%;">by</th>
+                                <th scope="col" style="width:15%;">Username</th>
+                                <th scope="col" style="width:15%;">Discord</th>
+                                <th scope="col" style="width:20%;">Denied by</th>
+                                <th scope="col" style="width:10%;">Form</th>
                                 <th scope="col" style="width:10%;">reason</th>
                             </tr>
                         </thead>
@@ -26,9 +28,11 @@
                                 <td scope="row">{{ $d->id }}</td>
                                 <td><img src="{{ $d->avatar }}" style="width:auto; height:8vh;" /></td>
                                 <td>{{ $d->username }}</td>
+                                <td>{{ $d->discord }}</td>
                                 <td>{{ $d->user->username }}</td>
+                                <td><a href="{{ route('applicant', ['id' => $d->id]) }}" class="btn btn-primary">Form</a></td>
                                 <td>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ $d->username }}">Reason</button>
+                                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#{{ $d->username }}">Reason</button>
 
                                     <div class="modal fade" id="{{ $d->username }}" tabindex="-1" role="dialog" aria-labelledby="{{ $d->username }}Label" aria-hidden="true">
                                         <div class="modal-dialog" role="document">

@@ -15,6 +15,7 @@
                             {{ $t->type }}
                         @endforeach
                     </p>
+                    @if($applicant->denied === 0 && $applicant->approved === 0)
                     <div class="row">
                         <div class="col d-flex justify-content-start">
                             <form action="{{ route('applicant.update', ['id' => $applicant->id]) }}" method="POST">
@@ -27,15 +28,9 @@
                         </div>
                         <div class="col d-flex justify-content-end">
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#denyModal">Deny</button>
-                            <!-- <form action="{{ route('applicant.update', ['id' => $applicant->id]) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="api_token" value="{{ Auth::user()->api_token }}">
-                                <input type="hidden" name="id" value="{{ $applicant->id }}">
-                                <input type="hidden" name="update" value="deny">
-                                <button type="submit" class="btn btn-danger">Deny</button>
-                            </form> -->
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

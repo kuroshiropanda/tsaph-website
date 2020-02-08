@@ -15,10 +15,12 @@
                             <tr>
                                 <th scope="col" style="width:10%;">#</th>
                                 <th scope="col" style="width:20%;"></th>
-                                <th scope="col" style="width:20%;">Username</th>
-                                <th scope="col" style="width:20%;">Approved by</th>
-                                <th scope="col" style="width:15%;">go to their</th>
-                                <th scope="col" style="width:15%;">click button if</th>
+                                <th scope="col" style="width:15%;">Username</th>
+                                <th scope="col" style="width:15%;">Discord</th>
+                                <th scope="col" style="width:10%;">Approved by</th>
+                                <th scope="col" style="width:10%;">Form</th>
+                                <th scope="col" style="width:10%;">channel</th>
+                                <th scope="col" style="width:10%;">click button if</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -27,7 +29,9 @@
                                 <td scope="row">{{ $a->id }}</td>
                                 <td><img src="{{ $a->avatar }}" style="width:auto; height:8vh;" /></td>
                                 <td>{{ $a->username }}</td>
-                                <td>{{ $a->user['username'] }}</td>
+                                <td>{{ $a->discord }}</td>
+                                <td>{{ $a->user->username }}</td>
+                                <td><a href="{{ route('applicant', ['id' => $a->id]) }}" class="btn btn-primary">Form</a></td>
                                 <td>
                                     <a href="{{ url('https://twitch.tv/'.$a->username) }}"
                                         class="btn btn-secondary">channel</a>

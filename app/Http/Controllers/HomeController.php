@@ -49,8 +49,6 @@ class HomeController extends Controller
             ->with('user')
             ->paginate(10);
 
-        // return dd($approved);
-
         return view('admin.approved', [
             'approved' => $approved
         ]);
