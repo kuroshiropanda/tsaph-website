@@ -100,17 +100,21 @@ class ApplicantController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        \DB::transaction(function() use ($id) {
-            $app = \App\Applicant::find($id);
+        $user = $request->user();
+        if($user->hasRole('super admin'))
+        {
+            \DB::transaction(function() use ($id) {
+                $app = \App\Applicant::find($id);
 
-            foreach($app->answers as $ans) {
-                $ans->delete();
-            }
+                foreach($app->answers as $ans) {
+                    $ans->delete();
+                }
 
-            $app->delete();
-        });
+                $app->delete();
+            });
+        }
 
         return redirect()->route('applicants');
     }

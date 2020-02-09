@@ -37,12 +37,14 @@
                                     <a href="{{ route('applicant', ['id' => $a->id]) }}"
                                         class="btn btn-primary">Form</a>
                                 </td>
+                                @can('edit roles')
                                 <td>
                                     <form action="{{ route('applicant.delete', ['id' => $a->id]) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
+                                @endcan
                             </tr>
                             @endforeach
                         </tbody>
