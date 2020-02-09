@@ -68,6 +68,10 @@ class ApplicantController extends Controller
             $applicant->approved = true;
             $applicant->user_id = Auth::id();
             $applicant->save();
+            if($applicant->denied === 1)
+            {
+                $applicant->denied = false;
+            }
 
             return redirect()->route('applicants');
         }

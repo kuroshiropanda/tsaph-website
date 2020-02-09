@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Member;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 class MembersController extends Controller
 {
@@ -41,14 +42,11 @@ class MembersController extends Controller
     {
         foreach($request['data'] as $data)
         {
-            $member = Member::firstOrCreate([
-                'twitch_id' => $data['twitch_id'],
-                'username' => $data['username'],
-                'avatar' => $data['avatar']
-            ]);
+            $member = Member::updateOrCreate(
+                ['twitch_id' => $data->twitch_id],
+                ['username' => $data->username, 'avatar' => $data->avatar]
+            );
         }
-
-        $member->save();
     }
 
     /**
@@ -70,7 +68,26 @@ class MembersController extends Controller
      */
     public function update(Request $request, Member $member)
     {
-        //
+        $client = new Client([
+            'base_uri' => 'https://api.twitch.tv/kraken/',
+            'decode_content' => true,
+            'headers' => [
+                'Client-ID' => env('TWITCH_KEY'),
+                'Accept' => 'application/vnd.twitchtv.v5+json'
+            ]
+        ]);
+
+        $response = $client->request('GET', 'teams/tsaph');
+        $body = $response->getBody()->getContents();
+        $data = json_decode($body, true);
+
+        foreach($data['users'] as $d)
+        {
+            $member = Member::updateOrCreate(
+                ['twitch_id' => $d['_id']],
+                ['username' => $d['display_name'], 'avatar' => $d['logo']]
+            );
+        }
     }
 
     /**
