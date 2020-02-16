@@ -31,16 +31,14 @@
                                 <td>{{ $a->username }}</td>
                                 <td>{{ $a->discord }}</td>
                                 <td>{{ $a->user->username }}</td>
-                                <td><a href="{{ route('applicant', ['id' => $a->id]) }}" class="btn btn-primary">Form</a></td>
+                                <td><a href="{{ route('applicant', ['applicant' => $a->id]) }}" class="btn btn-primary">Form</a></td>
                                 <td>
                                     <a href="{{ url('https://twitch.tv/'.$a->username) }}"
                                         class="btn btn-secondary">channel</a>
                                 </td>
                                 <td>
-                                    <form action="{{ route('applicant.update', ['id' => $a->id]) }}" method="POST">
+                                    <form action="{{ route('applicant.update', ['applicant' => $a->id, 'update' => 'invite']) }}" method="POST">
                                         @csrf
-                                        <input type="hidden" name="api_token" value="{{ Auth::user()->api_token }}">
-                                        <input type="hidden" value="invite">
                                         <button class="btn btn-success">Invited</button>
                                     </form>
                                 </td>

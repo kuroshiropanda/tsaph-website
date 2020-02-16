@@ -34,15 +34,18 @@
                                         class="btn btn-secondary">Channel</a>
                                 </td>
                                 <td>
-                                    <a href="{{ route('applicant', ['id' => $a->id]) }}"
+                                    <a href="{{ route('applicant', ['applicant' => $a->id]) }}"
                                         class="btn btn-primary">Form</a>
                                 </td>
                                 @can('edit roles')
                                 <td>
-                                    <form action="{{ route('applicant.delete', ['id' => $a->id]) }}" method="POST">
+                                    <form action="{{ route('applicant.delete', ['applicant' => $a->id]) }}" method="POST">
                                         @csrf
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                                     </form>
+                                </td>
+                                <td>
+                                <button type="button" id="updateUser" onclick="initialize({{ $a->twitch_id }})" class="btn btn-primary"><i class="fas fa-upload"></i></button>
                                 </td>
                                 @endcan
                             </tr>
@@ -75,6 +78,49 @@
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
+
+        $('#updateUser').click(function (event) {
+            event.preventDefault();
+        });
+
+        var clientId = '{{ config('services.twitch.client_id') }}';
+        var xhttp = new XMLHttpRequest();
+
+        function initialize(id) {
+            xhttp.addEventListener('load', initializeMembers);
+            xhttp.open('GET', 'https://api.twitch.tv/helix/users?id=' + id);
+            xhttp.setRequestHeader('Client-ID', clientId);
+            xhttp.send();
+        }
+
+        function initializeMembers() {
+            userData = JSON.parse(xhttp.responseText);
+            memLength = memList.users.length;
+
+            var data = [];
+            console.log(userData);
+            // for (i = 0; i < memLength; i++) {
+            //     data.push({
+            //         'id': memList.users[i].id,
+            //         'username': memList.users[i].name,
+            //         'avatar': memList.users[i].logo
+            //     });
+            // }
+
+            // $.ajax({
+            //     url: '/applicant/update',
+            //     data: {
+            //         data: data,
+            //     },
+            //     method: 'POST',
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     },
+            //     complete: function () {
+            //         window.location.reload(true);
+            //     }
+            // });
+        }
     });
 
 </script>

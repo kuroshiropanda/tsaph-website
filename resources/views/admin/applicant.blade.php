@@ -18,11 +18,8 @@
                     @if($applicant->denied === 0 && $applicant->approved === 0)
                     <div class="row">
                         <div class="col d-flex justify-content-start">
-                            <form action="{{ route('applicant.update', ['id' => $applicant->id]) }}" method="POST">
+                            <form action="{{ route('applicant.update', ['applicant' => $applicant->id, 'update' => 'approve']) }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="api_token" value="{{ Auth::user()->api_token }}">
-                                <input type="hidden" name="id" value="{{ $applicant->id }}">
-                                <input type="hidden" name="update" value="approve">
                                 <button type="submit" class="btn btn-primary">Approve</button>
                             </form>
                         </div>
@@ -79,11 +76,8 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="denyForm" action="{{ route('applicant.update', ['id' => $applicant->id]) }}" method="POST">
+      <form id="denyForm" action="{{ route('applicant.update', ['applicant' => $applicant->id, 'update' => 'deny']) }}" method="POST">
         @csrf
-        <input type="hidden" name="api_token" value="{{ Auth::user()->api_token }}">
-        <input type="hidden" name="id" value="{{ $applicant->id }}">
-        <input type="hidden" name="update" value="deny">
       <div class="modal-body">
         <div class="form-group">
             <label for="reason" class="text-dark">Reason?</label>

@@ -21,7 +21,6 @@
                     @if(Auth::id() !== $u->id)
                     <form action="{{ route('update.role', ['user' => $u->id]) }}" method="POST">
                         @csrf
-                        <input type="hidden" name="api_token" value="{{ Auth::user()->api_token }}">
                         <td>
                         @foreach($roles as $r)
                         <div class="form-check">

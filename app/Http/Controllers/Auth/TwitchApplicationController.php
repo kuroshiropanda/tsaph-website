@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class TwitchApplicationController extends Controller
 {
     /**
-     * Redirect the user to the GitHub authentication page.
+     * Redirect the user to the Twitch authentication page.
      *
      * @return \Illuminate\Http\Response
      */
@@ -20,7 +20,7 @@ class TwitchApplicationController extends Controller
     }
 
     /**
-     * Obtain the user information from GitHub.
+     * Obtain the user information from Twitch.
      *
      * @return \Illuminate\Http\Response
      */
@@ -46,7 +46,7 @@ class TwitchApplicationController extends Controller
                 'alert' => 'member ka na tanga'
             ]);
         }
-        else if($applicant)
+        elseif($applicant)
         {
             return view('application', [
                 'type' => 'applicant',
@@ -63,36 +63,6 @@ class TwitchApplicationController extends Controller
                 'questions' => $questions,
                 'types' => $types
             ]);
-
-            // $applicant = \App\Applicant::where('twitch_id', $id)->doesntHave('answer')->count();
-            // $hasAnswer = \App\Applicant::where('twitch_id', $id)->has('answer')->count();
-
-            // if($hasAnswer == 1)
-            // {
-            //     return 'nag apply ka na. chill ka lang. wak bobo';
-            // }
-            // else if($applicant == 1)
-            // {
-            //     $appid = \App\Applicant::where('twitch_id', $id)->first()->id;
-            //     return redirect('/apply/'.$appid);
-            // }
-            // else
-            // {
-                // $app = \App\Applicant::create([
-                //     'twitch_id' => $id,
-                //     'username' => $username,
-                //     'avatar' => $avatar,
-                //     'email' => $email
-                // ]);
-
-                // return redirect('/apply/'.$app->id);
-                // return view('apply', [
-                //     'id' => $id,
-                //     'username' => $username,
-                //     'email' => $email,
-                //     'questions' => $questions
-                // ]);
-            // }
         }
     }
 }

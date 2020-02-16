@@ -85,9 +85,9 @@ class UserController extends Controller
             'password' => 'required|password:web'
         ]);
 
-        $user->name = $request['name'];
-        $user->username = $request['username'];
-        $user->email = $request['email'];
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
         $user->save();
 
         return redirect()->route('admin');
@@ -125,7 +125,7 @@ class UserController extends Controller
             'old_password' => 'password:web'
         ]);
 
-        $user->password = Hash::make($request['password']);
+        $user->password = Hash::make($request->password);
         $user->save();
 
         return redirect()->route('admin');

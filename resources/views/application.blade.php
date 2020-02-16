@@ -28,7 +28,7 @@
             </div>
             @else
             <p class="lead">
-                go wait on discord for an interview. click <a href="{{ url('https://discord.gg/wrwgGH4') }}"
+                go wait on discord for an interview. click <a href="{{ route('interview') }}"
                     class="text-decoration-none font-weight-bold">HERE</a>.
                 <br/>or if you're already approved
                 <br/>check your team invites on twitch. click <a href="{{ url('https://dashboard.twitch.tv/settings/channel') }}" class="text-decoration-none">here</a>.

@@ -30,7 +30,7 @@
                                 <td>{{ $d->username }}</td>
                                 <td>{{ $d->discord }}</td>
                                 <td>{{ $d->user->username }}</td>
-                                <td><a href="{{ route('applicant', ['id' => $d->id]) }}" class="btn btn-primary">Form</a></td>
+                                <td><a href="{{ route('applicant', ['applicant' => $d->id]) }}" class="btn btn-primary">Form</a></td>
                                 <td>
                                     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#{{ $d->username }}">Reason</button>
 

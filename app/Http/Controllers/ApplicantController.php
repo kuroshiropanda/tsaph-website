@@ -4,27 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\Applicant;
 
 class ApplicantController extends Controller
 {
     public function create(Request $request)
     {
-
         \DB::transaction(function() use ($request) {
-            $app = new \App\Applicant;
-            $app->twitch_id = $request['id'];
-            $app->avatar = $request['avatar'];
-            $app->username = $request['username'];
-            $app->email = $request['email'];
-            $app->name = $request['name'];
-            $app->discord = $request['discord'];
+            $app = new Applicant;
+            $app->twitch_id = $request->id;
+            $app->avatar = $request->avatar;
+            $app->username = $request->username;
+            $app->email = $request->email;
+            $app->name = $request->name;
+            $app->discord = $request->discord;
 
             $app->save();
 
-            for($i = 0; $i < count($request['question_id']); $i++)
+            for($i = 0; $i < count($request->question_id); $i++)
             {
-                $a = $request['answer'][$i];
-                $q = \App\Question::find($request['question_id'][$i])->id;
+                $a = $request->answer[$i];
+                $q = \App\Question::find($request->question_id[$i])->id;
                 $aid = \App\Answer::create([
                     'answer' => $a
                 ]);
@@ -32,10 +32,10 @@ class ApplicantController extends Controller
                 $app->answers()->attach($aid, ['question_id' => $q]);
             }
 
-            $app->types()->attach($request['checkbox']);
+            $app->types()->attach($request->checkbox);
         });
 
-        return redirect('https://discord.gg/vbP8yTh');
+        return redirect()->route('interview');
     }
 
     /**
@@ -44,10 +44,8 @@ class ApplicantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Applicant $applicant)
     {
-        $applicant = \App\Applicant::find($id);
-
         $answers = $applicant->answers()
             ->get();
 
@@ -60,10 +58,9 @@ class ApplicantController extends Controller
         ]);
     }
 
-    public function update($id, Request $request)
+    public function update(Applicant $applicant, Request $request)
     {
-        $applicant = \App\Applicant::find($id);
-        if($request['update'] == 'approve')
+        if($request->update === 'approve')
         {
             $applicant->approved = true;
             $applicant->user_id = Auth::id();
@@ -75,7 +72,7 @@ class ApplicantController extends Controller
 
             return redirect()->route('applicants');
         }
-        else if($request['update'] == 'deny')
+        else if($request->update === 'deny')
         {
             if($applicant->approved === 0)
             {
@@ -85,7 +82,7 @@ class ApplicantController extends Controller
                     $applicant->save();
 
                     $applicant->reason()->create([
-                        'reason' => $request['reason']
+                        'reason' => $request->reason
                     ]);
                 });
             }
@@ -104,28 +101,31 @@ class ApplicantController extends Controller
         }
     }
 
-    public function destroy($id, Request $request)
+    public function destroy(Applicant $applicant, Request $request)
     {
         $user = $request->user();
         if($user->hasRole('super admin'))
         {
-            \DB::transaction(function() use ($id) {
-                $app = \App\Applicant::find($id);
-
-                foreach($app->answers as $ans) {
+            \DB::transaction(function() use ($applicant) {
+                foreach($applicant->answers as $ans) {
                     $ans->delete();
                 }
 
-                $app->delete();
+                $applicant->delete();
             });
         }
 
         return redirect()->route('applicants');
     }
 
+    public function updateData(Request $request)
+    {
+
+    }
+
     public function inviteAll()
     {
-        \App\Applicant::where('approved', true)
+        Applicant::where('approved', true)
             ->where('invited', false)
             ->update(['invited', true]);
 

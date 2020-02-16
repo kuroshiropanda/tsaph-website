@@ -89,7 +89,7 @@
             initialize();
         });
 
-        var clientId = 'c9kjxs4tawdkqnnpg2lpzkraceam6g';
+        var clientId = '{{ config('services.twitch.client_id') }}';
         var xhttp = new XMLHttpRequest();
 
         function initialize() {

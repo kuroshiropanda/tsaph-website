@@ -59,27 +59,25 @@
                     <!-- Left Side Of Navbar -->
                     @auth
                     <ul class="navbar-nav mr-auto">
-
+                        @canany(['invite applicants', 'update applicants'])
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin') }}">Activity Log</a>
-                        </li>
-                        @can('invite applicants')
-                        <li class="nav-item">
-                            <a href="{{ route('approved') }}" class="nav-link">Approved</a>
-                        </li>
-                        @endcan
-                        @can('update applicants')
-                        <li class="nav-item">
-                            <a href="{{ route('applicants') }}" class="nav-link">Applicants</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('members') }}" class="nav-link">Members</a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('applicants') }}" class="nav-link">Applicants</a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('denied') }}" class="nav-link">Denied</a>
                         </li>
+                        @endcanany
+                        @can('invite applicants')
+                        <li class="nav-item">
+                            <a href="{{ route('approved') }}" class="nav-link">Approved</a>
+                        </li>
                         @endcan
-
                     </ul>
 
                     @if(Request::path() === 'admin/members' || Request::path() === 'admin/applicants')

@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
+    @canany(['invite applicants', 'update applicants'])
     <div class="row">
         <div class="col">
             <div class="card text-white bg-dark" style="height: 88vh;">
@@ -72,5 +73,12 @@
             </script>
         </div>
     </div>
+    @else
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);">
+        <p class="lead display-4 font-weight-bold text-center text-uppercase">
+        please contact kuroshiropanda to gain access
+        </p>
+    </div>
+    @endcanany
 </div>
 @endsection
