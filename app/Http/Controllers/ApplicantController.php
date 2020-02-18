@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Applicant;
+use App\Services\TwitchApi;
 
 class ApplicantController extends Controller
 {
+    protected $twitchapi;
+
+    public function __construct(TwitchApi $twitchapi)
+    {
+        $this->twitchapi = $twitchapi;
+    }
+
     public function create(Request $request)
     {
         \DB::transaction(function() use ($request) {
@@ -38,12 +46,6 @@ class ApplicantController extends Controller
         return redirect()->route('interview');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Applicant $applicant)
     {
         $answers = $applicant->answers()
@@ -59,6 +61,48 @@ class ApplicantController extends Controller
     }
 
     public function update(Applicant $applicant, Request $request)
+    {
+        if(isset($request->username))
+        {
+            $data = $this->twitchapi->get('users', [
+                'query' => [
+                    'login' => $request->username
+                ]
+            ]);
+
+            $applicant->twitch_id = $data->data[0]->id;
+            $applicant->username = $data->data[0]->login;
+            $applicant->avatar = $data->data[0]->profile_image_url;
+        }
+
+        if(isset($request->discord))
+        {
+            $applicant->discord = $request->discord;
+        }
+
+        $applicant->save();
+
+        return redirect()->route('applicants');
+    }
+
+    public function destroy(Applicant $applicant, Request $request)
+    {
+        $user = $request->user();
+        if($user->hasRole('super admin'))
+        {
+            \DB::transaction(function() use ($applicant) {
+                foreach($applicant->answers as $ans) {
+                    $ans->delete();
+                }
+
+                $applicant->delete();
+            });
+        }
+
+        return redirect()->route('applicants');
+    }
+
+    public function processApplicant(Applicant $applicant, Request $request)
     {
         if($request->update === 'approve')
         {
@@ -101,34 +145,18 @@ class ApplicantController extends Controller
         }
     }
 
-    public function destroy(Applicant $applicant, Request $request)
+    public function updateData(Applicant $applicant, Request $request)
     {
-        $user = $request->user();
-        if($user->hasRole('super admin'))
-        {
-            \DB::transaction(function() use ($applicant) {
-                foreach($applicant->answers as $ans) {
-                    $ans->delete();
-                }
+        $data = $this->twitchapi->get('users', [
+            'query' => [
+                'id' => $applicant->twitch_id
+            ]
+        ]);
 
-                $applicant->delete();
-            });
-        }
+        $applicant->username = $data->data[0]->login;
+        $applicant->avatar = $data->data[0]->profile_image_url;
+        $applicant->save();
 
         return redirect()->route('applicants');
-    }
-
-    public function updateData(Request $request)
-    {
-
-    }
-
-    public function inviteAll()
-    {
-        Applicant::where('approved', true)
-            ->where('invited', false)
-            ->update(['invited', true]);
-
-        return redirect()->route('approved');
     }
 }

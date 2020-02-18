@@ -28,33 +28,37 @@ Route::redirect('/interview', 'https://discord.gg/vbP8yTh')->name('interview');
 Auth::routes();
 
 // dashboard routes
-Route::get('/admin', 'HomeController@index')->name('admin');
-Route::get('/admin/profile/{user}/edit', 'UserController@edit')->middleware(['auth', 'password.confirm'])->name('user.edit');
-Route::get('/admin/profile/{user}/change_password', 'UserController@password')->middleware(['auth', 'password.confirm'])->name('user.password');
-Route::post('/admin/profile/{user}/update', 'UserController@update')->middleware('auth')->name('user.update');
-Route::post('/admin/profile/{user}/update/password', 'UserController@updatePassword')->middleware(['auth', 'password.confirm'])->name('user.update.password');
+Route::middleware('auth')->group(function () {
+    Route::get('/admin', 'HomeController@index')->name('admin');
+    Route::get('/admin/profile/{user}/edit', 'UserController@edit')->middleware('password.confirm')->name('user.edit');
+    Route::get('/admin/profile/{user}/change_password', 'UserController@password')->middleware('password.confirm')->name('user.password');
+    Route::post('/admin/profile/{user}/update', 'UserController@update')->name('user.update');
+    Route::post('/admin/profile/{user}/update/password', 'UserController@updatePassword')->name('user.update.password');
 
-Route::group(['middleware' => ['role:super admin']], function () {
-    Route::get('/admin/users', 'HomeController@users')->name('users');
-    Route::post('/admin/user/{user}/delete', 'UserController@destroy')->name('user.delete');
-    Route::post('/admin/user/{user}/role/update', 'UserController@updateRole')->where('applicant', '[0-9]+')->name('update.role');
-    Route::post('/admin/applicant/{applicant}/delete', 'ApplicantController@destroy')->name('applicant.delete');
-    Route::post('/admin/applicant/update', 'ApplicantController@updateData')->name('applicant.update.data');
-});
+    Route::group(['middleware' => ['role:super admin']], function () {
+        Route::post('/admin/user/{user}/delete', 'UserController@destroy')->name('user.delete');
+        Route::post('/admin/user/{user}/role/update', 'UserController@updateRole')->where('applicant', '[0-9]+')->name('update.role');
+        Route::post('/admin/applicant/{applicant}/delete', 'ApplicantController@destroy')->name('applicant.delete');
+        Route::post('/admin/applicant/{applicant}/data', 'ApplicantController@updateData')->name('applicant.data');
+        Route::post('/admin/applicant/{applicant}/update', 'ApplicantController@update')->name('applicant.update');
+        Route::post('/admin/members/update', 'MembersController@update')->name('members.update');
+    });
 
-Route::group(['middleware' => ['role:super admin|admin|ads']], function () {
-    Route::get('/admin/approved', 'HomeController@approved')->name('approved');
-});
+    Route::group(['middleware' => ['role:super admin|admin|ads']], function () {
+        Route::get('/admin/approved', 'HomeController@approved')->name('approved');
+    });
 
-Route::group(['middleware' => ['role:super admin|admin|moderator|ads']], function () {
-    Route::get('/admin/applicants', 'HomeController@applicants')->name('applicants');
-    Route::get('/admin/denied', 'HomeController@denied')->name('denied');
-    Route::get('/admin/members', 'MembersController@index')->name('members');
-    Route::get('/admin/applicant/{applicant}', 'ApplicantController@show')->middleware('auth')->where('id', '[0-9]+')->name('applicant');
-});
+    Route::group(['middleware' => ['role:super admin|admin|moderator|ads']], function () {
+        Route::get('/admin/users', 'HomeController@users')->name('users');
+        Route::get('/admin/applicants', 'HomeController@applicants')->name('applicants');
+        Route::get('/admin/denied', 'HomeController@denied')->name('denied');
+        Route::get('/admin/members', 'MembersController@index')->name('members');
+        Route::get('/admin/applicant/{applicant}', 'ApplicantController@show')->where('id', '[0-9]+')->name('applicant');
+    });
 
-Route::group(['middleware' => ['role:super admin|admin|moderator']], function () {
-    Route::post('/admin/applicant/{applicant}/update', 'ApplicantController@update')->where('applicant', '[0-9]+')->name('applicant.update');
+    Route::group(['middleware' => ['role:super admin|admin|moderator']], function () {
+        Route::post('/admin/applicant/{applicant}/process', 'ApplicantController@processApplicant')->where('applicant', '[0-9]+')->name('applicant.process');
+    });
 });
 
 // twitch oauth routes

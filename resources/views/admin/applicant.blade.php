@@ -18,7 +18,7 @@
                     @if($applicant->denied === 0 && $applicant->approved === 0)
                     <div class="row">
                         <div class="col d-flex justify-content-start">
-                            <form action="{{ route('applicant.update', ['applicant' => $applicant->id, 'update' => 'approve']) }}" method="POST">
+                            <form action="{{ route('applicant.process', ['applicant' => $applicant->id, 'update' => 'approve']) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-primary">Approve</button>
                             </form>
@@ -76,7 +76,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="denyForm" action="{{ route('applicant.update', ['applicant' => $applicant->id, 'update' => 'deny']) }}" method="POST">
+      <form id="denyForm" action="{{ route('applicant.process', ['applicant' => $applicant->id, 'update' => 'deny']) }}" method="POST">
         @csrf
       <div class="modal-body">
         <div class="form-group">

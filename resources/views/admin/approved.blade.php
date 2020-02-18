@@ -37,7 +37,7 @@
                                         class="btn btn-secondary">channel</a>
                                 </td>
                                 <td>
-                                    <form action="{{ route('applicant.update', ['applicant' => $a->id, 'update' => 'invite']) }}" method="POST">
+                                    <form action="{{ route('applicant.process', ['applicant' => $a->id, 'update' => 'invite']) }}" method="POST">
                                         @csrf
                                         <button class="btn btn-success">Invited</button>
                                     </form>

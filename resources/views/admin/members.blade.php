@@ -86,38 +86,11 @@
 
         $('#updateMembers').click(function (event) {
             event.preventDefault();
-            initialize();
-        });
-
-        var clientId = '{{ config('services.twitch.client_id') }}';
-        var xhttp = new XMLHttpRequest();
-
-        function initialize() {
-            xhttp.addEventListener('load', initializeMembers);
-            xhttp.open('GET', 'https://api.twitch.tv/kraken/teams/tsaph');
-            xhttp.setRequestHeader('Client-ID', clientId);
-            xhttp.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json');
-            xhttp.send();
-        }
-
-        function initializeMembers() {
-            memList = JSON.parse(xhttp.responseText);
-            memLength = memList.users.length;
-
-            var data = [];
-            for (i = 0; i < memLength; i++) {
-                data.push({
-                    'twitch_id': memList.users[i]._id,
-                    'username': memList.users[i].name,
-                    'avatar': memList.users[i].logo
-                });
-            }
 
             $.ajax({
-                url: '/api/members/update',
+                url: '{{ route('members.update') }}',
                 data: {
-                    data: data,
-                    api_token: '{{ Auth::user()->api_token }}'
+                    '_token': '{{ csrf_token() }}'
                 },
                 method: 'POST',
                 headers: {
@@ -127,8 +100,7 @@
                     window.location.reload(true);
                 }
             });
-        }
+        });
     });
-
 </script>
 @endpush

@@ -8,15 +8,19 @@
                 <th scope="col">#</th>
                 <th scope="col">Username</th>
                 <th scope="col">Name</th>
+                @can('edit roles')
                 <th scope="col">Current Role</th>
+                @endcan
             </tr>
         </thead>
         <tbody>
             @foreach($users as $u)
+            @if($u->username !== 'adsense')
             <tr>
                 <th scope="row">{{ $loop->iteration }}</th>
                 <td>{{ $u->username }}</td>
                 <td>{{ $u->name }}</td>
+                @can('edit roles')
                 <td>{{ $u->getRoleNames() }}</td>
                     @if(Auth::id() !== $u->id)
                     <form action="{{ route('update.role', ['user' => $u->id]) }}" method="POST">
@@ -42,8 +46,10 @@
                         </form>
                     </td>
                     @endif
+                @endcan
                 </td>
             </tr>
+            @endif
             @endforeach
         </tbody>
     </table>

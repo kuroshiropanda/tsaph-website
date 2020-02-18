@@ -2,68 +2,75 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-9">
-            <div class="card text-white bg-dark" style="height: 88vh;">
-                <div class="card-header">
-                    <i class="fas fa-table"></i>
-                    Applicants
-                </div>
-                <div class="card-body" style="height: 100%; overflow-y: auto;">
-                    <table id="applicants" class="table table-borderless table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col" style="width:10%;">#</th>
-                                <th scope="col" style="width:20%;"></th>
-                                <th scope="col" style="width:20%;">Username</th>
-                                <th scope="col" style="width:20%;">Discord</th>
-                                <th scope="col" style="width:15%;">go to their</th>
-                                <th scope="col" style="width:15%;">open their</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($applicants as $a)
-                            <tr>
-                                <td scope="row">{{ $a->id }}</td>
-                                <td><img src="{{ $a->avatar }}" style="width:auto; height:8vh;" />
-                                </td>
-                                <td>{{ $a->username }}</td>
-                                <td>{{ $a->discord }}</td>
-                                <td>
-                                    <a href="{{ url('https://twitch.tv/'.$a->username) }}"
-                                        class="btn btn-secondary">Channel</a>
-                                </td>
-                                <td>
-                                    <a href="{{ route('applicant', ['applicant' => $a->id]) }}"
-                                        class="btn btn-primary">Form</a>
-                                </td>
-                                @can('edit roles')
-                                <td>
-                                    <form action="{{ route('applicant.delete', ['applicant' => $a->id]) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
-                                <td>
-                                <button type="button" id="updateUser" onclick="initialize({{ $a->twitch_id }})" class="btn btn-primary"><i class="fas fa-upload"></i></button>
-                                </td>
-                                @endcan
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    <div class="card text-white bg-dark" style="height: 88vh;">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Applicants
         </div>
-        <div class="col-3">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- side ad -->
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7308274596514016"
-                data-ad-slot="2676642727" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-
-            </script>
+        <div class="card-body" style="height: 100%; overflow-y: auto;">
+            <table id="applicants" class="table table-borderless table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col"></th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Discord</th>
+                        <th scope="col">go to their</th>
+                        <th scope="col">open their</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($applicants as $a)
+                    <tr>
+                        <td scope="row">{{ $a->id }}</td>
+                        <td><img src="{{ $a->avatar }}" style="width:auto; height:8vh;" />
+                        </td>
+                        <td>{{ $a->username }}</td>
+                        <td>{{ $a->discord }}</td>
+                        <td>
+                            <a href="{{ url('https://twitch.tv/'.$a->username) }}"
+                                class="btn btn-secondary">Channel</a>
+                        </td>
+                        <td>
+                            <a href="{{ route('applicant', ['applicant' => $a->id]) }}"
+                                class="btn btn-primary">Form</a>
+                        </td>
+                        @can('edit roles')
+                        <td>
+                            <form action="{{ route('applicant.delete', ['applicant' => $a->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="{{ route('applicant.data', ['applicant' => $a->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-download"></i></button>
+                            </form>
+                        </td>
+                        <form action="{{ route('applicant.update', ['applicant' => $a->id]) }}" method="POST">
+                            @csrf
+                            <td>
+                                <div class="form-group">
+                                    <label for="username">Twitch Name</label>
+                                    <input type="text" class="form-control" id="username" name="username">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <label for="discord">Discord</label>
+                                    <input type="text" class="form-control" id="discord" name="discord">
+                                </div>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-warning"><i class="far fa-edit"></i></button>
+                            </td>
+                        </form>
+                        @endcan
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -78,50 +85,6 @@
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
-
-        $('#updateUser').click(function (event) {
-            event.preventDefault();
-        });
-
-        var clientId = '{{ config('services.twitch.client_id') }}';
-        var xhttp = new XMLHttpRequest();
-
-        function initialize(id) {
-            xhttp.addEventListener('load', initializeMembers);
-            xhttp.open('GET', 'https://api.twitch.tv/helix/users?id=' + id);
-            xhttp.setRequestHeader('Client-ID', clientId);
-            xhttp.send();
-        }
-
-        function initializeMembers() {
-            userData = JSON.parse(xhttp.responseText);
-            memLength = memList.users.length;
-
-            var data = [];
-            console.log(userData);
-            // for (i = 0; i < memLength; i++) {
-            //     data.push({
-            //         'id': memList.users[i].id,
-            //         'username': memList.users[i].name,
-            //         'avatar': memList.users[i].logo
-            //     });
-            // }
-
-            // $.ajax({
-            //     url: '/applicant/update',
-            //     data: {
-            //         data: data,
-            //     },
-            //     method: 'POST',
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     },
-            //     complete: function () {
-            //         window.location.reload(true);
-            //     }
-            // });
-        }
     });
-
 </script>
 @endpush

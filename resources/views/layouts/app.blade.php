@@ -64,6 +64,9 @@
                             <a class="nav-link" href="{{ route('admin') }}">Activity Log</a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('users') }}" class="nav-link">Users</a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('members') }}" class="nav-link">Members</a>
                         </li>
                         <li class="nav-item">
