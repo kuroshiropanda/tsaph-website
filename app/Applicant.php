@@ -22,7 +22,7 @@ class Applicant extends Model
     ];
 
     protected static $logAttributes = [
-        'twitch_id', 'username', 'name', 'approved', 'denied', 'invited'
+        'twitch_id', 'username', 'discord', 'name', 'approved', 'denied', 'invited'
     ];
 
     protected static $recordEvents = [
