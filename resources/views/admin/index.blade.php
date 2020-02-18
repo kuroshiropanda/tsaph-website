@@ -36,12 +36,16 @@
                                     @elseif($a->changes['attributes']['invited'] == 1 && $a->changes['old']['invited']
                                     == 0)
                                     Invited
-                                    @else
-
+                                    @elseif(isset($a->changes['old']['username']))
+                                        @if($a->changes['old']['username'] !== $a->changes['attributes']['username'])
+                                            from: {{ $a->changes['old']['username'] }} to: {{ $a->changes['attributes']['username'] }}
+                                        @else
+                                            Updated data
+                                        @endif
                                     @endif
                                 </td>
                                 <td>
-                                    @if($a->description == 'updated')
+                                    @if($a->description === 'updated')
                                     Processed
                                     @else
                                     Applied
