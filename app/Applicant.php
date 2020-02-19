@@ -46,6 +46,6 @@ class Applicant extends Model
 
     public function reason()
     {
-        return $this->hasOne('App\Reason');
+        return $this->hasMany('App\Reason');
     }
 }

@@ -41,7 +41,11 @@
                                             </button>
                                         </div>
                                         <div class="modal-body text-dark">
-                                            {{ $d->reason->reason }}
+                                            <ul>
+                                            @foreach($d->reason as $reason)
+                                                <li>{{ $reason->reason }} - {{ $reason->created_at }}</li>
+                                            @endforeach
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>

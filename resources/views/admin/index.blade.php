@@ -27,7 +27,7 @@
                             <td>
                                 @if($a->changes['attributes']['approved'] == 1 && $a->changes['old']['approved'] == 0)
                                 Approved
-                                @elseif($a->changes['attributes']['denied'] == 1 && $a->changes['old']['denied'] == 0)
+                                @elseif($a->changes['attributes']['denied'] == 1 && $a->changes['old']['denied'] == 0 || $a->changes['old']['denied'] == 1)
                                 Denied
                                 @elseif($a->changes['attributes']['invited'] == 1 && $a->changes['old']['invited'] == 0)
                                 Invited / New Member
