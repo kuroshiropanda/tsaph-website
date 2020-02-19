@@ -15,7 +15,7 @@
                             {{ $t->type }}
                         @endforeach
                     </p>
-                    @if($applicant->denied === 1 && $applicant->approved === 0)
+                    @if(($applicant->denied === 1 || $applicant->denied === 0) && $applicant->approved === 0)
                     <div class="row">
                         <div class="col d-flex justify-content-start">
                             <form action="{{ route('applicant.process', ['applicant' => $applicant->id, 'update' => 'approve']) }}" method="POST">
