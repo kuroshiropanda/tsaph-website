@@ -43,31 +43,17 @@
             @endcan
         </div>
         <div class="card-body" style="height: 100%; overflow-y: auto;">
-            <div class="row">
-                <div class="col">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                    <ins class="adsbygoogle" style="display:block" data-ad-format="fluid"
-                        data-ad-layout-key="-h2+d+5c-9-3e" data-ad-client="ca-pub-7308274596514016"
-                        data-ad-slot="3012804204"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-
-                    </script>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <ul id="members">
-                        @foreach($members as $m)
-                        <li>
-                            <a href="https://twitch.tv/{{ $m->username }}">
-                                <img src="{{ $m->avatar }}">
-                                {{ $m->username }}
-                            </a>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
+            <div class="col">
+                <ul id="members">
+                    @foreach($members as $m)
+                    <li>
+                        <a href="https://twitch.tv/{{ $m->username }}">
+                            <img src="{{ $m->avatar }}">
+                            {{ $m->username }}
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
             </div>
         </div>
     </div>

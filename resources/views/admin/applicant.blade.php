@@ -52,17 +52,6 @@
             </div>
             @endforeach
         </div>
-        <div class="col-3">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- side ad -->
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7308274596514016"
-                data-ad-slot="2676642727" data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-
-            </script>
-        </div>
     </div>
 </div>
 
