@@ -49,6 +49,15 @@ class MembersController extends Controller
 
         foreach($data->users as $d)
         {
+            $app = \App\Applicant::where('twitch_id', $d->_id)
+                                ->where('invited', false)
+                                ->first();
+            if($app)
+            {
+                $app->invited = true;
+                $app->save();
+            }
+
             $member = Member::updateOrCreate(
                 ['twitch_id' => $d->_id],
                 ['username' => $d->display_name, 'avatar' => $d->logo]
