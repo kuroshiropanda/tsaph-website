@@ -21,7 +21,6 @@ class EventServiceProvider extends ServiceProvider
         ],
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             'SocialiteProviders\\Twitch\\TwitchExtendSocialite@handle',
-            'SocialiteProviders\\Discord\\DiscordExtendSocialite@handle',
         ],
     ];
 
