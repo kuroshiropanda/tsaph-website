@@ -44,7 +44,6 @@ class HomeController extends Controller
     public function approved()
     {
         $approved = \App\Applicant::where('approved', true)
-            ->where('invited', false)
             ->with('user')
             ->paginate(10);
 

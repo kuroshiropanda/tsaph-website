@@ -116,7 +116,7 @@ class ApplicantController extends Controller
 
             return redirect()->route('applicants');
         }
-        else if($request->update === 'deny')
+        elseif($request->update === 'deny')
         {
             if($applicant->approved === 0)
             {
@@ -132,16 +132,6 @@ class ApplicantController extends Controller
             }
 
             return redirect()->route('applicants');
-        }
-        else
-        {
-            if($applicant->approved === 1)
-            {
-                $applicant->invited = true;
-                $applicant->save();
-            }
-
-            return redirect()->route('approved');
         }
     }
 
