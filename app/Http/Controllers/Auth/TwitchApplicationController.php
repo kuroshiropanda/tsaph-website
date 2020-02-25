@@ -26,7 +26,7 @@ class TwitchApplicationController extends Controller
      */
     public function handleProviderCallback()
     {
-        $user = Socialite::driver('twitch')->user();
+        $user = Socialite::driver('twitch')->stateless()->user();
 
         $id = $user->getId();
         $username = $user->user['login'];

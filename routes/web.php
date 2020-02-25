@@ -36,9 +36,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/profile/{user}/update/password', 'UserController@updatePassword')->name('user.update.password');
 
     Route::group(['middleware' => ['role:super admin']], function () {
-        Route::post('/admin/user/{user}/delete', 'UserController@destroy')->name('user.delete');
+        Route::delete('/admin/user/{user}', 'UserController@destroy')->name('user.delete');
         Route::post('/admin/user/{user}/role/update', 'UserController@updateRole')->where('applicant', '[0-9]+')->name('update.role');
-        Route::post('/admin/applicant/{applicant}/delete', 'ApplicantController@destroy')->name('applicant.delete');
+        Route::delete('/admin/applicant/{applicant}', 'ApplicantController@destroy')->name('applicant.delete');
         Route::post('/admin/applicant/{applicant}/data', 'ApplicantController@updateData')->name('applicant.data');
         Route::post('/admin/applicant/{applicant}/update', 'ApplicantController@update')->name('applicant.update');
         Route::post('/admin/members/update', 'MembersController@update')->name('members.update');

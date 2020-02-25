@@ -38,6 +38,7 @@
                         @can('edit roles')
                         <td>
                             <form action="{{ route('applicant.delete', ['applicant' => $a->id]) }}" method="POST">
+                                @method('DELETE')
                                 @csrf
                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                             </form>

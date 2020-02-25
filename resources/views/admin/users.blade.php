@@ -41,6 +41,7 @@
                     </form>
                     <td>
                         <form action="{{ route('user.delete', ['user' => $u->id]) }}" method="POST">
+                            @method('DELETE')
                             @csrf
                             <button type="submit" class="btn btn-danger"><i class="fas fa-user-minus"></i></button>
                         </form>
