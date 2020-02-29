@@ -18,23 +18,21 @@
                         <th scope="col">Discord</th>
                         <th scope="col">Approved by</th>
                         <th scope="col">Form</th>
-                        <th scope="col">channel</th>
+                        <th scope="col">Invited?</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($approved as $a)
-                    <tr>
-                        <td scope="row">{{ $a->id }}</td>
-                        <td><img src="{{ $a->avatar }}" style="width:auto; height:8vh;" /></td>
-                        <td>{{ $a->name }}</td>
-                        <td>{{ $a->username }}</td>
-                        <td>{{ $a->discord }}</td>
-                        <td>{{ $a->user->username }}</td>
-                        <td><a href="{{ route('applicant', ['applicant' => $a->id]) }}" class="btn btn-primary">Form</a></td>
-                        <td>
-                            <a href="{{ url('https://twitch.tv/'.$a->username) }}" target="_blank" class="btn btn-secondary">channel</a>
-                        </td>
-                    </tr>
+                        <tr class="{{ $a->invited ? 'bg-secondary' : 'bg-dark' }}">
+                            <td scope="row">{{ $a->id }}</td>
+                            <td><img src="{{ $a->avatar }}" style="width:auto; height:8vh;" /></td>
+                            <td>{{ $a->name }}</td>
+                            <td><a href="{{ url('https://twitch.tv/'.$a->username) }}" target="_blank" class="btn btn-outline-info">{{ $a->username }}</a></td>
+                            <td>{{ $a->discord }}</td>
+                            <td>{{ $a->user->username }}</td>
+                            <td><a href="{{ route('applicant', ['applicant' => $a->id]) }}" class="btn btn-primary">Form</a></td>
+                            <td>{{ $a->invited ? 'yes' : 'no' }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

@@ -45,6 +45,7 @@ class HomeController extends Controller
     {
         $approved = \App\Applicant::where('approved', true)
             ->with('user')
+            ->orderBy('invited', 'asc')
             ->paginate(10);
 
         return view('admin.approved', [

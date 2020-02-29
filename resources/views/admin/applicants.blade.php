@@ -15,7 +15,6 @@
                         <th scope="col"></th>
                         <th scope="col">Username</th>
                         <th scope="col">Discord</th>
-                        <th scope="col">go to their</th>
                         <th scope="col">open their</th>
                     </tr>
                 </thead>
@@ -25,30 +24,13 @@
                         <td scope="row">{{ $a->id }}</td>
                         <td><img src="{{ $a->avatar }}" style="width:auto; height:8vh;" />
                         </td>
-                        <td>{{ $a->username }}</td>
+                        <td><a href="{{ url('https://twitch.tv/'.$a->username) }}" target="_blank" class="btn btn-outline-info">{{ $a->username }}</a></td>
                         <td>{{ $a->discord }}</td>
-                        <td>
-                            <a href="{{ url('https://twitch.tv/'.$a->username) }}"
-                                class="btn btn-secondary">Channel</a>
-                        </td>
                         <td>
                             <a href="{{ route('applicant', ['applicant' => $a->id]) }}"
                                 class="btn btn-primary">Form</a>
                         </td>
                         @can('edit roles')
-                        <td>
-                            <form action="{{ route('applicant.delete', ['applicant' => $a->id]) }}" method="POST">
-                                @method('DELETE')
-                                @csrf
-                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
-                            </form>
-                        </td>
-                        <td>
-                            <form action="{{ route('applicant.data', ['applicant' => $a->id]) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-download"></i></button>
-                            </form>
-                        </td>
                         <form action="{{ route('applicant.update', ['applicant' => $a->id]) }}" method="POST">
                             @csrf
                             <td>
@@ -67,6 +49,19 @@
                                 <button type="submit" class="btn btn-warning"><i class="far fa-edit"></i></button>
                             </td>
                         </form>
+                        <td>
+                            <form action="{{ route('applicant.data', ['applicant' => $a->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-download"></i></button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="{{ route('applicant.delete', ['applicant' => $a->id]) }}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        </td>
                         @endcan
                     </tr>
                     @endforeach

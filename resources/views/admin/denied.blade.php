@@ -11,13 +11,13 @@
             <table class="table table-borderless table-hover">
                 <thead>
                     <tr>
-                        <th scope="col" style="width:10%;">#</th>
-                        <th scope="col" style="width:20%;"></th>
-                        <th scope="col" style="width:15%;">Username</th>
-                        <th scope="col" style="width:15%;">Discord</th>
-                        <th scope="col" style="width:20%;">Denied by</th>
-                        <th scope="col" style="width:10%;">Form</th>
-                        <th scope="col" style="width:10%;">reason</th>
+                        <th scope="col">#</th>
+                        <th scope="col"></th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Discord</th>
+                        <th scope="col">Denied by</th>
+                        <th scope="col">Form</th>
+                        <th scope="col">reason</th>
                     </tr>
                 </thead>
                 <tbody>
