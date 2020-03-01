@@ -16,6 +16,18 @@ class ApplicantController extends Controller
         $this->twitchapi = $twitchapi;
     }
 
+    public function index()
+    {
+        $applicants = \App\Applicant::where('approved', false)
+            ->where('denied', false)
+            ->where('invited', false)
+            ->get();
+
+        return view('admin.applicants', [
+            'applicants' => $applicants
+        ]);
+    }
+
     public function create(Request $request)
     {
         \DB::transaction(function() use ($request) {
@@ -135,7 +147,7 @@ class ApplicantController extends Controller
         }
     }
 
-    public function updateData(Applicant $applicant, Request $request)
+    public function updateData(Applicant $applicant)
     {
         $data = $this->twitchapi->get('users', [
             'query' => [

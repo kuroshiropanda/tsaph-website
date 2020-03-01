@@ -28,7 +28,6 @@ class CreateApplicantsTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            // $table->foreign('twitch_id')->references('applicant_id')->on('applications')->onDelete('cascade');
         });
     }
 

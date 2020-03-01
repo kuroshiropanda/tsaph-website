@@ -26,7 +26,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->call('\App\Http\Controllers\MembersController@update')->timezone('Asia/Manila')->twiceDaily(6, 18);
+        $schedule->command('member:update')->timezone('Asia/Manila')->twiceDaily(6, 18);
+        $schedule->command('applicant:update')->timezone('Asia/Manila')->weekly();
     }
 
     /**

@@ -18,7 +18,6 @@ class MembersController extends Controller
      */
     public function __construct(TwitchApi $twitchapi)
     {
-        $this->middleware('auth');
         $this->twitchapi = $twitchapi;
     }
 
@@ -36,14 +35,7 @@ class MembersController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Member  $member
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Member $member)
+    public function update()
     {
         $data = $this->twitchapi->getKraken('teams/tsaph');
 

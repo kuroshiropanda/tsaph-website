@@ -15,7 +15,7 @@
                         <th scope="col"></th>
                         <th scope="col">Username</th>
                         <th scope="col">Discord</th>
-                        <th scope="col">open their</th>
+                        <th scope="col">Form</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,6 +31,12 @@
                                 class="btn btn-primary">Form</a>
                         </td>
                         @can('edit roles')
+                        <td>
+                            <form action="{{ route('applicant.data', ['applicant' => $a->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-download"></i></button>
+                            </form>
+                        </td>
                         <form action="{{ route('applicant.update', ['applicant' => $a->id]) }}" method="POST">
                             @csrf
                             <td>
@@ -49,12 +55,6 @@
                                 <button type="submit" class="btn btn-warning"><i class="far fa-edit"></i></button>
                             </td>
                         </form>
-                        <td>
-                            <form action="{{ route('applicant.data', ['applicant' => $a->id]) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-download"></i></button>
-                            </form>
-                        </td>
                         <td>
                             <form action="{{ route('applicant.delete', ['applicant' => $a->id]) }}" method="POST">
                                 @method('DELETE')

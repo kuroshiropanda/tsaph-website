@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/profile/{user}/update', 'UserController@update')->name('user.update');
     Route::post('/admin/profile/{user}/update/password', 'UserController@updatePassword')->name('user.update.password');
 
-    Route::group(['middleware' => ['role:super admin']], function () {
+    Route::middleware('role:super admin')->group(function () {
         Route::delete('/admin/user/{user}', 'UserController@destroy')->name('user.delete');
         Route::post('/admin/user/{user}/role/update', 'UserController@updateRole')->where('applicant', '[0-9]+')->name('update.role');
         Route::delete('/admin/applicant/{applicant}', 'ApplicantController@destroy')->name('applicant.delete');
@@ -44,19 +44,19 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/members/update', 'MembersController@update')->name('members.update');
     });
 
-    Route::group(['middleware' => ['role:super admin|admin|ads']], function () {
+    Route::middleware('role:super admin|admin|ads')->group(function () {
         Route::get('/admin/approved', 'HomeController@approved')->name('approved');
     });
 
-    Route::group(['middleware' => ['role:super admin|admin|moderator|ads']], function () {
-        Route::get('/admin/users', 'HomeController@users')->name('users');
-        Route::get('/admin/applicants', 'HomeController@applicants')->name('applicants');
+    Route::middleware('role:super admin|admin|moderator|ads')->group(function () {
+        Route::get('/admin/users', 'UserController@index')->name('users');
+        Route::get('/admin/applicants', 'ApplicantController@index')->name('applicants');
         Route::get('/admin/denied', 'HomeController@denied')->name('denied');
         Route::get('/admin/members', 'MembersController@index')->name('members');
         Route::get('/admin/applicant/{applicant}', 'ApplicantController@show')->where('id', '[0-9]+')->name('applicant');
     });
 
-    Route::group(['middleware' => ['role:super admin|admin|moderator']], function () {
+    Route::middleware('role:super admin|admin|moderator')->group(function () {
         Route::post('/admin/applicant/{applicant}/process', 'ApplicantController@processApplicant')->where('applicant', '[0-9]+')->name('applicant.process');
     });
 });
@@ -64,11 +64,5 @@ Route::middleware('auth')->group(function () {
 // twitch oauth routes
 Route::get('apply', 'Auth\TwitchApplicationController@redirectToProvider')->name('apply');
 Route::get('apply/callback', 'Auth\TwitchApplicationController@handleProviderCallback');
-
-// discord oauth routes
-Route::get('discord/login', 'Auth\DiscordController@redirectToProvider')->name('discord.login');
-Route::get('discord/callback', 'Auth\DiscordController@handleProviderCallback');
-
-// application routes
-// Route::get('apply/{id}', 'ApplyController@index')->where('id', '[0-9]+')->name('apply');
 Route::post('applicant/create', 'ApplicantController@create')->name('applicant.create');
+Route::get('test', 'ApplicantController@updateAllData');

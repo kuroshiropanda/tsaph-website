@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Foundation\Inspiring;
+use App\Applicant;
+use App\Member;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,45 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('applicant:update', function () {
+    $api = resolve('App\Services\TwitchApi');
+
+    $applicants = Applicant::all();
+
+    foreach($applicants as $a)
+    {
+        $data = $api->get('users', [
+            'query' => [
+                'id' => $a->twitch_id
+            ]
+        ]);
+
+        $a->username = $data->data[0]->login;
+        $a->avatar = $data->data[0]->profile_image_url;
+        $a->save();
+    }
+})->describe('Updates applicants data; i.e. avatars, username');
+
+Artisan::command('member:update', function () {
+    $api = resolve('App\Services\TwitchApi');
+
+    $data = $api->getKraken('teams/tsaph');
+
+    foreach($data->users as $d)
+    {
+        $app = \App\Applicant::where('twitch_id', $d->_id)
+                            ->where('invited', false)
+                            ->first();
+        if($app)
+        {
+            $app->invited = true;
+            $app->save();
+        }
+
+        $member = Member::updateOrCreate(
+            ['twitch_id' => $d->_id],
+            ['username' => $d->display_name, 'avatar' => $d->logo]
+        );
+    }
+})->describe('Update list of members and their data');
