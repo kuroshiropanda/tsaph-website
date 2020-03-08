@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,11 +7,14 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154118791-2"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-    gtag('config', 'UA-154118791-2');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-154118791-2');
     </script>
 
 
@@ -25,8 +27,8 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <!-- Styles -->
     <style>
@@ -97,7 +99,6 @@
             text-decoration: none;
             text-transform: uppercase;
         }
-
     </style>
     @stack('style')
     <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="kuroshiropanda" data-description="Support me on Buy me a coffee!" data-message="created by kuroshiropanda. support him by buying him a ☕" data-color="#0AF" data-position="left" data-x_margin="18" data-y_margin="18"></script>
@@ -107,8 +108,7 @@
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('img/tsaph@0,1x.png') }}" style="width:auto; height:5vh;">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -123,6 +123,9 @@
                     <a class="nav-link" href="{{ route('rules') }}">Rules</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('member.list') }}">Current Members</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#apply">Apply</a>
                 </li>
             </ul>
@@ -133,23 +136,24 @@
     </main>
     <!-- modal -->
     <div class="modal fade" id="apply" tabindex="-1" role="dialog" aria-labelledby="applyLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title text-dark" id="applyLabel">Application Prompt</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body text-dark lead font-weight-bold">
-            by clicking apply. you must have a valid twitch and discord account
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <a href="{{ route('apply') }}" class="btn btn-primary">Proceed</a>
-        </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="applyLabel">Application Prompt</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-dark lead font-weight-bold">
+                    by clicking apply. you must have a valid twitch and discord account
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a href="{{ route('apply') }}" class="btn btn-primary">Proceed</a>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
+    @stack('script')
 </body>
 </html>

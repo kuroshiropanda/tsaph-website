@@ -56,4 +56,11 @@ class MembersController extends Controller
             );
         }
     }
+
+    public function memberlist()
+    {
+        $members = Member::all();
+
+        return view('home.members', compact('members'));
+    }
 }

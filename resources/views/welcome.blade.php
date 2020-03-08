@@ -2,6 +2,11 @@
 
 @push('style')
 <style>
+    .tsaph-logo {
+        width: 30vw;
+        height: auto;
+    }
+
     .fa-facebook-f {
         color: #4267B2;
     }
@@ -24,13 +29,7 @@
 <div class="text-center container py-5">
     <div class="col">
         <div class="mb-5">
-            <picture>
-                <source media="(max-height: 117px)" srcset="{{ asset('img/tsaph@0,1x.png') }}">
-                <source media="(max-height: 768px)" srcset="{{ asset('img/tsaph@0,25x.png') }}">
-                <source media="(max-height: 1080px)" srcset="{{ asset('img/tsaph@0,5x.png') }}">
-                <source media="(max-height: 1440px)" srcset="{{ asset('img/tsaph@1,25x.png') }}">
-                <img class="img-fluid mx-auto" src="{{ asset('img/tsaph.png') }}" />
-            </picture>
+            <img class="img-fluid mx-auto tsaph-logo" src="{{ asset('img/tsaph.png') }}">
         </div>
 
         <div class="links">

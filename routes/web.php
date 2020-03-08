@@ -16,6 +16,7 @@ Route::view('/', 'welcome')->name('home');
 Route::view('/about', 'home.about')->name('about');
 Route::view('/contact', 'home.contact')->name('contact');
 Route::view('/rules', 'home.rules')->name('rules');
+Route::get('/members', 'MembersController@memberlist')->name('member.list');
 
 // redirect routes
 Route::redirect('/discord', 'https://discord.gg/bQd7cSm');
@@ -44,15 +45,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/admin/members/update', 'MembersController@update')->name('members.update');
     });
 
-    Route::middleware('role:super admin|admin|ads')->group(function () {
-        Route::get('/admin/approved', 'HomeController@approved')->name('approved');
-    });
-
     Route::middleware('role:super admin|admin|moderator|ads')->group(function () {
         Route::get('/admin/users', 'UserController@index')->name('users');
+        Route::get('/admin/members', 'MembersController@index')->name('members');
         Route::get('/admin/applicants', 'ApplicantController@index')->name('applicants');
         Route::get('/admin/denied', 'HomeController@denied')->name('denied');
-        Route::get('/admin/members', 'MembersController@index')->name('members');
+        Route::get('/admin/approved', 'HomeController@approved')->name('approved');
         Route::get('/admin/applicant/{applicant}', 'ApplicantController@show')->where('id', '[0-9]+')->name('applicant');
     });
 

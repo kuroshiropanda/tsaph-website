@@ -75,12 +75,10 @@
                         <li class="nav-item">
                             <a href="{{ route('denied') }}" class="nav-link">Denied</a>
                         </li>
-                        @endcanany
-                        @can('invite applicants')
                         <li class="nav-item">
                             <a href="{{ route('approved') }}" class="nav-link">Approved</a>
                         </li>
-                        @endcan
+                        @endcanany
                     </ul>
 
                     @if(Request::path() === 'admin/members' || Request::path() === 'admin/applicants')
