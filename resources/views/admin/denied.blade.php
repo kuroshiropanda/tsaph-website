@@ -37,15 +37,18 @@
                                         <div class="modal-header">
                                             <h5 class="modal-title text-dark" id="{{ $d->username }}Label">Reason</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
+                                                <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body text-dark">
-                                            <ul>
-                                            @foreach($d->reason as $reason)
-                                                <li>{{ $reason->reason }} - {{ $reason->created_at }}</li>
-                                            @endforeach
-                                            </ul>
+                                            <div class="list-group">
+                                                @foreach($d->reason as $reason)
+                                                <div class="list-group-item">
+                                                    <p class="mb-1">{{ $reason->reason }}</p>
+                                                    <small>{{ $reason->created_at->diffForHumans() }}</small>
+                                                </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

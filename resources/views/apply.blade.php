@@ -49,9 +49,11 @@
             @endforeach
         </div>
         <p class="lead font-weight-bold text-uppercase text-center">
-            once you click submit you'll be redirected to tsaph's discord for the interview<br>
+            once you click submit there's no way of changing your answers<br>
+            even if you go back here and re-submit<br>
+            you'll be redirected to tsaph's discord for the interview<br>
             once you're there wait for an admin to conduct an interview<br>
-            they'll be announcing it on the #interview channel on discord
+            they'll be announcing it on the #interview-chat channel on discord
         </p>
         <div class="form-group text-center">
             <button type="submit" class="btn btn-primary">SUBMIT</button>

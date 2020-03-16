@@ -8,7 +8,7 @@
         margin: 0;
     }
 
-    #members > li > a {
+    #members>li>a {
         border: 1px solid #ddd;
         margin-top: -1px;
         background-color: #f6f6f6;
@@ -19,16 +19,15 @@
         display: block;
     }
 
-    #members > li > a > img {
+    #members>li>a>img {
         width: auto;
         height: 32px;
         margin-right: 10px;
     }
 
-    #members > li > a:hover:not(.header) {
+    #members>li>a:hover:not(.header) {
         background-color: #eee;
     }
-
 </style>
 @endpush
 
@@ -36,11 +35,7 @@
 <div class="container">
     <div class="card text-white bg-dark" style="height: 88vh;">
         <div class="card-header">
-            <i class="fas fa-table"></i>
-            Member List
-            @can('edit roles')
-            <button type="button" id="updateMembers" class="btn btn-primary">UPDATE</button>
-            @endcan
+            <p><i class="fas fa-table"></i> Member List - Total Members: {{ $members->count() }}</p>
         </div>
         <div class="card-body" style="height: 100%; overflow-y: auto;">
             <div class="col">
@@ -62,29 +57,11 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        $("#adminSearch").on("keyup", function () {
+    document.addEventListener('DOMContentLoaded', function() {
+        $("#adminSearch").on("keyup", function() {
             var value = $(this).val().toLowerCase();
-            $("#members li").filter(function () {
+            $("#members li").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-        });
-
-        $('#updateMembers').click(function (event) {
-            event.preventDefault();
-
-            $.ajax({
-                url: '{{ route('members.update') }}',
-                data: {
-                    '_token': '{{ csrf_token() }}'
-                },
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                complete: function () {
-                    window.location.reload(true);
-                }
             });
         });
     });

@@ -42,7 +42,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/admin/applicant/{applicant}', 'ApplicantController@destroy')->name('applicant.delete');
         Route::post('/admin/applicant/{applicant}/data', 'ApplicantController@updateData')->name('applicant.data');
         Route::post('/admin/applicant/{applicant}/update', 'ApplicantController@update')->name('applicant.update');
-        Route::post('/admin/members/update', 'MembersController@update')->name('members.update');
     });
 
     Route::middleware('role:super admin|admin|moderator|ads')->group(function () {
