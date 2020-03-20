@@ -26,8 +26,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('member:update')->timezone('Asia/Manila')->twiceDaily(6, 18);
-        $schedule->command('applicant:update')->timezone('Asia/Manila')->weekly();
+        $schedule->command('member:update')->daily();
+        $schedule->command('activitylog:clean --days=14')->daily();
+        $schedule->command('applicant:update')->weekly();
     }
 
     /**
