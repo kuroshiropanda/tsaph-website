@@ -50,6 +50,7 @@
         }
 
     </style>
+    <script src="https://kit.fontawesome.com/9ca9b48dd2.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
