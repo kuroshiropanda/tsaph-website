@@ -7,7 +7,6 @@
         padding: 0;
         margin: 0;
         height: 80vh;
-        overflow-y: auto;
     }
 
     #members li a {
@@ -38,7 +37,7 @@
     <input type="text" id="search" class="form-control" placeholder="Search..">
     <div class="row">
         <div id="memberlist" class="col">
-            <ul id="members">
+            <ul id="members" class="overflow-auto">
                 @foreach($members as $m)
                 <li>
                     <a href="https://twitch.tv/{{ $m->username }}" target="_blank">

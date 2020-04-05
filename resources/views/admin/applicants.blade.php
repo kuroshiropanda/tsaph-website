@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
-    <div class="card text-white bg-dark" style="height: 88vh;">
+<div class="container-fluid" style="height: 85vh;">
+    <div class="card text-white bg-dark h-100">
         <div class="card-header">
-            <i class="fas fa-table"></i>
-            Applicants
+            <p class="m-0 p-0"><i class="fas fa-table"></i> Applicants - Current Applicants Total: {{ $applicants->count() }}</p>
         </div>
-        <div class="card-body" style="height: 100%; overflow-y: auto;">
+        <div class="card-body h-100 overflow-auto">
             <table id="applicants" class="table table-borderless table-hover">
                 <thead>
                     <tr>
@@ -16,6 +15,11 @@
                         <th scope="col">Username</th>
                         <th scope="col">Discord</th>
                         <th scope="col">Form</th>
+                        @can('edit roles')
+                        <th>Update</th>
+                        <th>Twitch</th>
+                        <th>Discord</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -27,8 +31,7 @@
                         <td><a href="{{ url('https://twitch.tv/'.$a->username) }}" target="_blank" class="btn btn-outline-info">{{ $a->username }}</a></td>
                         <td>{{ $a->discord }}</td>
                         <td>
-                            <a href="{{ route('applicant', ['applicant' => $a->id]) }}"
-                                class="btn btn-primary">Form</a>
+                            <a href="{{ route('applicant', ['applicant' => $a->id]) }}" class="btn btn-primary">Form</a>
                         </td>
                         @can('edit roles')
                         <td>
@@ -41,13 +44,13 @@
                             @csrf
                             <td>
                                 <div class="form-group">
-                                    <label for="username">Twitch Name</label>
+                                    <!-- <label for="username">Twitch Name</label> -->
                                     <input type="text" class="form-control" id="username" name="username">
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <label for="discord">Discord</label>
+                                    <!-- <label for="discord">Discord</label> -->
                                     <input type="text" class="form-control" id="discord" name="discord">
                                 </div>
                             </td>
@@ -74,10 +77,10 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        $("#adminSearch").on("keyup", function () {
+    document.addEventListener('DOMContentLoaded', function() {
+        $("#adminSearch").on("keyup", function() {
             var value = $(this).val().toLowerCase();
-            $("#applicants tbody tr").filter(function () {
+            $("#applicants tbody tr").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });

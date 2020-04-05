@@ -2,43 +2,50 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="card text-white bg-dark" style="height: 88vh;">
-        <div class="card-header">
-            <i class="fas fa-table"></i>
-            Approved Applicants
+    <div class="row" style="height: 85vh;">
+        <div class="col-md-6 h-100">
+            <div class="card text-white bg-dark h-100">
+                <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Approved Applicants
+                </div>
+                <div class="card-body overflow-auto">
+                    <div class="list-group">
+                        @foreach($approved as $a)
+                        <a href="{{ route('applicant', ['applicant' => $a->id]) }}" class="list-group-item list-group-item-action text-dark">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ $a->name }}</h5>
+                                <small>{{ $a->updated_at->diffForHumans() }}</small>
+                            </div>
+                            <p class="mb-1">{{ $a->username }}</p>
+                            <small class="text-info">approved by: {{ $a->user->username }}</small>
+                        </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-body" style="height: 100%; overflow-y: auto;">
-            <table class="table table-borderless table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col"></th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Discord</th>
-                        <th scope="col">Approved by</th>
-                        <th scope="col">Form</th>
-                        <th scope="col">Invited?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($approved as $a)
-                        <tr class="{{ $a->invited ? 'bg-secondary' : 'bg-dark' }}">
-                            <td scope="row">{{ $a->id }}</td>
-                            <td><img src="{{ $a->avatar }}" style="width:auto; height:8vh;" /></td>
-                            <td>{{ $a->name }}</td>
-                            <td><a href="{{ url('https://twitch.tv/'.$a->username) }}" target="_blank" class="btn btn-outline-info">{{ $a->username }}</a></td>
-                            <td>{{ $a->discord }}</td>
-                            <td>{{ $a->user->username }}</td>
-                            <td><a href="{{ route('applicant', ['applicant' => $a->id]) }}" class="btn btn-primary">Form</a></td>
-                            <td>{{ $a->invited ? 'yes' : 'no' }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div class="card-footer small text-muted">
-            {{ $approved->links('vendor.pagination.bootstrap-4') }}
+        <div class="col-md-6 h-100">
+            <div class="card text-white bg-dark h-100">
+                <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Invited Applicants
+                </div>
+                <div class="card-body overflow-auto">
+                    <div class="list-group">
+                        @foreach($invited as $i)
+                        <a href="{{ route('applicant', ['applicant' => $i->id]) }}" class="list-group-item list-group-item-action text-dark">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ $i->name }}</h5>
+                                <small>{{ $i->updated_at->diffForHumans() }}</small>
+                            </div>
+                            <p class="mb-1">{{ $i->username }}</p>
+                            <small class="text-info">approved by: {{ $i->user->username }}</small>
+                        </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

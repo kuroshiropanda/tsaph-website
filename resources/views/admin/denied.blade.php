@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="card text-white bg-dark" style="height: 88vh;">
+    <div class="card text-white bg-dark" style="height: 85vh;">
         <div class="card-header">
             <i class="fas fa-table"></i>
             Denied Applicants
         </div>
-        <div class="card-body" style="height: 100%; overflow-y: auto;">
+        <div class="card-body overflow-auto h-100">
             <table class="table table-borderless table-hover">
                 <thead>
                     <tr>

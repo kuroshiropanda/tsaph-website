@@ -7,7 +7,7 @@
             <i class="fas fa-table"></i>
             Applicants
         </div>
-        <div class="card-body" style="height: 100%; overflow-y: auto;">
+        <div class="card-body overflow-auto">
             <form action="{{ route('user.update.password', ['user' => Auth::id()]) }}" method="POST">
                 @csrf
                 <div class="form-row">

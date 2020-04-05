@@ -42,10 +42,10 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="height:8vh;">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('admin') }}" style="height:8vh;">
-                    <img class="img-fluid" src="{{ asset('img/tsaph@0,1x.png') }}" style="height:100%;" />
+                    <img class="img-fluid h-100" src="{{ asset('img/tsaph@0,1x.png') }}" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -134,7 +134,7 @@
             </div>
         </nav>
 
-        <main class="pt-2">
+        <main class="mt-5 pt-4">
             @yield('content')
         </main>
     </div>
