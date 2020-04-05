@@ -62,4 +62,7 @@ Route::middleware('auth')->group(function () {
 Route::get('apply', 'Auth\TwitchApplicationController@redirectToProvider')->name('apply');
 Route::get('apply/callback', 'Auth\TwitchApplicationController@handleProviderCallback');
 Route::post('applicant/create', 'ApplicantController@create')->name('applicant.create');
-Route::get('test', 'ApplicantController@updateAllData');
+Route::post('applicant/store', 'ApplicantController@store')->name('applicant.store');
+
+Route::get('discord/connect', 'Auth\DiscordController@redirectToProvider')->name('discord');
+Route::get('discord/callback', 'Auth\DiscordController@handleProviderCallback');

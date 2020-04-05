@@ -31,13 +31,18 @@ class HomeController extends Controller
     public function approved()
     {
         $approved = \App\Applicant::where('approved', true)
+            ->where('invited', false)
             ->with('user')
-            ->orderBy('invited', 'asc')
-            ->paginate(10);
+            ->orderBy('updated_at', 'desc')
+            ->get();
 
-        return view('admin.approved', [
-            'approved' => $approved
-        ]);
+        $invited = \App\Applicant::where('approved', true)
+            ->where('invited', true)
+            ->with('user')
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return view('admin.approved', compact('approved', 'invited'));
     }
 
     public function denied()

@@ -16,10 +16,7 @@ class UserController extends Controller
         $users = User::paginate(10);
         $roles = Role::all();
 
-        return view('admin.users', [
-            'users' => $users,
-            'roles' => $roles
-        ]);
+        return view('admin.users', compact('users', 'roles'));
     }
 
     public function edit(User $user)
