@@ -8,21 +8,22 @@
                 <i class="fas fa-table"></i>
                 Activity Log
             </div>
-            <div class="card-body overflow-auto h-100">
+            <div class="card-body overflow-auto h-100 pt-0 mt-0">
                 <table class="table table-borderless table-hover">
-                    <thead>
+                    <thead class="thead-dark">
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">user</th>
-                            <th scope="col">Description</th>
-                            <td scope="col">Activity</th>
-                            <th scope="col">by</th>
+                            <th class="sticky-top" scope="col">#</th>
+                            <th class="sticky-top" scope="col">user</th>
+                            <th class="sticky-top" scope="col">Description</th>
+                            <th class="sticky-top" scope="col">Activity</th>
+                            <th class="sticky-top" scope="col">by</th>
+                            <th class="sticky-top" scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($activities as $a)
                         <tr>
-                            <th scope="row">{{ $a->id }}</th>
+                            <td scope="row">{{ $a->id }}</td>
                             <td>{{ $a->changes['attributes']['username'] }}</td>
                             <td>
                                 @if($a->changes['attributes']['approved'] == 1 && $a->changes['old']['approved'] == 0)
@@ -56,6 +57,7 @@
                             {{ $a->causer['username'] }}
                             @endif
                             </td>
+                            <td>{{ $a->created_at->diffForHumans() }}</td>
                         </tr>
                         @endforeach
                     </tbody>

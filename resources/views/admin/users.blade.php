@@ -23,7 +23,7 @@
                     @foreach($users as $u)
                     @if($u->username !== 'adsense')
                     <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
+                        <td scope="row">{{ $loop->iteration }}</td>
                         <td>{{ $u->username }}</td>
                         <td>{{ $u->name }}</td>
                         @can('edit roles')

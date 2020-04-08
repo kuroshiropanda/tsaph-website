@@ -6,19 +6,21 @@
         <div class="card-header">
             <p class="m-0 p-0"><i class="fas fa-table"></i> Applicants - Current Applicants Total: {{ $applicants->count() }}</p>
         </div>
-        <div class="card-body h-100 overflow-auto">
+        <div class="card-body h-100 overflow-auto pt-0 mt-0">
             <table id="applicants" class="table table-borderless table-hover">
-                <thead>
+                <thead class="thead-light">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col"></th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Discord</th>
-                        <th scope="col">Form</th>
+                        <th class="sticky-top" scope="col">#</th>
+                        <th class="sticky-top" scope="col"></th>
+                        <th class="sticky-top" scope="col">Username</th>
+                        <th class="sticky-top" scope="col">Discord</th>
+                        <th class="sticky-top" scope="col">Form</th>
                         @can('edit roles')
-                        <th>Update</th>
-                        <th>Twitch</th>
-                        <th>Discord</th>
+                        <th class="sticky-top">Update</th>
+                        <th class="sticky-top">Twitch</th>
+                        <th class="sticky-top">Discord</th>
+                        <th class="sticky-top">Update</th>
+                        <th class="sticky-top">Delete</th>
                         @endcan
                     </tr>
                 </thead>

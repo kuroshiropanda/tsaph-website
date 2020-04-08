@@ -7,17 +7,18 @@
             <i class="fas fa-table"></i>
             Denied Applicants
         </div>
-        <div class="card-body overflow-auto h-100">
+        <div class="card-body h-100 overflow-auto pt-0 mt-0">
             <table class="table table-borderless table-hover">
-                <thead>
+                <thead class="thead-dark">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col"></th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Discord</th>
-                        <th scope="col">Denied by</th>
-                        <th scope="col">Form</th>
-                        <th scope="col">reason</th>
+                        <th class="sticky-top" scope="col">#</th>
+                        <th class="sticky-top" scope="col"></th>
+                        <th class="sticky-top" scope="col">Username</th>
+                        <th class="sticky-top" scope="col">Discord</th>
+                        <th class="sticky-top" scope="col">Denied by</th>
+                        <th class="sticky-top" scope="col">Form</th>
+                        <th class="sticky-top" scope="col">reason</th>
+                        <th class="sticky-top" scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,6 +55,7 @@
                                 </div>
                             </div>
                         </td>
+                        <td>{{ $d->updated_at->diffForHumans() }}</td>
                     </tr>
                     @endforeach
                 </tbody>
