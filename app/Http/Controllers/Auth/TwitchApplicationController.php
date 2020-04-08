@@ -16,7 +16,9 @@ class TwitchApplicationController extends Controller
      */
     public function redirectToProvider()
     {
-        return Socialite::driver('twitch')->redirect();
+        return Socialite::driver('twitch')
+            ->with(['force_verify' => 'true'])
+            ->redirect();
     }
 
     /**
@@ -28,41 +30,6 @@ class TwitchApplicationController extends Controller
     {
         $user = Socialite::driver('twitch')->stateless()->user();
 
-        $id = $user->getId();
-        $username = $user->user['login'];
-        $avatar = $user->avatar;
-        $email = $user->getEmail();
-
-        $questions = \App\Question::all();
-        $types = \App\Type::all();
-
-        $member = \App\Member::find($id);
-        $applicant = \App\Applicant::where('twitch_id', $id)->first();
-
-        if($member)
-        {
-            return view('application', [
-                'type' => 'member',
-                'alert' => 'member ka na tanga'
-            ]);
-        }
-        elseif($applicant)
-        {
-            return view('application', [
-                'type' => 'applicant',
-                'alert' => 'nag apply ka na. chill ka lang. wak bobo'
-            ]);
-        }
-        else
-        {
-            return view('apply', [
-                'id' => $id,
-                'avatar' => $avatar,
-                'username' => $username,
-                'email' => $email,
-                'questions' => $questions,
-                'types' => $types
-            ]);
-        }
+        return redirect()->route('applicant.create')->cookie('token', $user->token, 60);
     }
 }

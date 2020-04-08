@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="container">
-    <form action="{{ route('applicant.create') }}" method="POST">
+    @if(!empty($email))
+    <form action="{{ route('applicant.store') }}" method="POST">
         <div class="form-group">
             @csrf
             <input name="id" type="hidden" value="{{ $id }}" />
@@ -14,12 +15,8 @@
                 <input id="username" name="username" class="form-control" type="text" value="{{ $username }}" readonly />
             </div>
             <div class="form-group">
-                <label for="name">What is your full/fb name?</label>
+                <label for="name">What is your full/fb name? if your full name is different from your fb name just input your fb name</label>
                 <input type="text" id="name" name="name" class="form-control" required />
-            </div>
-            <div class="form-group">
-                <label for="discord">What is your discord id? (click on your name on discord [bottom left])</label>
-                <input type="text" id="discord" name="discord" class="form-control" required />
             </div>
             @foreach ($questions as $q)
             @if ($q->type === 'text')
@@ -59,5 +56,16 @@
             <button type="submit" class="btn btn-primary">SUBMIT</button>
         </div>
     </form>
+    @else
+    <div class="d-flex justify-content-center my-5 py-5">
+        <blockquote class="blockquote">
+            <p class="lead font-weight-bold text-uppercase text-center">
+                you don't have a verified email address<br>
+                please verify your twitch email and then refresh this tab<br>
+                this is to prevent spam
+            </p>
+        </blockquote>
+    </div>
+    @endif
 </div>
 @endsection

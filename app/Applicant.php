@@ -29,6 +29,11 @@ class Applicant extends Model
         'created', 'updated'
     ];
 
+    public function discord()
+    {
+        return $this->hasOne('App\Discord');
+    }
+
     public function answers()
     {
         return $this->belongsToMany('App\Answer')->using('App\ApplicantAnswer')->withPivot(['question_id']);

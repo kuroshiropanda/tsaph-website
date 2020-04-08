@@ -10,26 +10,38 @@ class DiscordController extends Controller
 {
     public function redirectToProvider()
     {
-        return Socialite::driver('discord')->redirect();
+        return Socialite::driver('discord')
+            ->scopes(['guilds', 'guilds.join'])
+            ->redirect();
     }
 
-    public function handleProviderCallback()
+    public function handleProviderCallback(Request $request)
     {
         $user = Socialite::driver('discord')->stateless()->user();
 
-        // $id = $user->getId();
-        // $username = $user->user['login'];
-        // $avatar = $user->avatar;
-        // $email = $user->getEmail();
-
-        // $questions = \App\Question::all();
-        // $types = \App\Type::all();
-
-        // $member = \App\Member::find($id);
-        // $applicant = \App\Applicant::where('twitch_id', $id)->first();
+        $id = $user->getId();
+        $username = $user->getNickname();
+        $avatar = $user->getAvatar();
+        $email = $user->getEmail();
 
         $token = $user->token;
 
-        return redirect()->route('applicant.create')->with('token', $token);
+        $cookie = $request->cookie('applicant');
+
+        $app = \App\Applicant::find($cookie);
+
+        $app->discord = $username;
+
+        $app->save();
+
+        $app->discord()->create([
+            'discord_id' => $id,
+            'avatar' => $avatar,
+            'username' => $username,
+            'email' => $email,
+            'token' => $token
+        ]);
+
+        return redirect()->route('interview');
     }
 }

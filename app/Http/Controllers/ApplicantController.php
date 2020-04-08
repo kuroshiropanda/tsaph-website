@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
-use App\Applicant;
 use App\Services\TwitchApi;
+use App\Applicant;
+use App\Http\Requests\ApplicantStore;
+use Auth;
+use Socialite;
 
 class ApplicantController extends Controller
 {
@@ -30,6 +32,50 @@ class ApplicantController extends Controller
 
     public function create(Request $request)
     {
+        $token = (string) $request->cookie('token');
+
+        $user = Socialite::driver('twitch')->userFromToken($token);
+
+        $id = $user->getId();
+        $username = $user->user['login'];
+        $avatar = $user->avatar;
+        $email = $user->getEmail();
+
+        $questions = \App\Question::all();
+        $types = \App\Type::all();
+
+        $member = \App\Member::find($id);
+        $applicant = \App\Applicant::where('twitch_id', $id)->first();
+
+        if($member)
+        {
+            return view('application', [
+                'type' => 'member',
+                'alert' => 'member ka na tanga'
+            ]);
+        }
+        elseif($applicant)
+        {
+            return view('application', [
+                'type' => 'applicant',
+                'alert' => 'nag apply ka na. chill ka lang. wak bobo'
+            ]);
+        }
+        else
+        {
+            return view('apply', [
+                'id' => $id,
+                'avatar' => $avatar,
+                'username' => $username,
+                'email' => $email,
+                'questions' => $questions,
+                'types' => $types
+            ]);
+        }
+    }
+
+    public function store(Request $request)
+    {
         $applicant = Applicant::where('twitch_id', $request->id)->first();
 
         if (empty($applicant)) {
@@ -40,7 +86,7 @@ class ApplicantController extends Controller
                 $app->username = $request->username;
                 $app->email = $request->email;
                 $app->name = $request->name;
-                $app->discord = $request->discord;
+                // $app->discord = $request->discord;
 
                 $app->save();
 
@@ -58,7 +104,11 @@ class ApplicantController extends Controller
             });
         }
 
-        return redirect()->route('interview');
+        $app = Applicant::where('twitch_id', $request->id)->first();
+
+        $cookie = cookie('applicant', $app->id, 60);
+
+        return redirect()->route('discord.auth')->cookie($cookie);
     }
 
     public function show(Applicant $applicant)

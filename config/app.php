@@ -168,7 +168,7 @@ return [
          */
         \SocialiteProviders\Manager\ServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-        LaravelRestcord\ServiceProvider::class,
+        // LaravelRestcord\ServiceProvider::class,
 
         /*
          * Application Service Providers...
