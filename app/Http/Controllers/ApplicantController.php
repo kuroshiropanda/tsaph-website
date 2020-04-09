@@ -157,6 +157,9 @@ class ApplicantController extends Controller
                     $ans->delete();
                 }
 
+                $applicant->answers()->detach();
+                $applicant->types()->detach();
+
                 $applicant->delete();
             });
         }

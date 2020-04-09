@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-
+use Illuminate\Http\Request;
 use Socialite;
-use Illuminate\Support\Facades\DB;
 
 class TwitchApplicationController extends Controller
 {
@@ -26,8 +25,13 @@ class TwitchApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function handleProviderCallback()
+    public function handleProviderCallback(Request $request)
     {
+        if(!$request->has('code'))
+        {
+            return redirect()->route('home');
+        }
+
         $user = Socialite::driver('twitch')->stateless()->user();
 
         return redirect()->route('applicant.create')->cookie('token', $user->token, 60);

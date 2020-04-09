@@ -29,6 +29,11 @@ class Applicant extends Model
         'created', 'updated'
     ];
 
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = strtoupper($value);
+    }
+
     public function discord()
     {
         return $this->hasOne('App\Discord');
