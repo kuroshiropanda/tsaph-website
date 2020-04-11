@@ -8,14 +8,17 @@ use App\Applicant;
 use App\Http\Requests\ApplicantStore;
 use Auth;
 use Socialite;
+use App\Services\DiscordApi;
 
 class ApplicantController extends Controller
 {
     protected $twitchapi;
+    protected $discord;
 
-    public function __construct(TwitchApi $twitchapi)
+    public function __construct(TwitchApi $twitchapi, DiscordApi $discord)
     {
         $this->twitchapi = $twitchapi;
+        $this->discord = $discord;
     }
 
     public function index()
@@ -32,14 +35,17 @@ class ApplicantController extends Controller
 
     public function create(Request $request)
     {
-        $token = (string) $request->cookie('token');
+        $twitch = (string) $request->cookie('token');
+        $discord = (string) $request->cookie('discord');
 
-        $user = Socialite::driver('twitch')->userFromToken($token);
+        $user = Socialite::driver('twitch')->userFromToken($twitch);
+        $discord = Socialite::driver('discord')->userFromToken($discord);
 
         $id = $user->getId();
         $username = $user->user['login'];
         $avatar = $user->avatar;
         $email = $user->getEmail();
+        $discordId = $discord->getNickname();
 
         $questions = \App\Question::all();
         $types = \App\Type::all();
@@ -47,26 +53,22 @@ class ApplicantController extends Controller
         $member = \App\Member::find($id);
         $applicant = \App\Applicant::where('twitch_id', $id)->first();
 
-        if($member)
-        {
+        if ($member) {
             return view('application', [
                 'type' => 'member',
                 'alert' => 'member ka na tanga'
             ]);
-        }
-        elseif($applicant)
-        {
+        } elseif ($applicant) {
             return view('application', [
                 'type' => 'applicant',
                 'alert' => 'nag apply ka na. chill ka lang. wak bobo'
             ]);
-        }
-        else
-        {
+        } else {
             return view('apply', [
                 'id' => $id,
                 'avatar' => $avatar,
                 'username' => $username,
+                'discord' => $discordId,
                 'email' => $email,
                 'questions' => $questions,
                 'types' => $types
@@ -86,7 +88,7 @@ class ApplicantController extends Controller
                 $app->username = $request->username;
                 $app->email = $request->email;
                 $app->name = $request->name;
-                // $app->discord = $request->discord;
+                $app->discord = $request->discord;
 
                 $app->save();
 
@@ -101,14 +103,42 @@ class ApplicantController extends Controller
                 }
 
                 $app->types()->attach($request->checkbox);
+
+                $discordToken = $request->cookie('discord');
+
+                $user = Socialite::driver('discord')->userFromToken($discordToken);
+
+                $id = $user->getId();
+                $username = $user->getNickname();
+                $avatar = $user->getAvatar();
+                $email = $user->getEmail();
+
+                $token = $user->token;
+
+                $app->discordData()->create([
+                    'discord_id' => $id,
+                    'avatar' => $avatar,
+                    'username' => $username,
+                    'email' => $email,
+                    'token' => $token
+                ]);
+
+                $discord = $this->discord->getMember($id);
+
+                if($discord)
+                {
+                    $this->discord->memberApplicant($id);
+                }
+                else
+                {
+                    $this->discord->addMember($id, $token);
+                }
+
+                $this->discord->newApplicant($app->id);
             });
         }
 
-        $app = Applicant::where('twitch_id', $request->id)->first();
-
-        $cookie = cookie('applicant', $app->id, 60);
-
-        return redirect()->route('discord.auth')->cookie($cookie);
+        return redirect()->route('interview');
     }
 
     public function show(Applicant $applicant)
@@ -177,7 +207,12 @@ class ApplicantController extends Controller
                 $applicant->denied = false;
             }
 
-            return redirect()->route('applicants');
+            $discord = $this->discord->getId($applicant->id);
+
+            $this->discord->updateMember($applicant->id, $discord);
+            $this->discord->approvedLog($applicant->id);
+            $this->discord->sendDM($applicant->id, $discord);
+
         } elseif ($request->update === 'deny') {
             if ($applicant->approved === 0) {
                 \DB::transaction(function () use ($applicant, $request) {
@@ -191,8 +226,10 @@ class ApplicantController extends Controller
                 });
             }
 
-            return redirect()->route('applicants');
+            $this->discord->deniedLog($applicant->id);
         }
+
+        return redirect()->route('applicants');
     }
 
     public function updateData(Applicant $applicant)

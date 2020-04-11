@@ -34,7 +34,7 @@ class Applicant extends Model
         $this->attributes['name'] = strtoupper($value);
     }
 
-    public function discord()
+    public function discordData()
     {
         return $this->hasOne('App\Discord');
     }

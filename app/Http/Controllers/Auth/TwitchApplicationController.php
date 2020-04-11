@@ -34,6 +34,6 @@ class TwitchApplicationController extends Controller
 
         $user = Socialite::driver('twitch')->stateless()->user();
 
-        return redirect()->route('applicant.create')->cookie('token', $user->token, 60);
+        return redirect()->route('discord.auth')->cookie('token', $user->token, 60);
     }
 }

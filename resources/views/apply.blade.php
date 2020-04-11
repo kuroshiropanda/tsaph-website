@@ -15,6 +15,10 @@
                 <input id="username" name="username" class="form-control" type="text" value="{{ $username }}" readonly />
             </div>
             <div class="form-group">
+                <label for="discord">Discord#</label>
+                <input type="text" id="discord" name="discord" class="form-control" value="{{ $discord }}" readonly>
+            </div>
+            <div class="form-group">
                 <label for="name">What is your full/fb name? if your full name is different from your fb name just input your fb name</label>
                 <input type="text" id="name" name="name" class="form-control" required />
             </div>
