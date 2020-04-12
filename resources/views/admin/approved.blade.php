@@ -50,3 +50,16 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        $("#adminSearch").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".list-group .list-group-item").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+@endpush

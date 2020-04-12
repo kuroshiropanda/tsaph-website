@@ -79,11 +79,9 @@
                         @endcanany
                     </ul>
 
-                    @if(Request::path() === 'admin/members' || Request::path() === 'admin/applicants')
                     <ul class="navbar-nav mx-auto">
                         <input type="text" class="form-control" id="adminSearch" placeholder="Search..">
                     </ul>
-                    @endif
                     @endauth
 
                     <!-- Right Side Of Navbar -->

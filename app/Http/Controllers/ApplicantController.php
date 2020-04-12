@@ -125,12 +125,9 @@ class ApplicantController extends Controller
 
                 $discord = $this->discord->getMember($id);
 
-                if($discord)
-                {
+                if ($discord) {
                     $this->discord->memberApplicant($id);
-                }
-                else
-                {
+                } else {
                     $this->discord->addMember($id, $token);
                 }
 
@@ -200,19 +197,20 @@ class ApplicantController extends Controller
     public function processApplicant(Applicant $applicant, Request $request)
     {
         if ($request->update === 'approve') {
-            $applicant->approved = true;
-            $applicant->user_id = Auth::id();
-            $applicant->save();
-            if ($applicant->denied === 1) {
-                $applicant->denied = false;
+            if ($applicant->approved === 0) {
+                $applicant->approved = true;
+                $applicant->user_id = Auth::id();
+                $applicant->save();
+                if ($applicant->denied === 1) {
+                    $applicant->denied = false;
+                }
+
+                $discord = $this->discord->getId($applicant->id);
+
+                $this->discord->updateMember($applicant->id, $discord);
+                $this->discord->approvedLog($applicant->id);
+                $this->discord->sendDM($applicant->id, $discord);
             }
-
-            $discord = $this->discord->getId($applicant->id);
-
-            $this->discord->updateMember($applicant->id, $discord);
-            $this->discord->approvedLog($applicant->id);
-            $this->discord->sendDM($applicant->id, $discord);
-
         } elseif ($request->update === 'deny') {
             if ($applicant->approved === 0) {
                 \DB::transaction(function () use ($applicant, $request) {

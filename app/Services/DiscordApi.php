@@ -181,42 +181,41 @@ class DiscordApi
     {
         $app = Applicant::find($id);
 
-        $channel = $this->discord->user->createDm([
-            'recipient_id' => (int) $discord
-        ]);
+        try {
+            $channel = $this->discord->user->createDm([
+                'recipient_id' => (int) $discord
+            ]);
 
-        return $this->discord->channel->createMessage([
-            'channel.id' => (int) $channel->id,
-            'embed' => [
-                'description' => "Hi {$app->username},\n\nWelcome to Twitch Sana All Philippines!\n\nPlease read this [click here](https://docs.google.com/document/d/1qO4sPEsWpKJvlduq_OE6izyl8IHFzvVf7NVAeqPa2UA/)\n\nHere are our community socials\n[Facebook Group](https://facebook.com/groups/twitchsaph/)\n[Facebook Page](https://facebook.com/TSAPHofficial)\n[Reddit](https://reddit.com/r/tsaph/)\nand don't be shy to start a conversation with any of the TSAPH members.\n\nSee you around!\nTwitch Sana All PH Team",
-                'color' => 9520895,
-                'footer' => [
-                    'icon_url' => url("https://static-cdn.jtvnw.net/jtv_user_pictures/team-tsaph-team_logo_image-17709df6bdb544aab8452aed5791ce1e-600x600.png"),
-                    'text' => 'TSAPH'
-                ],
-                'thumbnail' => [
-                    'url' => url("https://static-cdn.jtvnw.net/jtv_user_pictures/team-tsaph-team_logo_image-17709df6bdb544aab8452aed5791ce1e-600x600.png")
+            $this->discord->channel->createMessage([
+                'channel.id' => (int) $channel->id,
+                'embed' => [
+                    'description' => "Hi {$app->username},\n\nWelcome to Twitch Sana All Philippines!\n\nPlease read this [click here](https://docs.google.com/document/d/1qO4sPEsWpKJvlduq_OE6izyl8IHFzvVf7NVAeqPa2UA/)\n\nHere are our community socials\n[Facebook Group](https://facebook.com/groups/twitchsaph/)\n[Facebook Page](https://facebook.com/TSAPHofficial)\n[Reddit](https://reddit.com/r/tsaph/)\nand don't be shy to start a conversation with any of the TSAPH members.\n\nSee you around!\nTwitch Sana All PH Team",
+                    'color' => 9520895,
+                    'footer' => [
+                        'icon_url' => url("https://static-cdn.jtvnw.net/jtv_user_pictures/team-tsaph-team_logo_image-17709df6bdb544aab8452aed5791ce1e-600x600.png"),
+                        'text' => 'TSAPH'
+                    ],
+                    'thumbnail' => [
+                        'url' => url("https://static-cdn.jtvnw.net/jtv_user_pictures/team-tsaph-team_logo_image-17709df6bdb544aab8452aed5791ce1e-600x600.png")
+                    ]
                 ]
-            ]
-        ]);
+            ]);
+        } catch (Exception $e) {}
     }
 
     public function getId($id)
     {
         $user = Applicant::find($id);
 
-        if(empty($user->discordData))
-        {
+        if (empty($user->discordData)) {
             $members = $this->discord->guild->listGuildMembers([
                 'guild.id' => $this->guild,
                 'limit' => 500
             ]);
 
-            foreach($members as $m)
-            {
-                $discord = $m->user->username."#".$m->user->discriminator;
-                if($discord == $user->discord)
-                {
+            foreach ($members as $m) {
+                $discord = $m->user->username . "#" . $m->user->discriminator;
+                if ($discord == $user->discord) {
                     return $m->user->id;
                 }
             }
