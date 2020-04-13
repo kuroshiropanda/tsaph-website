@@ -115,13 +115,17 @@ class ApplicantController extends Controller
 
                 $token = $user->token;
 
-                $app->discordData()->create([
-                    'discord_id' => $id,
-                    'avatar' => $avatar,
-                    'username' => $username,
-                    'email' => $email,
-                    'token' => $token
-                ]);
+                $discordDup = \App\Discord::where('discord_id', $id)->first();
+
+                if(empty($discordDup)) {
+                    $app->discordData()->create([
+                        'discord_id' => $id,
+                        'avatar' => $avatar,
+                        'username' => $username,
+                        'email' => $email,
+                        'token' => $token
+                    ]);
+                }
 
                 $discord = $this->discord->getMember($id);
 
@@ -166,8 +170,15 @@ class ApplicantController extends Controller
             $applicant->avatar = $data->data[0]->profile_image_url;
         }
 
-        if (isset($request->discord)) {
-            $applicant->discord = $request->discord;
+        if(isset($request->discord)) {
+            $discord = $this->discord->memberInfo($request->discord);
+            $username = $discord->username."#".$discord->discriminator;
+            $avatar = url("https://cdn.discordapp.com/avatars/{$discord->id}/{$discord->avatar}.jpg");
+            $applicant->discordData()->updateOrCreate(
+                ['discord_id' => $request->discord],
+                ['username' => $username, 'avatar' => $avatar]
+            );
+            $applicant->discord = $username;
         }
 
         $applicant->save();

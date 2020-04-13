@@ -223,4 +223,11 @@ class DiscordApi
             return $user->discordData->discord_id;
         }
     }
+
+    public function memberInfo($id)
+    {
+        return $this->discord->user->getUser([
+            'user.id' => (int) $id
+        ]);
+    }
 }
