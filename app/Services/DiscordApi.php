@@ -84,10 +84,12 @@ class DiscordApi
 
     public function removeMember($id)
     {
-        $this->discord->guild->removeGuildMember([
-            'guild.id' => $this->guild,
-            'user.id' => (int) $id
-        ]);
+        try {
+            $this->discord->guild->removeGuildMember([
+                'guild.id' => $this->guild,
+                'user.id' => (int) $id
+            ]);
+        } catch (Exception $e) {}
     }
 
     public function getMember($id)

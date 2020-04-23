@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container-fluid">
+    @error('h-captcha-response')
+    <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
     <div class="row mt-2" style="height: 85vh;">
         <div class="col-md-3">
             <div class="card">
@@ -18,10 +21,7 @@
                     @if(($applicant->denied === 1 || $applicant->denied === 0) && $applicant->approved === 0)
                     <div class="row">
                         <div class="col d-flex justify-content-start">
-                            <form action="{{ route('applicant.process', ['applicant' => $applicant->id, 'update' => 'approve']) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-primary">Approve</button>
-                            </form>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#approveModal">Approve</button>
                         </div>
                         <div class="col d-flex justify-content-end">
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#denyModal">Deny</button>
@@ -54,6 +54,34 @@
     </div>
 </div>
 
+<div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="approveModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark" id="approveModalLabel">Approve Application</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('applicant.process', ['applicant' => $applicant->id, 'update' => 'approve']) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="h-captcha @error('h-captcha-response') is-invalid @enderror" data-theme="dark" data-sitekey="{{ config('services.hcaptcha.site_key') }}"></div>
+                        @error('h-captcha-response')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Approve</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" id="denyModal" tabindex="-1" role="dialog" aria-labelledby="denyModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -69,7 +97,13 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="reason" class="text-dark">Reason?</label>
-                        <textarea id="reason" class="form-control" name="reason" required></textarea>
+                        <textarea id="reason" class="form-control" name="reason" required>{{ old('reason') }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="h-captcha @error('h-captcha-response') is-invalid @enderror" data-theme="dark" data-sitekey="{{ config('services.hcaptcha.site_key') }}"></div>
+                        @error('h-captcha-response')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="modal-footer">

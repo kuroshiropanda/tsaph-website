@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/denied', 'HomeController@denied')->name('denied');
         Route::get('/admin/approved', 'HomeController@approved')->name('approved');
         Route::get('/admin/applicant/{applicant}', 'ApplicantController@show')->where('id', '[0-9]+')->name('applicant');
+        Route::get('/admin/feedback', 'FeedbackController@index')->name('feedback.index');
     });
 
     Route::middleware('role:super admin|admin|moderator')->group(function () {

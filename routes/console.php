@@ -60,3 +60,18 @@ Artisan::command('member:update', function () {
         );
     }
 })->describe('Update list of members and their data');
+
+Artisan::command('applicants:deadline', function () {
+    $discord = resolve('App\Services\DiscordApi');
+    $applicant = resolve('App\Services\ApplicantService');
+
+    $applicants = Applicant::where('approved', false)->where('invited', false)->get();
+
+    foreach($applicants as $a) {
+        $date = $a->created_at->diffInWeeks($a->created_at->copy()->addWeeks(2));
+        if($date == 2) {
+            $applicant->delete($a->id);
+            $discord->removeMember($a->discordData->discord_id);
+        }
+    }
+});

@@ -135,7 +135,6 @@ class ApplicantService
 
     public function updateDiscord(Applicant $applicant, $discord)
     {
-
         if(empty($applicant->discordData)) {
             $discord = $this->discord->memberInfo($discord);
             $username = $discord->username."#".$discord->discriminator;
@@ -145,6 +144,8 @@ class ApplicantService
                 ['username' => $username, 'avatar' => $avatar]
             );
             $applicant->discord = $username;
+
+            $applicant->save();
         }
     }
 

@@ -16,7 +16,6 @@
         gtag('js', new Date());
 
         gtag('config', 'UA-154118791-2');
-
     </script>
 
 
@@ -49,9 +48,7 @@
                 <a class="navbar-brand" href="{{ route('admin') }}" style="height:8vh;">
                     <img class="img-fluid h-100" src="{{ asset('img/tsaph@0,1x.png') }}" />
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -78,6 +75,9 @@
                         <li class="nav-item">
                             <a href="{{ route('approved') }}" class="nav-link">Approved</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('feedback.index') }}" class="nav-link">Feedback</a>
+                        </li>
                         @endcanany
                     </ul>
 
@@ -100,8 +100,7 @@
                         @endif
                         @else
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
@@ -122,8 +121,7 @@
                                     {{ __('Logout') }}
                                 </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
                             </div>
@@ -135,6 +133,11 @@
         </nav>
 
         <main class="mt-5 pt-4">
+            @if(session('status'))
+            <div class="alert alert-info">
+                {{ session('status') }}
+            </div>
+            @endif
             @yield('content')
         </main>
     </div>

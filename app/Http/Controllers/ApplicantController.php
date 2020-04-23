@@ -118,11 +118,11 @@ class ApplicantController extends Controller
 
     public function update(Applicant $applicant, Request $request)
     {
-        if ($request->has('username')) {
+        if ($request->filled('username')) {
             $this->applicant->updateTwitch($applicant, $request->username);
         }
 
-        if ($request->has('discord')) {
+        if ($request->filled('discord')) {
             $this->applicant->updateDiscord($applicant, $request->discord);
         }
 
@@ -141,13 +141,23 @@ class ApplicantController extends Controller
 
     public function processApplicant(Applicant $applicant, Request $request)
     {
-        if ($request->update === 'approve') {
-            $this->applicant->approve($applicant);
-        } elseif ($request->update === 'deny') {
-            $this->applicant->deny($applicant, $request->reason);
+        $request->validate([
+            'h-captcha-response' => 'required'
+        ]);
+
+        $captcha = $this->captcha->verify($request['h-captcha-response']);
+
+        if($captcha->success) {
+            if ($request->update === 'approve') {
+                $this->applicant->approve($applicant);
+            } elseif ($request->update === 'deny') {
+                $this->applicant->deny($applicant, $request->reason);
+            }
+        } else {
+            return redirect()->route('applicant', ['applicant' => $applicant->id])->withInput()->with('status', 'Captcha failed. Please try again.');
         }
 
-        return redirect()->route('applicants');
+        return redirect()->route('applicants')->with('status', 'Applicant was processed successfully. '.$request->update);
     }
 
     public function updateData(Applicant $applicant)
