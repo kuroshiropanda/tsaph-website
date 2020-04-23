@@ -133,14 +133,15 @@ class ApplicantService
         return true;
     }
 
-    public function updateDiscord(Applicant $applicant, $discord)
+    public function updateDiscord(Applicant $applicant, $discordId)
     {
         if(empty($applicant->discordData)) {
-            $discord = $this->discord->memberInfo($discord);
+            $id = (int) $discordId;
+            $discord = $this->discord->memberInfo($id);
             $username = $discord->username."#".$discord->discriminator;
             $avatar = url("https://cdn.discordapp.com/avatars/{$discord->id}/{$discord->avatar}.jpg");
             $applicant->discordData()->updateOrCreate(
-                ['discord_id' => $discord],
+                ['discord_id' => $id],
                 ['username' => $username, 'avatar' => $avatar]
             );
             $applicant->discord = $username;
