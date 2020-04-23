@@ -66,3 +66,5 @@ Route::post('applicant/store', 'ApplicantController@store')->name('applicant.sto
 
 Route::get('discord/connect', 'Auth\DiscordController@redirectToProvider')->name('discord.auth');
 Route::get('discord/callback', 'Auth\DiscordController@handleProviderCallback');
+
+Route::post('feedback/store', 'FeedbackController@store')->name('feedback.store');

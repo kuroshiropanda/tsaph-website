@@ -31,6 +31,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/9ca9b48dd2.js" crossorigin="anonymous"></script>
 
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+
     <!-- Styles -->
     <style>
         html,

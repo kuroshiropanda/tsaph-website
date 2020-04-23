@@ -43,4 +43,9 @@ return [
         'bot_token' => env('DISCORD_BOT_TOKEN'),
     ],
 
+    'hcaptcha' => [
+        'site_key' => env('HCAPTCHA_SITE_KEY'),
+        'secret' => env('HCAPTCHA_SECRET'),
+    ],
+
 ];

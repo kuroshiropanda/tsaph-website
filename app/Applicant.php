@@ -25,10 +25,6 @@ class Applicant extends Model
         'twitch_id', 'username', 'discord', 'name', 'approved', 'denied', 'invited'
     ];
 
-    protected static $recordEvents = [
-        'created', 'updated'
-    ];
-
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = strtoupper($value);

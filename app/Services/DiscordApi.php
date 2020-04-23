@@ -23,6 +23,18 @@ class DiscordApi
         ]);
     }
 
+    public function feedback($msg)
+    {
+        $this->discord->channel->createMessage([
+            'channel.id' => 701656125745004555,
+            'embed' => [
+                'description' => $msg,
+                'color' => 16777215,
+                'timestamp' => now()->toISOString()
+            ]
+        ]);
+    }
+
     public function newApplicant($applicant)
     {
         $app = Applicant::find($applicant);
@@ -67,6 +79,14 @@ class DiscordApi
             'roles' => [
                 671184968386609183
             ]
+        ]);
+    }
+
+    public function removeMember($id)
+    {
+        $this->discord->guild->removeGuildMember([
+            'guild.id' => $this->guild,
+            'user.id' => (int) $id
         ]);
     }
 

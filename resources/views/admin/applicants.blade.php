@@ -46,16 +46,18 @@
                             @csrf
                             <td>
                                 <div class="form-group">
-                                    <!-- <label for="username">Twitch Name</label> -->
                                     <input type="text" class="form-control" id="username" name="username">
                                 </div>
                             </td>
+                            @if(empty($a->discordData))
                             <td>
                                 <div class="form-group">
-                                    <!-- <label for="discord">Discord</label> -->
                                     <input type="text" class="form-control" id="discord" name="discord">
                                 </div>
                             </td>
+                            @else
+                            <td></td>
+                            @endif
                             <td>
                                 <button type="submit" class="btn btn-warning"><i class="far fa-edit"></i></button>
                             </td>

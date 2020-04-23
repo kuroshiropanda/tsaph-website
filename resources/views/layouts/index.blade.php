@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,12 +50,11 @@
 
     </style>
     <script src="https://kit.fontawesome.com/9ca9b48dd2.js" crossorigin="anonymous"></script>
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
 </head>
-
 <body>
     <main role="main" class="flex-center">
         @yield('content')
     </main>
 </body>
-
 </html>
