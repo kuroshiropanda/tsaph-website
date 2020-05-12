@@ -153,12 +153,11 @@ class ApplicantService
     public function delete(Applicant $applicant)
     {
         DB::transaction(function () use ($applicant) {
-            foreach ($applicant->answers as $ans) {
-                $ans->delete();
-            }
-
+            $applicant->discordData()->delete();
+            $applicant->answers()->delete();
             $applicant->answers()->detach();
             $applicant->types()->detach();
+            $applicant->reason()->delete();
 
             $applicant->delete();
         });

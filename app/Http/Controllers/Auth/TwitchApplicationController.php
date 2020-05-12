@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Socialite;
+use Exception;
 
 class TwitchApplicationController extends Controller
 {
@@ -27,12 +28,11 @@ class TwitchApplicationController extends Controller
      */
     public function handleProviderCallback(Request $request)
     {
-        if(!$request->has('code'))
-        {
+        try {
+            $user = Socialite::driver('twitch')->stateless()->user();
+        } catch (Exception $e) {
             return redirect()->route('home');
         }
-
-        $user = Socialite::driver('twitch')->stateless()->user();
 
         return redirect()->route('discord.auth')->cookie('token', $user->token, 60);
     }

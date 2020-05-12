@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Socialite;
 use App\Applicant;
+use Exception;
 
 class DiscordController extends Controller
 {
@@ -18,12 +19,11 @@ class DiscordController extends Controller
 
     public function handleProviderCallback(Request $request)
     {
-        if(!$request->has('code'))
-        {
+        try {
+            $user = Socialite::driver('discord')->stateless()->user();
+        } catch(Exception $e) {
             return redirect()->route('home');
         }
-
-        $user = Socialite::driver('discord')->stateless()->user();
 
         $token = $user->token;
 
