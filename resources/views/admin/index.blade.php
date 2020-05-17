@@ -32,24 +32,17 @@
                                 Denied
                                 @elseif($a->changes['attributes']['invited'] == 1 && $a->changes['old']['invited'] == 0)
                                 Invited / New Member
-                                @elseif(isset($a->changes['old']['discord']) || isset($a->changes['old']['username']))
-                                    @if($a->changes['old']['discord'] !== $a->changes['attributes']['discord'] && $a->changes['old']['username'] !== $a->changes['attributes']['username'])
-                                        discord from: {{ $a->changes['old']['discord'] }} to: {{ $a->changes['attributes']['discord'] }}
-                                        twitch from: {{ $a->changes['old']['username'] }} to: {{ $a->changes['attributes']['username'] }}
-                                    @elseif($a->changes['old']['discord'] !== $a->changes['attributes']['discord'])
-                                        discord from: {{ $a->changes['old']['discord'] }} to: {{ $a->changes['attributes']['discord'] }}
-                                    @elseif($a->changes['old']['username'] !== $a->changes['attributes']['username'])
-                                        twitch from: {{ $a->changes['old']['username'] }} to: {{ $a->changes['attributes']['username'] }}
-                                    @else
-                                        Updated data
-                                    @endif
+                                @else
+                                Updated info
                                 @endif
                             </td>
                             <td>
                                 @if($a->description === 'updated')
                                 Processed
-                                @else
+                                @elseif($a->description === 'created')
                                 Applied
+                                @else
+                                Deleted
                                 @endif
                             </td>
                             <td>

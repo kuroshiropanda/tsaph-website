@@ -11,7 +11,7 @@
                 <img src="{{ $applicant->avatar ?? '' }}" class="card-img-top">
                 <div class="card-body text-dark">
                     <h5 class="card-title">Name: {{ $applicant->name }}</h5>
-                    <p class="card-text">Twitch: {{ $applicant->username }}</p>
+                    <p class="card-text">Twitch: <a class="text-info" href='{{ url("https://twitch.tv/{$applicant->username}") }}' target="_blank" rel="noopener noreferrer">{{ $applicant->username }}</a></p>
                     <p class="card-text">Discord: {{ $applicant->discord }}</p>
                     <p class="card-text font-weight-bold">
                         @foreach($types as $t)
