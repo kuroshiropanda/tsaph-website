@@ -152,14 +152,20 @@ class ApplicantService
 
     public function delete(Applicant $applicant)
     {
-        DB::transaction(function () use ($applicant) {
-            $applicant->discordData()->delete();
-            $applicant->answers()->delete();
-            $applicant->answers()->detach();
-            $applicant->types()->detach();
-            $applicant->reason()->delete();
+        try {
+            DB::transaction(function () use ($applicant) {
+                $applicant->discordData()->delete();
+                $applicant->answers()->delete();
+                $applicant->answers()->detach();
+                $applicant->types()->detach();
+                $applicant->reason()->delete();
 
-            $applicant->delete();
-        });
+                $applicant->delete();
+            });
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 }

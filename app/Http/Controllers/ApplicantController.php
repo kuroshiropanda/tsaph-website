@@ -133,7 +133,10 @@ class ApplicantController extends Controller
     {
         $user = $request->user();
         if ($user->hasRole('super admin')) {
-            $this->applicant->delete($applicant);
+            $del = $this->applicant->delete($applicant);
+            if($del) {
+                $this->discord->removeMember($applicant->discordData->discord_id);
+            }
         }
 
         return redirect()->route('applicants');

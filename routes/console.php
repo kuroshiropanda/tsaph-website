@@ -43,18 +43,16 @@ Artisan::command('member:update', function () {
 
     $data = $api->getKraken('teams/tsaph');
 
-    foreach($data->users as $d)
-    {
+    foreach($data->users as $d) {
         $app = \App\Applicant::where('twitch_id', $d->_id)
                             ->where('invited', false)
                             ->first();
-        if($app)
-        {
+        if($app) {
             $app->invited = true;
             $app->save();
         }
 
-        $member = Member::updateOrCreate(
+        Member::updateOrCreate(
             ['twitch_id' => $d->_id],
             ['username' => $d->display_name, 'avatar' => $d->logo]
         );
@@ -70,8 +68,39 @@ Artisan::command('applicants:deadline', function () {
     foreach($applicants as $a) {
         $date = $a->created_at->diffInWeeks($a->created_at->copy()->addWeeks(2));
         if($date == 2) {
-            $applicant->delete($a->id);
             $discord->removeMember($a->discordData->discord_id);
+            $applicant->delete($a->id);
         }
+    }
+})->describe('Delete all applicants after 2 weeks of deadline');
+
+Artisan::command('applicant:left', function () {
+    $discord = resolve('App\Services\DiscordApi');
+    $applicant = resolve('App\Services\ApplicantService');
+
+    $applicants = Applicant::where('approved', false)->where('invited', false)->where('denied', false)->get();
+
+    foreach($applicants as $a) {
+        $id = $a->discordData->discord_id;
+
+        $disc = $discord->getMember($id);
+        if(!$disc) {
+            $applicant->delete($a);
+        }
+    }
+})->describe('Remove all applicants who left discord');
+
+Artisan::command('members:renew', function () {
+    Member::truncate();
+
+    $api = resolve('App\Services\TwitchApi');
+
+    $data = $api->getKraken('teams/tsaph');
+
+    foreach($data->users as $d) {
+        Member::updateOrCreate(
+            ['twitch_id' => $d->_id],
+            ['username' => $d->display_name, 'avatar' => $d->logo]
+        );
     }
 });
