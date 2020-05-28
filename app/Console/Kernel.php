@@ -26,9 +26,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('member:update')->daily();
-        $schedule->command('activitylog:clean --days=14')->daily();
-        $schedule->command('applicant:update')->weekly();
+        // $schedule->command('applicants:deadline')->daily();
+        $schedule->command('member:update')->daily()->runInBackground();
+        $schedule->command('activitylog:clean --days=14')->daily()->runInBackground();
+        $schedule->command('applicant:update')->weekly()->sundays()->at('03:00');
+        $schedule->command('applicant:left')->weekly()->mondays()->at('03:00');
     }
 
     /**

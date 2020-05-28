@@ -199,6 +199,37 @@ class DiscordApi
         ]);
     }
 
+    public function leaveLog($id)
+    {
+        $app = Applicant::find($id);
+
+        return $this->discord->channel->createMessage([
+            'channel.id' => 715493567333793812,
+            'embed' => [
+                'title' => 'Applicant Left Discord',
+                'color' => 13113625,
+                'timestamp' => $app->updated_at->toISOString(),
+                'thumbnail' => [
+                    'url' => $app->avatar
+                ],
+                'fields' => [
+                    [
+                        'name' => 'Name',
+                        'value' => $app->name
+                    ],
+                    [
+                        'name' => 'twitch',
+                        'value' => $app->username
+                    ],
+                    [
+                        'name' => 'discord',
+                        'value' => $app->discordData->username
+                    ]
+                ]
+            ]
+        ]);
+    }
+
     public function sendDM($id, $discord)
     {
         $app = Applicant::find($id);

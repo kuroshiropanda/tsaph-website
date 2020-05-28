@@ -21,6 +21,9 @@ class DiscordController extends Controller
     {
         try {
             $user = Socialite::driver('discord')->stateless()->user();
+
+            $twitchToken = (string) $request->cookie('token');
+            $twitch = Socialite::driver('twitch')->userFromToken($twitchToken);
         } catch(Exception $e) {
             return redirect()->route('home');
         }
@@ -28,9 +31,6 @@ class DiscordController extends Controller
         $token = $user->token;
 
         $cookie = cookie('discord', $token, 60);
-
-        $twitchToken = (string) $request->cookie('token');
-        $twitch = Socialite::driver('twitch')->userFromToken($twitchToken);
 
         $applicant = Applicant::where('twitch_id', $twitch->getId())->first();
 

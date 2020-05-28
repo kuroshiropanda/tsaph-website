@@ -85,6 +85,7 @@ Artisan::command('applicant:left', function () {
 
         $disc = $discord->getMember($id);
         if(!$disc) {
+            $discord->leaveLog($a->id);
             $applicant->delete($a);
         }
     }
