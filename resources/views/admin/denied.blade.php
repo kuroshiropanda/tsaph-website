@@ -25,7 +25,7 @@
                     @foreach($denied as $d)
                     <tr>
                         <td scope="row">{{ $d->id }}</td>
-                        <td><img src="{{ $d->avatar }}" style="width:auto; height:8vh;" /></td>
+                        <td><img src="{{ $d->avatar }}" loading="lazy" style="width:auto; height:8vh;" /></td>
                         <td><a href="{{ url('https://twitch.tv/'.$d->username) }}" target="_blank" class="btn btn-outline-info">{{ $d->username }}</a></td>
                         <td>{{ $d->discord }}</td>
                         <td>{{ $d->user->username }}</td>

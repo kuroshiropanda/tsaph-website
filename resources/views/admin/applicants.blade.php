@@ -28,7 +28,7 @@
                     @foreach($applicants as $a)
                     <tr>
                         <td scope="row">{{ $a->id }}</td>
-                        <td><img src="{{ $a->avatar }}" style="width:auto; height:8vh;" />
+                        <td><img src="{{ $a->avatar }}" loading="lazy" style="width:auto; height:8vh;" />
                         </td>
                         <td><a href="{{ url('https://twitch.tv/'.$a->username) }}" target="_blank" class="btn btn-outline-info">{{ $a->username }}</a></td>
                         <td>{{ $a->discord }}</td>

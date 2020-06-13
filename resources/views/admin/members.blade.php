@@ -43,7 +43,7 @@
                     @foreach($members as $m)
                     <li>
                         <a href="https://twitch.tv/{{ $m->username }}">
-                            <img src="{{ $m->avatar }}">
+                            <img src="{{ $m->avatar }}" loading="lazy">
                             {{ $m->username }}
                         </a>
                     </li>
