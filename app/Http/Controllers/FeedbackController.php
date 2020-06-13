@@ -43,7 +43,7 @@ class FeedbackController extends Controller
 
         $captcha = $this->captcha->verify($validated['h-captcha-response']);
 
-        if($captcha->success) {
+        if($captcha['success']) {
             $this->discord->feedback($validated['message']);
 
             $feedback = new Feedback;

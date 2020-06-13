@@ -24,18 +24,21 @@ Artisan::command('applicant:update', function () {
 
     $applicants = Applicant::all();
 
+    $bar = $this->output->createProgressBar(count($applicants));
+    $bar->start();
+
     foreach($applicants as $a)
     {
         $data = $api->get('users', [
-            'query' => [
-                'id' => $a->twitch_id
-            ]
+            'id' => $a->twitch_id
         ]);
 
-        $a->username = $data->data[0]->login;
-        $a->avatar = $data->data[0]->profile_image_url;
+        $a->username = $data['data'][0]['login'];
+        $a->avatar = $data['data'][0]['profile_image_url'];
         $a->save();
     }
+
+    $bar->finish();
 })->describe('Updates applicants data; i.e. avatars, username');
 
 Artisan::command('member:update', function () {
@@ -43,8 +46,11 @@ Artisan::command('member:update', function () {
 
     $data = $api->getKraken('teams/tsaph');
 
-    foreach($data->users as $d) {
-        $app = \App\Applicant::where('twitch_id', $d->_id)
+    $bar = $this->output->createProgressBar(count($data['users']));
+    $bar->start();
+
+    foreach($data['users'] as $d) {
+        $app = \App\Applicant::where('twitch_id', $d['_id'])
                             ->where('invited', false)
                             ->first();
         if($app) {
@@ -53,10 +59,12 @@ Artisan::command('member:update', function () {
         }
 
         Member::updateOrCreate(
-            ['twitch_id' => $d->_id],
-            ['username' => $d->display_name, 'avatar' => $d->logo]
+            ['twitch_id' => $d['_id']],
+            ['username' => $d['display_name'], 'avatar' => $d['logo']]
         );
     }
+
+    $bar->finish();
 })->describe('Update list of members and their data');
 
 Artisan::command('applicants:deadline', function () {
@@ -80,6 +88,9 @@ Artisan::command('applicant:left', function () {
 
     $applicants = Applicant::where('approved', false)->where('invited', false)->where('denied', false)->get();
 
+    $bar = $this->output->createProgressBar(count($applicants));
+    $bar->start();
+
     foreach($applicants as $a) {
         $id = $a->discordData->discord_id;
 
@@ -89,6 +100,8 @@ Artisan::command('applicant:left', function () {
             $applicant->delete($a);
         }
     }
+
+    $bar->finish();
 })->describe('Remove all applicants who left discord');
 
 Artisan::command('members:renew', function () {
@@ -98,10 +111,15 @@ Artisan::command('members:renew', function () {
 
     $data = $api->getKraken('teams/tsaph');
 
-    foreach($data->users as $d) {
+    $bar = $this->output->createProgressBar(count($data['users']));
+    $bar->start();
+
+    foreach($data['users'] as $d) {
         Member::updateOrCreate(
-            ['twitch_id' => $d->_id],
-            ['username' => $d->display_name, 'avatar' => $d->logo]
+            ['twitch_id' => $d['_id']],
+            ['username' => $d['display_name'], 'avatar' => $d['logo']]
         );
     }
+
+    $bar->finish();
 });

@@ -70,6 +70,8 @@ class ApplicantController extends Controller
                 'alert' => 'member ka na tanga'
             ]);
         } elseif ($applicant) {
+            $this->discord->addMember($id, $discord);
+
             return view('application', [
                 'type' => 'applicant',
                 'alert' => 'nag apply ka na. chill ka lang. wak bobo'
@@ -93,7 +95,7 @@ class ApplicantController extends Controller
 
         $captcha = $this->captcha->verify($validated['h-captcha-response']);
 
-        if ($captcha->success) {
+        if ($captcha['success']) {
             $this->applicant->add($request);
         } else {
             return redirect('form')->withInput()->with('status', 'Captcha failed. Please try again.');
@@ -150,7 +152,7 @@ class ApplicantController extends Controller
 
         $captcha = $this->captcha->verify($request['h-captcha-response']);
 
-        if($captcha->success) {
+        if($captcha['success']) {
             if ($request->update === 'approve') {
                 $this->applicant->approve($applicant);
             } elseif ($request->update === 'deny') {
@@ -171,8 +173,8 @@ class ApplicantController extends Controller
             ]
         ]);
 
-        $applicant->username = $data->data[0]->login;
-        $applicant->avatar = $data->data[0]->profile_image_url;
+        $applicant->username = $data['data'][0]['login'];
+        $applicant->avatar = $data['data'][0]['profile_image_url'];
         $applicant->save();
 
         return redirect()->route('applicants');

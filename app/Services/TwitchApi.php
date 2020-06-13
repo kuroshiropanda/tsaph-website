@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
+// use GuzzleHttp\Client;
 use App\Services\TwitchToken;
 
 class TwitchApi
@@ -16,37 +17,46 @@ class TwitchApi
 
     public function getKraken($path)
     {
-        $client = new Client([
-            'base_uri' => 'https://api.twitch.tv/kraken/',
-            'headers' => [
-                'Client-ID' => config('services.twitch.client_id'),
-                'Accept' => 'application/vnd.twitchtv.v5+json'
-            ]
-        ]);
+        $kraken = Http::withHeaders([
+            'Client-ID' => config('services.twitch.client_id'),
+            'Accept' => 'application/vnd.twitchtv.v5+json'
+        ])->get("https://api.twitch.tv/kraken/{$path}");
+        // $client = new Client([
+        //     'base_uri' => 'https://api.twitch.tv/kraken/',
+        //     'headers' => [
+        //         'Client-ID' => config('services.twitch.client_id'),
+        //         'Accept' => 'application/vnd.twitchtv.v5+json'
+        //     ]
+        // ]);
 
-        $response = $client->request('GET', $path);
-        $body = (string) $response->getBody();
-        $data = json_decode($body);
+        // $response = $client->request('GET', $path);
+        // $body = (string) $response->getBody();
+        // $data = json_decode($body);
 
-        return $data;
+        return $kraken->json();
     }
 
     public function get($path, array $options)
     {
         $app = $this->token->token();
 
-        $client = new Client([
-            'base_uri' => 'https://api.twitch.tv/helix/',
-            'headers' => [
-                'Authorization' => 'Bearer '.$app->access_token,
+        $helix = Http::withToken($app['access_token'])
+            ->withHeaders([
                 'Client-ID' => config('services.twitch.client_id')
-            ]
-        ]);
+            ])->get("https://api.twitch.tv/helix/{$path}", $options);
 
-        $response = $client->request('GET', $path, $options);
-        $body = (string) $response->getBody();
-        $data = json_decode($body);
+        // $client = new Client([
+        //     'base_uri' => 'https://api.twitch.tv/helix/',
+        //     'headers' => [
+        //         'Authorization' => 'Bearer '.$app->access_token,
+        //         'Client-ID' => config('services.twitch.client_id')
+        //     ]
+        // ]);
 
-        return $data;
+        // $response = $client->request('GET', $path, $options);
+        // $body = (string) $response->getBody();
+        // $data = json_decode($body);
+
+        return $helix->json();
     }
 }

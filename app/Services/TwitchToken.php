@@ -2,25 +2,30 @@
 
 namespace App\Services;
 
-use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
 
 class TwitchToken
 {
     public function token()
     {
-        $oauth = new Client();
-
-        $res = $oauth->request('POST', 'https://id.twitch.tv/oauth2/token', [
-            'query' => [
-                'client_id' => config('services.twitch.client_id'),
-                'client_secret' => config('services.twitch.client_secret'),
-                'grant_type' => 'client_credentials'
-            ]
+        $response = Http::post('https://id.twitch.tv/oauth2/token', [
+            'client_id' => config('services.twitch.client_id'),
+            'client_secret' => config('services.twitch.client_secret'),
+            'grant_type' => 'client_credentials'
         ]);
+        // $oauth = new Client();
 
-        $app = (string) $res->getBody();
-        $auth = json_decode($app);
+        // $res = $oauth->request('POST', 'https://id.twitch.tv/oauth2/token', [
+        //     'query' => [
+        //         'client_id' => config('services.twitch.client_id'),
+        //         'client_secret' => config('services.twitch.client_secret'),
+        //         'grant_type' => 'client_credentials'
+        //     ]
+        // ]);
 
-        return $auth;
+        // $app = (string) $res->getBody();
+        // $auth = json_decode($app);
+
+        return $response->json();
     }
 }
