@@ -75,7 +75,7 @@ class DiscordApi
         return $this->discord->guild->addGuildMember([
             'guild.id' => $this->guild,
             'user.id' => (int) $id,
-            'access_token' => $token,
+            'access_token' => (string) $token,
             'roles' => [
                 671184968386609183
             ]

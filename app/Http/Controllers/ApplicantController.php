@@ -42,12 +42,12 @@ class ApplicantController extends Controller
 
     public function create(Request $request)
     {
-        $twitch = (string) $request->cookie('token');
-        $discord = (string) $request->cookie('discord');
+        $twitchToken = (string) $request->cookie('token');
+        $discordToken = (string) $request->cookie('discord');
 
         try {
-            $user = Socialite::driver('twitch')->userFromToken($twitch);
-            $discord = Socialite::driver('discord')->userFromToken($discord);
+            $user = Socialite::driver('twitch')->userFromToken($twitchToken);
+            $discord = Socialite::driver('discord')->userFromToken($discordToken);
         } catch (Exception $e) {
             return redirect()->route('home');
         }
@@ -57,6 +57,8 @@ class ApplicantController extends Controller
         $avatar = $user->avatar;
         $email = $user->getEmail();
         $discordId = $discord->getNickname();
+        $dToken = $discord->token;
+        $dId = $discord->getId();
 
         $questions = \App\Question::all();
         $types = \App\Type::all();
@@ -70,7 +72,7 @@ class ApplicantController extends Controller
                 'alert' => 'member ka na tanga'
             ]);
         } elseif ($applicant) {
-            $this->discord->addMember($id, $discord);
+            $this->discord->addMember($dId, $dToken);
 
             return view('application', [
                 'type' => 'applicant',
