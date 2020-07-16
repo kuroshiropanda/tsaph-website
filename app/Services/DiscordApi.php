@@ -63,7 +63,7 @@ class DiscordApi
                     ],
                     [
                         "name" => "link to application form",
-                        "value" => route('applicant', ['applicant' => $app->id])
+                        "value" => route('applicant.show', ['applicant' => $app->username])
                     ]
                 ]
             ]

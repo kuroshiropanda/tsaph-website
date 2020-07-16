@@ -67,7 +67,7 @@
                             <a href="{{ route('members') }}" class="nav-link">Members</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('applicants') }}" class="nav-link">Applicants</a>
+                            <a href="{{ route('applicant.index') }}" class="nav-link">Applicants</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('denied') }}" class="nav-link">Denied</a>
@@ -133,9 +133,11 @@
         </nav>
 
         <main class="mt-5 pt-4">
-            @if(session('status'))
-            <div class="alert alert-info">
-                {{ session('status') }}
+            @if(session('status') && Request::is('admin/*'))
+            <div class="container mt-3">
+                <div class="alert alert-info">
+                    {{ session('status') }}
+                </div>
             </div>
             @endif
             @yield('content')

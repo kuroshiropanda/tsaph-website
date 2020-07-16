@@ -6,6 +6,7 @@ use DB;
 use Auth;
 use Socialite;
 use App\Applicant;
+use App\Discord;
 use App\Services\DiscordApi;
 
 class ApplicantService
@@ -21,7 +22,7 @@ class ApplicantService
     {
         $applicant = Applicant::where('twitch_id', $data->id)->first();
 
-        if(empty($applicant)) {
+        if (empty($applicant)) {
             DB::transaction(function () use ($data) {
                 $app = new Applicant;
                 $app->twitch_id = $data->id;
@@ -116,38 +117,35 @@ class ApplicantService
         $this->discord->deniedLog($applicant->id);
     }
 
-    public function updateTwitch(Applicant $applicant, $twitch)
+    public function updateTwitch(Applicant $applicant, $data)
     {
-        $data = $this->twitchapi->get('users', [
-            'query' => [
-                'login' => $twitch
-            ]
-        ]);
-
-        $applicant->twitch_id = $data->data[0]->id;
-        $applicant->username = $data->data[0]->login;
-        $applicant->avatar = $data->data[0]->profile_image_url;
+        $applicant->twitch_id = $data['data'][0]['id'];
+        $applicant->username = $data['data'][0]['login'];
+        $applicant->avatar = $data['data'][0]['profile_image_url'];
 
         $applicant->save();
-
-        return true;
     }
 
     public function updateDiscord(Applicant $applicant, $discordId)
     {
-        if(empty($applicant->discordData)) {
-            $id = (int) $discordId;
-            $discord = $this->discord->memberInfo($id);
-            $username = $discord->username."#".$discord->discriminator;
-            $avatar = url("https://cdn.discordapp.com/avatars/{$discord->id}/{$discord->avatar}.jpg");
-            $applicant->discordData()->updateOrCreate(
-                ['discord_id' => $id],
-                ['username' => $username, 'avatar' => $avatar]
-            );
-            $applicant->discord = $username;
-
-            $applicant->save();
+        $dup = Discord::where('discord_id', $discordId);
+        if ($dup) {
+            return false;
         }
+        $id = (int) $discordId;
+        $discord = $this->discord->memberInfo($id);
+        $username = $discord->username . "#" . $discord->discriminator;
+        $avatar = url("https://cdn.discordapp.com/avatars/{$discord->id}/{$discord->avatar}.jpg");
+        $applicant->discordData()->update([
+            'discord_id' => $id,
+            'username' => $username,
+            'avatar' => $avatar
+        ]);
+        $applicant->discord = $username;
+
+        $applicant->save();
+
+        return true;
     }
 
     public function delete(Applicant $applicant)

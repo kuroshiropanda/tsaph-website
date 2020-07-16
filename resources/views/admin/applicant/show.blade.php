@@ -12,22 +12,25 @@
                 <div class="card-body text-dark">
                     <h5 class="card-title">Name: {{ $applicant->name }}</h5>
                     <p class="card-text">Twitch: <a class="text-info" href='{{ url("https://twitch.tv/{$applicant->username}") }}' target="_blank" rel="noopener noreferrer">{{ $applicant->username }}</a></p>
-                    <p class="card-text">Discord: {{ $applicant->discord }}</p>
+                    <p class="card-text">Discord: {{ $applicant->discordData->username }}</p>
                     <p class="card-text font-weight-bold">
                         @foreach($types as $t)
                         {{ $t->type }}
                         @endforeach
                     </p>
-                    @if(($applicant->denied === 1 || $applicant->denied === 0) && $applicant->approved === 0)
                     <div class="row">
-                        <div class="col d-flex justify-content-start">
+                        @if(($applicant->denied === 1 || $applicant->denied === 0) && $applicant->approved === 0)
+                        <div class="col d-flex justify-content-center">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#approveModal">Approve</button>
                         </div>
                         <div class="col d-flex justify-content-end">
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#denyModal">Deny</button>
                         </div>
+                        @endif
+                        <div class="col d-flex justify-content-start">
+                            <a class="btn btn-warning" href="{{ route('applicant.edit', ['applicant' => $applicant->id]) }}">Edit</a>
+                        </div>
                     </div>
-                    @endif
                 </div>
             </div>
         </div>

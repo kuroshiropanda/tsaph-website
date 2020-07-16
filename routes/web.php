@@ -47,10 +47,11 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:super admin|admin|moderator|ads')->group(function () {
         Route::get('/admin/users', 'UserController@index')->name('users');
         Route::get('/admin/members', 'MembersController@index')->name('members');
-        Route::get('/admin/applicants', 'ApplicantController@index')->name('applicants');
+        Route::get('/admin/applicants', 'ApplicantController@index')->name('applicant.index');
         Route::get('/admin/denied', 'HomeController@denied')->name('denied');
         Route::get('/admin/approved', 'HomeController@approved')->name('approved');
-        Route::get('/admin/applicant/{applicant}', 'ApplicantController@show')->where('id', '[0-9]+')->name('applicant');
+        Route::get('/admin/applicant/{applicant}', 'ApplicantController@show')->name('applicant.show');
+        Route::get('/admin/applicant/{applicant}/edit', 'ApplicantController@edit')->name('applicant.edit');
         Route::get('/admin/feedback', 'FeedbackController@index')->name('feedback.index');
     });
 

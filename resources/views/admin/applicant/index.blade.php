@@ -31,9 +31,9 @@
                         <td><img src="{{ $a->avatar }}" loading="lazy" style="width:auto; height:8vh;" />
                         </td>
                         <td><a href="{{ url('https://twitch.tv/'.$a->username) }}" target="_blank" class="btn btn-outline-info">{{ $a->username }}</a></td>
-                        <td>{{ $a->discord }}</td>
+                        <td>{{ $a->discordData->username }}</td>
                         <td>
-                            <a href="{{ route('applicant', ['applicant' => $a->id]) }}" class="btn btn-primary">Form</a>
+                            <a href="{{ route('applicant.show', ['applicant' => $a->username]) }}" class="btn btn-primary">Form</a>
                         </td>
                         @can('edit roles')
                         <td>

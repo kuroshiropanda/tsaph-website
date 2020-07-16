@@ -29,7 +29,7 @@
                         <td><a href="{{ url('https://twitch.tv/'.$d->username) }}" target="_blank" class="btn btn-outline-info">{{ $d->username }}</a></td>
                         <td>{{ $d->discord }}</td>
                         <td>{{ $d->user->username }}</td>
-                        <td><a href="{{ route('applicant', ['applicant' => $d->id]) }}" class="btn btn-primary">Form</a></td>
+                        <td><a href="{{ route('applicant.show', ['applicant' => $d->username]) }}" class="btn btn-primary">Form</a></td>
                         <td>
                             <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#{{ $d->username }}">Reason</button>
                             <div class="modal fade" id="{{ $d->username }}" tabindex="-1" role="dialog" aria-labelledby="{{ $d->username }}Label" aria-hidden="true">

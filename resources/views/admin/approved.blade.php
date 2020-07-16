@@ -12,7 +12,7 @@
                 <div class="card-body overflow-auto">
                     <div class="list-group">
                         @foreach($approved as $a)
-                        <a href="{{ route('applicant', ['applicant' => $a->id]) }}" class="list-group-item list-group-item-action text-dark">
+                        <a href="{{ route('applicant.show', ['applicant' => $a->username]) }}" class="list-group-item list-group-item-action text-dark">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">{{ $a->name }}</h5>
                                 <small>{{ $a->updated_at->diffForHumans() }}</small>
@@ -34,7 +34,7 @@
                 <div class="card-body overflow-auto">
                     <div class="list-group">
                         @foreach($invited as $i)
-                        <a href="{{ route('applicant', ['applicant' => $i->id]) }}" class="list-group-item list-group-item-action text-dark">
+                        <a href="{{ route('applicant.show', ['applicant' => $i->username]) }}" class="list-group-item list-group-item-action text-dark">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">{{ $i->name }}</h5>
                                 <small>{{ $i->updated_at->diffForHumans() }}</small>

@@ -35,7 +35,7 @@ class ApplicantController extends Controller
             ->where('invited', false)
             ->get();
 
-        return view('admin.applicants', [
+        return view('admin.applicant.index', [
             'applicants' => $applicants
         ]);
     }
@@ -97,40 +97,61 @@ class ApplicantController extends Controller
 
         $captcha = $this->captcha->verify($validated['h-captcha-response']);
 
-        if ($captcha['success']) {
-            $this->applicant->add($request);
-        } else {
+        if (!$captcha['success']) {
             return redirect('form')->withInput()->with('status', 'Captcha failed. Please try again.');
         }
+
+        $this->applicant->add($request);
 
         return redirect()->route('interview');
     }
 
-    public function show(Applicant $applicant)
+    public function show($applicant)
     {
+        $applicant = Applicant::where('username', $applicant)->first();
         $answers = $applicant->answers()
             ->get();
 
         $types = $applicant->types()->get();
 
-        return view('admin.applicant', [
+        return view('admin.applicant.show', [
             'applicant' => $applicant,
             'answers' => $answers,
             'types' => $types
         ]);
     }
 
+    public function edit(Applicant $applicant)
+    {
+        return view('admin.applicant.edit', [
+            'applicant' => $applicant
+        ]);
+    }
+
     public function update(Applicant $applicant, Request $request)
     {
-        if ($request->filled('username')) {
-            $this->applicant->updateTwitch($applicant, $request->username);
+        $captcha = $this->captcha->verify($request['h-captcha-response']);
+
+        if(!$captcha['success']) {
+            return back()->with('status', 'Captcha failed. Please try again.');
         }
 
-        if ($request->filled('discord')) {
-            $this->applicant->updateDiscord($applicant, $request->discord);
+        if ($applicant->username !== $request->input('twitchUsername')) {
+            $data = $this->twitchapi->getUserByLogin($request->input('twitchUsername'));
+            $this->applicant->updateTwitch($applicant, $data);
+        } elseif ($applicant->twitch_id !== $request->input('twitchId')) {
+            $data = $this->twitchapi->getUserById($request->input('twitchId'));
+            $this->applicant->updateTwitch($applicant, $data);
         }
 
-        return redirect()->route('applicants');
+        if ($applicant->discordData->discord_id !== $request->input('discordId')) {
+            $dis = $this->applicant->updateDiscord($applicant, $request->input('discordId'));
+            if (!$dis) {
+                return redirect()->route('applicant.edit', [ 'applicant' => $applicant->id ])->with('status', 'Duplicate Discord ID');
+            }
+        }
+
+        return redirect()->route('applicant.show', [ 'applicant' => $applicant->username ]);
     }
 
     public function destroy(Applicant $applicant, Request $request)
@@ -143,7 +164,7 @@ class ApplicantController extends Controller
             }
         }
 
-        return redirect()->route('applicants');
+        return redirect()->route('applicant.index');
     }
 
     public function processApplicant(Applicant $applicant, Request $request)
@@ -154,31 +175,16 @@ class ApplicantController extends Controller
 
         $captcha = $this->captcha->verify($request['h-captcha-response']);
 
-        if($captcha['success']) {
-            if ($request->update === 'approve') {
-                $this->applicant->approve($applicant);
-            } elseif ($request->update === 'deny') {
-                $this->applicant->deny($applicant, $request->reason);
-            }
-        } else {
-            return redirect()->route('applicant', ['applicant' => $applicant->id])->withInput()->with('status', 'Captcha failed. Please try again.');
+        if(!$captcha['success']) {
+            return redirect()->route('applicant.show', ['applicant' => $applicant->id])->withInput()->with('status', 'Captcha failed. Please try again.');
         }
 
-        return redirect()->route('applicants')->with('status', 'Applicant was processed successfully. '.$request->update);
-    }
+        if ($request->update === 'approve') {
+            $this->applicant->approve($applicant);
+        } elseif ($request->update === 'deny') {
+            $this->applicant->deny($applicant, $request->reason);
+        }
 
-    public function updateData(Applicant $applicant)
-    {
-        $data = $this->twitchapi->get('users', [
-            'query' => [
-                'id' => $applicant->twitch_id
-            ]
-        ]);
-
-        $applicant->username = $data['data'][0]['login'];
-        $applicant->avatar = $data['data'][0]['profile_image_url'];
-        $applicant->save();
-
-        return redirect()->route('applicants');
+        return redirect()->route('applicant.index')->with('status', 'Applicant was processed successfully. '.$request->update);
     }
 }

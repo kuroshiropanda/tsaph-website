@@ -27,8 +27,7 @@ Artisan::command('applicant:update', function () {
     $bar = $this->output->createProgressBar(count($applicants));
     $bar->start();
 
-    foreach($applicants as $a)
-    {
+    foreach ($applicants as $a) {
         $data = $api->get('users', [
             'id' => $a->twitch_id
         ]);
@@ -51,11 +50,11 @@ Artisan::command('member:update', function () {
     $bar = $this->output->createProgressBar(count($data['users']));
     $bar->start();
 
-    foreach($data['users'] as $d) {
+    foreach ($data['users'] as $d) {
         $app = \App\Applicant::where('twitch_id', $d['_id'])
-                            ->where('invited', false)
-                            ->first();
-        if($app) {
+            ->where('invited', false)
+            ->first();
+        if ($app) {
             $app->invited = true;
             $app->save();
         }
@@ -79,9 +78,9 @@ Artisan::command('applicants:deadline', function () {
     $bar = $this->output->createProgressBar(count($applicants));
     $bar->start();
 
-    foreach($applicants as $a) {
+    foreach ($applicants as $a) {
         $date = $a->created_at->diffInWeeks($a->created_at->copy()->addWeeks(2));
-        if($date == 2) {
+        if ($date == 2) {
             $discord->removeMember($a->discordData->discord_id);
             $applicant->delete($a->id);
         }
@@ -101,11 +100,11 @@ Artisan::command('applicant:left', function () {
     $bar = $this->output->createProgressBar(count($applicants));
     $bar->start();
 
-    foreach($applicants as $a) {
+    foreach ($applicants as $a) {
         $id = $a->discordData->discord_id;
 
         $disc = $discord->getMember($id);
-        if(!$disc) {
+        if (!$disc) {
             $discord->leaveLog($a->id);
             $applicant->delete($a);
         }
@@ -126,7 +125,7 @@ Artisan::command('members:renew', function () {
     $bar = $this->output->createProgressBar(count($data['users']));
     $bar->start();
 
-    foreach($data['users'] as $d) {
+    foreach ($data['users'] as $d) {
         Member::updateOrCreate(
             ['twitch_id' => $d['_id']],
             ['username' => $d['display_name'], 'avatar' => $d['logo']]

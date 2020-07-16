@@ -59,4 +59,32 @@ class TwitchApi
 
         return $helix->json();
     }
+
+    public function getUserById($id)
+    {
+        $app = $this->token->token();
+
+        $user = Http::withToken($app['access_token'])
+            ->withHeaders([
+                'Client-ID' => config('services.twitch.client_id')
+            ])->get("https://api.twitch.tv/helix/users", [
+                'id' => $id
+            ]);
+
+        return $user->json();
+    }
+
+    public function getUserByLogin($login)
+    {
+        $app = $this->token->token();
+
+        $user = Http::withToken($app['access_token'])
+            ->withHeaders([
+                'Client-ID' => config('services.twitch.client_id')
+            ])->get("https://api.twitch.tv/helix/users", [
+                'login' => $login
+            ]);
+
+        return $user->json();
+    }
 }
