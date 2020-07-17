@@ -33,15 +33,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin', 'HomeController@index')->name('admin');
     Route::get('/admin/profile/{user}/edit', 'UserController@edit')->middleware('password.confirm')->name('user.edit');
     Route::get('/admin/profile/{user}/change_password', 'UserController@password')->middleware('password.confirm')->name('user.password');
-    Route::post('/admin/profile/{user}/update', 'UserController@update')->name('user.update');
-    Route::post('/admin/profile/{user}/update/password', 'UserController@updatePassword')->name('user.update.password');
+    Route::patch('/admin/profile/{user}', 'UserController@update')->name('user.update');
+    Route::patch('/admin/profile/{user}/password', 'UserController@updatePassword')->name('user.update.password');
 
     Route::middleware('role:super admin')->group(function () {
-        Route::delete('/admin/user/{user}', 'UserController@destroy')->name('user.delete');
-        Route::post('/admin/user/{user}/role/update', 'UserController@updateRole')->where('applicant', '[0-9]+')->name('update.role');
-        Route::delete('/admin/applicant/{applicant}', 'ApplicantController@destroy')->name('applicant.delete');
-        Route::post('/admin/applicant/{applicant}/data', 'ApplicantController@updateData')->name('applicant.data');
-        Route::post('/admin/applicant/{applicant}/update', 'ApplicantController@update')->name('applicant.update');
+        Route::delete('/admin/user/{user}', 'UserController@destroy')->where('user', '[0-9]+')->name('user.destroy');
+        Route::patch('/admin/user/{user}', 'UserController@updateRole')->where('user', '[0-9]+')->name('user.update.role');
+        Route::delete('/admin/applicant/{applicant}', 'ApplicantController@destroy')->name('applicant.destroy');
+        Route::patch('/admin/applicant/{applicant}', 'ApplicantController@update')->name('applicant.update');
     });
 
     Route::middleware('role:super admin|admin|moderator|ads')->group(function () {

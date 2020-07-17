@@ -12,3 +12,5 @@ npm-debug.log
 yarn-error.log
 
 *.zip
+Envoy.blade.php
+.vscode/settings.json
