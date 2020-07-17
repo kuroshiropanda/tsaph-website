@@ -145,7 +145,7 @@ class ApplicantController extends Controller
             $this->applicant->updateTwitch($applicant, $data);
         }
 
-        if ($applicant->discordData->discord_id !== $request->input('discordId')) {
+        if (empty($applicant->discordData) || $applicant->discordData->discord_id !== $request->input('discordId')) {
             $dis = $this->applicant->updateDiscord($applicant, $request->input('discordId'));
             if (!$dis) {
                 return redirect()->route('applicant.edit', ['applicant' => $applicant->id])->with('status', 'Duplicate Discord ID');

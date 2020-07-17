@@ -135,7 +135,7 @@ class ApplicantService
 
     public function updateDiscord(Applicant $applicant, $discordId)
     {
-        $dup = Discord::where('discord_id', $discordId);
+        $dup = Discord::where('discord_id', $discordId)->first();
         if ($dup) {
             return false;
         }
@@ -143,11 +143,14 @@ class ApplicantService
         $discord = $this->discord->memberInfo($id);
         $username = $discord->username . "#" . $discord->discriminator;
         $avatar = url("https://cdn.discordapp.com/avatars/{$discord->id}/{$discord->avatar}.jpg");
-        $applicant->discordData()->update([
-            'discord_id' => $id,
-            'username' => $username,
-            'avatar' => $avatar
-        ]);
+        $applicant->discordData()->updateOrCreate(
+            [ 'applicant_id' => $applicant->id ],
+            [
+                'discord_id' => $id,
+                'username' => $username,
+                'avatar' => $avatar
+            ]
+        );
         $applicant->discord = $username;
 
         $applicant->save();

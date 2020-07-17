@@ -28,18 +28,16 @@
                         <input type="text" name="twitchUsername" class="form-control" id="twitchUsername" value="{{ $applicant->username }}">
                     </div>
                 </div>
-                @if(!empty($applicant->discordData))
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="discordId">{{ __('Discord ID') }}</label>
-                        <input type="text" name="discordId" class="form-control" id="discordId" value="{{ $applicant->discordData->discord_id }}">
+                        <input type="text" name="discordId" class="form-control" id="discordId" value="{{ !empty($applicant->discordData) ? $applicant->discordData->discord_id : '' }}">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="discordTag">{{ __('Discord Tag') }}</label>
-                        <input type="text" name="discordTag" class="form-control" id="discordTag" value="{{ $applicant->discordData->username }}" disabled>
+                        <input type="text" name="discordTag" class="form-control" id="discordTag" value="{{ !empty($applicant->discordData) ? $applicant->discordData->username : '' }}" disabled>
                     </div>
                 </div>
-                @endif
                 <div class="h-captcha @error('h-captcha-response') is-invalid @enderror" data-theme="dark" data-sitekey="{{ config('services.hcaptcha.site_key') }}"></div>
                 @error('h-captcha-response')
                     <div class="alert alert-danger">{{ $message }}</div>
