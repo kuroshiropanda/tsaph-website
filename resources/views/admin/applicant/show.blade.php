@@ -12,7 +12,7 @@
                 <div class="card-body text-dark">
                     <h5 class="card-title">Name: {{ $applicant->name }}</h5>
                     <p class="card-text">Twitch: <a class="text-info" href='{{ url("https://twitch.tv/{$applicant->username}") }}' target="_blank" rel="noopener noreferrer">{{ $applicant->username }}</a></p>
-                    <p class="card-text">Discord: {{ $applicant->discordData->username }}</p>
+                    <p class="card-text">Discord: {{ !empty($applicant->discordData->username) ? $applicant->discordData->username : $applicant->discord }}</p>
                     <p class="card-text font-weight-bold">
                         @foreach($types as $t)
                         {{ $t->type }}

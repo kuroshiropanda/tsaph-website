@@ -12,6 +12,7 @@
                 Warning do not edit If you don't know what you're doing!
             </div>
             <form action="{{ route('applicant.update', ['applicant' => $applicant->id]) }}" method="POST">
+                @method('PATCH')
                 @csrf
                 <div class="form-group">
                     <label for="name">Name</label>
@@ -27,6 +28,7 @@
                         <input type="text" name="twitchUsername" class="form-control" id="twitchUsername" value="{{ $applicant->username }}">
                     </div>
                 </div>
+                @if(!empty($applicant->discordData))
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="discordId">{{ __('Discord ID') }}</label>
@@ -37,11 +39,31 @@
                         <input type="text" name="discordTag" class="form-control" id="discordTag" value="{{ $applicant->discordData->username }}" disabled>
                     </div>
                 </div>
+                @endif
                 <div class="h-captcha @error('h-captcha-response') is-invalid @enderror" data-theme="dark" data-sitekey="{{ config('services.hcaptcha.site_key') }}"></div>
                 @error('h-captcha-response')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
                 <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+            <form class="mt-2" action="{{ route('applicant.destroy', [ 'applicant' => $applicant->id ]) }}" method="POST">
+                @method('DELETE')
+                @csrf
+                <div class="row">
+                    <div class="col">
+                        <div class="form-check">
+                            <input id="appKick" class="form-check-input" name="kick" type="radio" value="true" required>
+                            <label class="form-check-label" for="appKick">Kick on Discord</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="appNoKick" class="form-check-input" name="kick" type="radio" value="false" required>
+                            <label class="form-check-label" for="appNoKick">Don't Kick on Discord</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

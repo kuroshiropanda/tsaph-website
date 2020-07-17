@@ -19,6 +19,9 @@
                         <th class="sticky-top" scope="col">Form</th>
                         <th class="sticky-top" scope="col">reason</th>
                         <th class="sticky-top" scope="col"></th>
+                        @can('edit roles')
+                        <th class="sticky-top">Delete</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -56,6 +59,15 @@
                             </div>
                         </td>
                         <td>{{ $d->updated_at->diffForHumans() }}</td>
+                        @can('edit roles')
+                        <td>
+                            <form action="{{ route('applicant.destroy', ['applicant' => $d->id]) }}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        </td>
+                        @endcan
                     </tr>
                     @endforeach
                 </tbody>

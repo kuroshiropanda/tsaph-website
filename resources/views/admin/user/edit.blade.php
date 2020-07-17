@@ -9,6 +9,7 @@
         </div>
         <div class="card-body overflow-auto h-100">
             <form action="{{ route('user.update', ['user' => Auth::id()]) }}" method="POST">
+                @method('PATCH')
                 @csrf
                 <div class="form-group">
                     <label for="name">Name</label>

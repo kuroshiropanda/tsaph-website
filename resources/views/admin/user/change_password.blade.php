@@ -9,6 +9,7 @@
         </div>
         <div class="card-body overflow-auto">
             <form action="{{ route('user.update.password', ['user' => Auth::id()]) }}" method="POST">
+                @method('PATCH')
                 @csrf
                 <div class="form-row">
                     <div class="form-group col-md-6">

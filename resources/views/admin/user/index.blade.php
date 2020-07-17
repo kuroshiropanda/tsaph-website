@@ -29,7 +29,8 @@
                         @can('edit roles')
                         <td>{{ $u->getRoleNames() }}</td>
                         @if(Auth::id() !== $u->id)
-                        <form action="{{ route('update.role', ['user' => $u->id]) }}" method="POST">
+                        <form action="{{ route('user.update.role', ['user' => $u->id]) }}" method="POST">
+                            @method('PATCH')
                             @csrf
                             <td>
                                 @foreach($roles as $r)
@@ -46,7 +47,7 @@
                             </td>
                         </form>
                         <td>
-                            <form action="{{ route('user.delete', ['user' => $u->id]) }}" method="POST">
+                            <form action="{{ route('user.destroy', ['user' => $u->id]) }}" method="POST">
                                 @method('DELETE')
                                 @csrf
                                 <button type="submit" class="btn btn-danger"><i class="fas fa-user-minus"></i></button>

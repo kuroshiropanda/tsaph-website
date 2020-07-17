@@ -16,10 +16,6 @@
                         <th class="sticky-top" scope="col">Discord</th>
                         <th class="sticky-top" scope="col">Form</th>
                         @can('edit roles')
-                        <th class="sticky-top">Update</th>
-                        <th class="sticky-top">Twitch</th>
-                        <th class="sticky-top">Discord</th>
-                        <th class="sticky-top">Update</th>
                         <th class="sticky-top">Delete</th>
                         @endcan
                     </tr>
@@ -37,33 +33,7 @@
                         </td>
                         @can('edit roles')
                         <td>
-                            <form action="{{ route('applicant.data', ['applicant' => $a->id]) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-download"></i></button>
-                            </form>
-                        </td>
-                        <form action="{{ route('applicant.update', ['applicant' => $a->id]) }}" method="POST">
-                            @csrf
-                            <td>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="username" name="username">
-                                </div>
-                            </td>
-                            @if(empty($a->discordData))
-                            <td>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="discord" name="discord">
-                                </div>
-                            </td>
-                            @else
-                            <td></td>
-                            @endif
-                            <td>
-                                <button type="submit" class="btn btn-warning"><i class="far fa-edit"></i></button>
-                            </td>
-                        </form>
-                        <td>
-                            <form action="{{ route('applicant.delete', ['applicant' => $a->id]) }}" method="POST">
+                            <form action="{{ route('applicant.destroy', ['applicant' => $a->id]) }}" method="POST">
                                 @method('DELETE')
                                 @csrf
                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>

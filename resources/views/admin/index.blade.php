@@ -26,7 +26,9 @@
                             <td scope="row">{{ $a->id }}</td>
                             <td>{{ $a->changes['attributes']['username'] }}</td>
                             <td>
-                                @if($a->changes['attributes']['approved'] == 1 && $a->changes['old']['approved'] == 0)
+                                @if(!isset($a->changes['old']))
+                                Deleted
+                                @elseif($a->changes['attributes']['approved'] == 1 && $a->changes['old']['approved'] == 0)
                                 Approved
                                 @elseif($a->changes['attributes']['denied'] == 1 && ($a->changes['old']['denied'] == 0 || $a->changes['old']['denied'] == 1))
                                 Denied
