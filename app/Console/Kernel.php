@@ -29,8 +29,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('applicants:deadline')->daily();
         $schedule->command('member:update')->daily()->runInBackground();
         $schedule->command('activitylog:clean --days=14')->daily()->runInBackground();
-        $schedule->command('applicant:update')->weekly()->sundays()->at('03:00');
-        $schedule->command('applicant:left')->daily()->at('03:00')->runInBackground();
+        $schedule->command('applicant:update')->weekly()->runInBackground();
+        $schedule->command('applicant:left')->daily()->runInBackground();
+        $schedule->command('applicant:delete')->monthly()->runInBackground();
     }
 
     /**

@@ -21,6 +21,8 @@ Artisan::command('inspire', function () {
 
 Artisan::command('applicant:update', function () {
     $api = resolve('App\Services\TwitchApi');
+    $discordApi = resolve('App\Services\DiscordApi');
+    $appService = resolve('App\Services\ApplicantService');
 
     $applicants = Applicant::all();
 
@@ -32,9 +34,10 @@ Artisan::command('applicant:update', function () {
             'id' => $a->twitch_id
         ]);
 
-        $a->username = $data['data'][0]['login'];
-        $a->avatar = $data['data'][0]['profile_image_url'];
-        $a->save();
+        $discordId = $discordApi->getId($a);
+
+        $appService->updateTwitch($a, $data);
+        $appService->updateDiscord($a, $discordId);
 
         $bar->advance();
     }
@@ -70,7 +73,7 @@ Artisan::command('member:update', function () {
     $bar->finish();
 })->describe('Update list of members and their data');
 
-Artisan::command('applicants:deadline', function () {
+Artisan::command('applicant:deadline', function () {
     $discord = resolve('App\Services\DiscordApi');
     $applicant = resolve('App\Services\ApplicantService');
 
@@ -81,8 +84,11 @@ Artisan::command('applicants:deadline', function () {
     foreach ($applicants as $a) {
         $date = $a->created_at->diffInWeeks($a->created_at->copy()->addWeeks(2));
         if ($date == 2) {
-            $discord->removeMember($a->discordData->discord_id);
-            $applicant->delete($a->id);
+            $discordId = $discord->getId($a);
+            $del = $applicant->delete($a->id);
+            if ($del) {
+                $discord->removeMember($discordId);
+            }
         }
 
         $bar->advance();
@@ -95,13 +101,13 @@ Artisan::command('applicant:left', function () {
     $discord = resolve('App\Services\DiscordApi');
     $applicant = resolve('App\Services\ApplicantService');
 
-    $applicants = Applicant::where('approved', false)->where('invited', false)->where('denied', false)->get();
+    $applicants = Applicant::where('approved', false)->where('invited', false)->get();
 
     $bar = $this->output->createProgressBar(count($applicants));
     $bar->start();
 
     foreach ($applicants as $a) {
-        $id = $a->discordData->discord_id;
+        $id = $discord->getId($a);
 
         $disc = $discord->getMember($id);
         if (!$disc) {
@@ -115,7 +121,7 @@ Artisan::command('applicant:left', function () {
     $bar->finish();
 })->describe('Remove all applicants who left discord');
 
-Artisan::command('members:renew', function () {
+Artisan::command('member:renew', function () {
     Member::truncate();
 
     $api = resolve('App\Services\TwitchApi');
@@ -136,3 +142,20 @@ Artisan::command('members:renew', function () {
 
     $bar->finish();
 })->describe('Truncate members table then updates all list from twitch api');
+
+Artisan::command('applicant:delete', function () {
+    $appService = resolve('App\Services\ApplicantService');
+
+    $applicants = Applicant::where('invited', true)->get();
+
+    $bar = $this->output->createProgressBar(count($applicants));
+    $bar->start();
+
+    foreach ($applicants as $a) {
+        $appService->delete($a);
+
+        $bar->advance();
+    }
+
+    $bar->finish();
+})->describe('Delete all applicants that has already been invited');
