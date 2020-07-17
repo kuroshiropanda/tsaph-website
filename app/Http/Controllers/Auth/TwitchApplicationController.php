@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Socialite;
-use Exception;
+use Throwable;
 
 class TwitchApplicationController extends Controller
 {
@@ -30,7 +30,8 @@ class TwitchApplicationController extends Controller
     {
         try {
             $user = Socialite::driver('twitch')->stateless()->user();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
+            report($e);
             return redirect()->route('home');
         }
 

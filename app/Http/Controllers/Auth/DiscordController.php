@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Socialite;
 use App\Applicant;
-use Exception;
+use Throwable;
 
 class DiscordController extends Controller
 {
@@ -24,7 +24,8 @@ class DiscordController extends Controller
 
             $twitchToken = (string) $request->cookie('token');
             $twitch = Socialite::driver('twitch')->userFromToken($twitchToken);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
+            report($e);
             return redirect()->route('home');
         }
 

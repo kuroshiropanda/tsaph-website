@@ -16,7 +16,7 @@ class UserController extends Controller
         $users = User::paginate(10);
         $roles = Role::all();
 
-        return view('admin.users', compact('users', 'roles'));
+        return view('admin.user.index', compact('users', 'roles'));
     }
 
     public function edit(User $user)
@@ -26,7 +26,7 @@ class UserController extends Controller
             return redirect()->route('user.edit', ['user' => Auth::id()]);
         }
         else {
-            return view('admin.profile', compact('user'));
+            return view('admin.user.edit', compact('user'));
         }
     }
 
@@ -62,7 +62,7 @@ class UserController extends Controller
         }
         else
         {
-            return view('admin.change_password');
+            return view('admin.user.change_password');
         }
     }
 

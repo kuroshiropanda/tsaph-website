@@ -119,11 +119,18 @@ class ApplicantService
 
     public function updateTwitch(Applicant $applicant, $data)
     {
-        $applicant->twitch_id = $data['data'][0]['id'];
+        $id = $data['data'][0]['id'];
+        if ($applicant->twitch_id !== $id) {
+            $applicant->twitch_id = $id;
+        }
         $applicant->username = $data['data'][0]['login'];
         $applicant->avatar = $data['data'][0]['profile_image_url'];
 
         $applicant->save();
+
+        $discordId = $this->discord->getId($applicant);
+
+        $this->discord->updateUsername($applicant, $discordId);
     }
 
     public function updateDiscord(Applicant $applicant, $discordId)
@@ -160,7 +167,8 @@ class ApplicantService
 
                 $applicant->delete();
             });
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
+            report($e);
             return false;
         }
 

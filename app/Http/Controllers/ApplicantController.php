@@ -11,7 +11,7 @@ use Socialite;
 use App\Services\DiscordApi;
 use App\Services\HCaptcha;
 use App\Services\ApplicantService;
-use Exception;
+use Throwable;
 
 class ApplicantController extends Controller
 {
@@ -48,7 +48,8 @@ class ApplicantController extends Controller
         try {
             $user = Socialite::driver('twitch')->userFromToken($twitchToken);
             $discord = Socialite::driver('discord')->userFromToken($discordToken);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
+            report($e);
             return redirect()->route('home');
         }
 
@@ -132,7 +133,7 @@ class ApplicantController extends Controller
     {
         $captcha = $this->captcha->verify($request['h-captcha-response']);
 
-        if(!$captcha['success']) {
+        if (!$captcha['success']) {
             return back()->with('status', 'Captcha failed. Please try again.');
         }
 
@@ -147,20 +148,22 @@ class ApplicantController extends Controller
         if ($applicant->discordData->discord_id !== $request->input('discordId')) {
             $dis = $this->applicant->updateDiscord($applicant, $request->input('discordId'));
             if (!$dis) {
-                return redirect()->route('applicant.edit', [ 'applicant' => $applicant->id ])->with('status', 'Duplicate Discord ID');
+                return redirect()->route('applicant.edit', ['applicant' => $applicant->id])->with('status', 'Duplicate Discord ID');
             }
         }
 
-        return redirect()->route('applicant.show', [ 'applicant' => $applicant->username ]);
+        return redirect()->route('applicant.show', ['applicant' => $applicant->username]);
     }
 
     public function destroy(Applicant $applicant, Request $request)
     {
         $user = $request->user();
         if ($user->hasRole('super admin')) {
+            $discordId = $this->discord->getId($applicant);
+
             $del = $this->applicant->delete($applicant);
-            if($del) {
-                $this->discord->removeMember($applicant->discordData->discord_id);
+            if ($del && $request->boolean('kick')) {
+                $this->discord->removeMember($discordId);
             }
         }
 
@@ -175,7 +178,7 @@ class ApplicantController extends Controller
 
         $captcha = $this->captcha->verify($request['h-captcha-response']);
 
-        if(!$captcha['success']) {
+        if (!$captcha['success']) {
             return redirect()->route('applicant.show', ['applicant' => $applicant->id])->withInput()->with('status', 'Captcha failed. Please try again.');
         }
 
@@ -185,6 +188,6 @@ class ApplicantController extends Controller
             $this->applicant->deny($applicant, $request->reason);
         }
 
-        return redirect()->route('applicant.index')->with('status', 'Applicant was processed successfully. '.$request->update);
+        return redirect()->route('applicant.index')->with('status', 'Applicant was processed successfully. ' . $request->update);
     }
 }

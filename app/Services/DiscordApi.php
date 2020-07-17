@@ -4,7 +4,7 @@ namespace App\Services;
 
 use RestCord\DiscordClient;
 use App\Applicant;
-use Exception;
+use Throwable;
 
 class DiscordApi
 {
@@ -89,7 +89,9 @@ class DiscordApi
                 'guild.id' => $this->guild,
                 'user.id' => (int) $id
             ]);
-        } catch (Exception $e) {}
+        } catch (Throwable $e) {
+            report($e);
+        }
     }
 
     public function getMember($id)
@@ -99,7 +101,8 @@ class DiscordApi
                 'guild.id' => $this->guild,
                 'user.id' => (int) $id
             ]);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
+            report($e);
             return false;
         }
 
@@ -117,10 +120,8 @@ class DiscordApi
         ]);
     }
 
-    public function updateMember($id, $discord)
+    public function updateMember(Applicant $applicant, $discord)
     {
-        $applicant = Applicant::find($id);
-
         return $this->discord->guild->modifyGuildMember([
             'guild.id' => $this->guild,
             'user.id' => (int) $discord,
@@ -128,6 +129,15 @@ class DiscordApi
             'roles' => [
                 504770636149817344
             ]
+        ]);
+    }
+
+    public function updateUsername(Applicant $applicant, $discord)
+    {
+        return $this->discord->guild->modifyGuildMember([
+            'guild.id' => $this->guild,
+            'user.id' => (int) $discord,
+            'nick' => $applicant->username
         ]);
     }
 
@@ -253,14 +263,14 @@ class DiscordApi
                     ]
                 ]
             ]);
-        } catch (Exception $e) {}
+        } catch (Throwable $e) {
+            report($e);
+        }
     }
 
-    public function getId($id)
+    public function getId(Applicant $applicant)
     {
-        $user = Applicant::find($id);
-
-        if (empty($user->discordData)) {
+        if (empty($applicant->discordData)) {
             $members = $this->discord->guild->listGuildMembers([
                 'guild.id' => $this->guild,
                 'limit' => 500
@@ -268,12 +278,12 @@ class DiscordApi
 
             foreach ($members as $m) {
                 $discord = $m->user->username . "#" . $m->user->discriminator;
-                if ($discord == $user->discord) {
+                if ($discord == $applicant->discord) {
                     return $m->user->id;
                 }
             }
         } else {
-            return $user->discordData->discord_id;
+            return $applicant->discordData->discord_id;
         }
     }
 
