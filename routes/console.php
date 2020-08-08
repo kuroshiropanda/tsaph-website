@@ -36,8 +36,14 @@ Artisan::command('applicant:update', function () {
 
         $discordId = $discordApi->getId($a);
 
-        $appService->updateTwitch($a, $data);
-        $appService->updateDiscord($a, $discordId);
+        try {
+            $appService->updateTwitch($a, $data);
+            $appService->updateDiscord($a, $discordId);
+        } catch(Throwable $e) {
+            report($e);
+            $appService->delete($a);
+            $discordApi->removeMember($discordId);
+        }
 
         $bar->advance();
     }
