@@ -30,7 +30,7 @@ class ApplicantService
                 $app->username = $data->username;
                 $app->email = $data->email;
                 $app->name = $data->name;
-                $app->discord = $data->discord;
+                // $app->discord = $data->discord;
 
                 $app->save();
 
@@ -77,7 +77,7 @@ class ApplicantService
                     $this->discord->addMember($id, $token);
                 }
 
-                $this->discord->newApplicant($app->id);
+                $this->discord->newApplicant($app);
             });
         }
     }
@@ -92,11 +92,11 @@ class ApplicantService
                 $applicant->denied = false;
             }
 
-            $discord = $this->discord->getId($applicant->id);
+            $discord = $this->discord->getId($applicant);
 
-            $this->discord->updateMember($applicant->id, $discord);
-            $this->discord->approvedLog($applicant->id);
-            $this->discord->sendDM($applicant->id, $discord);
+            $this->discord->updateMember($applicant, $discord);
+            $this->discord->approvedLog($applicant);
+            $this->discord->sendDM($applicant, $discord);
         }
     }
 
@@ -114,7 +114,7 @@ class ApplicantService
             });
         }
 
-        $this->discord->deniedLog($applicant->id);
+        $this->discord->deniedLog($applicant);
     }
 
     public function updateTwitch(Applicant $applicant, $data)

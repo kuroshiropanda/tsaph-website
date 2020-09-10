@@ -35,35 +35,33 @@ class DiscordApi
         ]);
     }
 
-    public function newApplicant($applicant)
+    public function newApplicant(Applicant $applicant)
     {
-        $app = Applicant::find($applicant);
-
         $this->discord->channel->createMessage([
             'channel.id' => $this->channel,
             'embed' => [
                 "color" => 9520895,
-                "timestamp" => $app->created_at->toISOString(),
+                "timestamp" => $applicant->created_at->toISOString(),
                 "thumbnail" => [
-                    "url" => $app->discordData->avatar
+                    "url" => $applicant->discordData->avatar
                 ],
                 "author" => [
-                    "name" => $app->username,
-                    "url" => url("https://twitch.tv/{$app->username}"),
-                    "icon_url" => $app->avatar
+                    "name" => $applicant->username,
+                    "url" => url("https://twitch.tv/{$applicant->username}"),
+                    "icon_url" => $applicant->avatar
                 ],
                 "fields" => [
                     [
                         "name" => "Name",
-                        "value" => $app->name
+                        "value" => $applicant->name
                     ],
                     [
                         "name" => "Discord",
-                        "value" => $app->discord
+                        "value" => $applicant->discordData->username
                     ],
                     [
                         "name" => "link to application form",
-                        "value" => route('applicant.show', ['applicant' => $app->username])
+                        "value" => route('applicant.show', ['applicant' => $applicant->username])
                     ]
                 ]
             ]
@@ -159,7 +157,7 @@ class DiscordApi
                     ],
                     [
                         'name' => 'discord',
-                        'value' => $applicant->discord
+                        'value' => $applicant->discordData->username
                     ],
                     [
                         'name' => 'processed by',
