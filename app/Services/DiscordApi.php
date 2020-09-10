@@ -141,64 +141,60 @@ class DiscordApi
         ]);
     }
 
-    public function approvedLog($id)
+    public function approvedLog(Applicant $applicant)
     {
-        $app = Applicant::find($id);
-
         return $this->discord->channel->createMessage([
             'channel.id' => $this->channel,
             'embed' => [
                 'title' => 'Approved',
                 'color' => 65280,
-                'timestamp' => $app->updated_at->toISOString(),
+                'timestamp' => $applicant->updated_at->toISOString(),
                 'thumbnail' => [
-                    'url' => $app->avatar
+                    'url' => $applicant->avatar
                 ],
                 'fields' => [
                     [
                         'name' => 'username',
-                        'value' => $app->username
+                        'value' => $applicant->username
                     ],
                     [
                         'name' => 'discord',
-                        'value' => $app->discord
+                        'value' => $applicant->discord
                     ],
                     [
                         'name' => 'processed by',
-                        'value' => $app->user->username
+                        'value' => $applicant->user->username
                     ]
                 ]
             ]
         ]);
     }
 
-    public function deniedLog($id)
+    public function deniedLog(Applicant $applicant)
     {
-        $app = Applicant::find($id);
-
-        $reason = $app->reason()->latest()->first();
+        $reason = $applicant->reason()->latest()->first();
 
         return $this->discord->channel->createMessage([
             'channel.id' => $this->channel,
             'embed' => [
                 'title' => 'Denied',
                 'color' => 16711680,
-                'timestamp' => $app->updated_at->toISOString(),
+                'timestamp' => $applicant->updated_at->toISOString(),
                 'thumbnail' => [
-                    'url' => $app->avatar
+                    'url' => $applicant->avatar
                 ],
                 'fields' => [
                     [
                         'name' => 'twitch',
-                        'value' => $app->username
+                        'value' => $applicant->username
                     ],
                     [
                         'name' => 'discord',
-                        'value' => $app->discord
+                        'value' => $applicant->discordData->username
                     ],
                     [
                         'name' => 'processed by',
-                        'value' => $app->user->username
+                        'value' => $applicant->user->username
                     ],
                     [
                         'name' => 'reason',
@@ -209,41 +205,37 @@ class DiscordApi
         ]);
     }
 
-    public function leaveLog($id)
+    public function leaveLog(Applicant $applicant)
     {
-        $app = Applicant::find($id);
-
         return $this->discord->channel->createMessage([
             'channel.id' => 715493567333793812,
             'embed' => [
                 'title' => 'Applicant Left Discord',
                 'color' => 13113625,
-                'timestamp' => $app->updated_at->toISOString(),
+                'timestamp' => $applicant->updated_at->toISOString(),
                 'thumbnail' => [
-                    'url' => $app->avatar
+                    'url' => $applicant->avatar
                 ],
                 'fields' => [
                     [
                         'name' => 'Name',
-                        'value' => $app->name
+                        'value' => $applicant->name
                     ],
                     [
                         'name' => 'twitch',
-                        'value' => $app->username
+                        'value' => $applicant->username
                     ],
                     [
                         'name' => 'discord',
-                        'value' => $app->discordData->username
+                        'value' => $applicant->discordData->username
                     ]
                 ]
             ]
         ]);
     }
 
-    public function sendDM($id, $discord)
+    public function sendDM(Applicant $applicant, $discord)
     {
-        $app = Applicant::find($id);
-
         try {
             $channel = $this->discord->user->createDm([
                 'recipient_id' => (int) $discord
@@ -252,7 +244,7 @@ class DiscordApi
             $this->discord->channel->createMessage([
                 'channel.id' => (int) $channel->id,
                 'embed' => [
-                    'description' => "Hi {$app->username},\n\nWelcome to Twitch Sana All Philippines!\n\nPlease read this [click here](https://docs.google.com/document/d/1qO4sPEsWpKJvlduq_OE6izyl8IHFzvVf7NVAeqPa2UA/)\n\nHere are our community socials\n[Facebook Group](https://facebook.com/groups/twitchsaph/)\n[Facebook Page](https://facebook.com/TSAPHofficial)\n[Reddit](https://reddit.com/r/tsaph/)\nand don't be shy to start a conversation with any of the TSAPH members.\n\nSee you around!\nTwitch Sana All PH Team",
+                    'description' => "Hi {$applicant->username},\n\nWelcome to Twitch Sana All Philippines!\n\nPlease read this [click here](https://docs.google.com/document/d/1qO4sPEsWpKJvlduq_OE6izyl8IHFzvVf7NVAeqPa2UA/)\n\nHere are our community socials\n[Facebook Group](https://facebook.com/groups/twitchsaph/)\n[Facebook Page](https://facebook.com/TSAPHofficial)\n[Reddit](https://reddit.com/r/tsaph/)\nand don't be shy to start a conversation with any of the TSAPH members.\n\nSee you around!\nTwitch Sana All PH Team",
                     'color' => 9520895,
                     'footer' => [
                         'icon_url' => url("https://static-cdn.jtvnw.net/jtv_user_pictures/team-tsaph-team_logo_image-17709df6bdb544aab8452aed5791ce1e-600x600.png"),
