@@ -31,10 +31,11 @@ class TwitchApplicationController extends Controller
         try {
             $user = Socialite::driver('twitch')->stateless()->user();
         } catch (Throwable $e) {
-            report($e);
             return redirect()->route('home');
         }
 
-        return redirect()->route('discord.auth')->cookie('token', $user->token, 60);
+        $cookie = cookie('token', $user->token, (60 * 24));
+
+        return redirect()->route('discord.auth')->cookie($cookie);
     }
 }

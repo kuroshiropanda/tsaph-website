@@ -100,7 +100,6 @@ class DiscordApi
                 'user.id' => (int) $id
             ]);
         } catch (Throwable $e) {
-            report($e);
             return false;
         }
 
